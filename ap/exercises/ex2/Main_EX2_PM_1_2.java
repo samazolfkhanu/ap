@@ -23,7 +23,6 @@ public class Main_EX2_PM_1_2
             {
                 b[i][j]=" ";
             }
-            System.out.print("\n");
         }
         for(int i=0;i<k+2;i++)
         {
