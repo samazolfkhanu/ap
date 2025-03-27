@@ -40,7 +40,7 @@ public class Main_EX2_PM_1_5
         Move m=new Move();
         while(true)
         {
-            m.move(k,t,t.b);
+            m.move(k,t);
             try
             {
                 Thread.sleep(1000);
@@ -67,7 +67,7 @@ class Move
 {
     int z,y;
     Random r=new Random();
-    public void move(int k,Main_EX2_PM_1_5 t,String[][] b)
+    public void move(int k,Main_EX2_PM_1_5 t)
     {
         this.z=t.row;
         this.y=t.col;
