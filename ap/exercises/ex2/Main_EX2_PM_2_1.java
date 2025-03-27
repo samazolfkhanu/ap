@@ -38,7 +38,7 @@ public class Main_EX2_PM_2_1
             System.out.print("\n");
         }
         MovePm m=new MovePm();
-        m.move(k,t,b);
+        m.move(k,t);
 
     }
 
@@ -47,7 +47,7 @@ class MovePm
 {
     int z,y;
     Random r=new Random();
-    public void move(int k,Main_EX2_PM_1_5 t,String[][] b)
+    public void move(int k,Main_EX2_PM_1_5 t)
     {
         Scanner s=new Scanner(System.in);
         System.out.print("choose to move:\n1.w=Up\n2.d=Right\n3.s=Down\n4.a=Left\n5.q=quit from game\n");
