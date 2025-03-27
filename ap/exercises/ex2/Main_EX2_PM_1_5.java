@@ -163,8 +163,8 @@ class Move
         }
         if(t.b[t.row][t.col].equals(" "))
         {
-            b[t.row][t.col]="X";
-            b[this.z][this.y]=" ";
+            t.b[t.row][t.col]="X";
+            t.b[this.z][this.y]=" ";
         }
         else
         {
