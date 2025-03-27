@@ -69,9 +69,8 @@ class Move
     Random r=new Random();
     public void move(int k,Main_EX2_PM_1_5 t,String[][] b)
     {
-        Move m=new Move();
-        m.z=t.row;
-        m.y=t.col;
+        this.z=t.row;
+        this.y=t.col;
         int num=r.nextInt(4);
         switch(num)
         {
@@ -165,12 +164,12 @@ class Move
         if(t.b[t.row][t.col].equals(" "))
         {
             b[t.row][t.col]="X";
-            b[m.z][m.y]=" ";
+            b[this.z][this.y]=" ";
         }
         else
         {
-            t.row=m.z;
-            t.col=m.y;
+            t.row=this.z;
+            t.col=this.y;
             System.out.println("Hiting the wall");
         }
     }
