@@ -28,7 +28,6 @@ class GameBoard
     int row=1,col=1;//Position of Pacman (X)
     public void initializing(int k)
     {
-        Scanner s = new Scanner(System.in);
         this.b = new String[(k) + 2][k + 2];
         for (int i = 0; i < k + 2; i++) //initializing game board
         {
@@ -109,7 +108,7 @@ class MoveP
                                    O.row--;
                                } else {
                                    System.out.println("UP");
-                                   throw new Exception("can not move!");
+                                   throw new Exception("Hitting the wall");
                                }
 
                            } catch (Exception e) {
@@ -121,11 +120,11 @@ class MoveP
                        case 'd':
                            try {
                                if (O.col < k) {
-                                   System.out.println("RIGTH");
+                                   System.out.println("RIGHT");
                                    O.col++;
                                } else {
-                                   System.out.println("RIGTH");
-                                   throw new Exception("can not move!");
+                                   System.out.println("RIGHT");
+                                   throw new Exception("Hitting the wall");
                                }
                            } catch (Exception e) {
                                System.out.println(e.getMessage());
@@ -140,7 +139,7 @@ class MoveP
                                    O.row++;
                                } else {
                                    System.out.println("DOWN");
-                                   throw new Exception("can not move!");
+                                   throw new Exception("Hitting the wall");
                                }
                            } catch (Exception e) {
                                System.out.println(e.getMessage());
@@ -155,7 +154,7 @@ class MoveP
                                    O.col--;
                                } else {
                                    System.out.println("LEFT");
-                                   throw new Exception("can not move!");
+                                   throw new Exception("Hitting the wall");
                                }
                            } catch (Exception e) {
                                System.out.println(e.getMessage());
@@ -175,12 +174,6 @@ class MoveP
                        b[z][y] = " ";
                        f.setc((f.getC()) - 1);
                        score();
-                   }
-                   else if(b[O.row][O.col].equals("*"))
-                   {
-                       O.row = z;
-                       O.col = y;
-                       System.out.println("Hiting the wall");
                    }
                    for (int i = 0; i < k + 2; i++) {
                        for (int j = 0; j < k + 2; j++) {
