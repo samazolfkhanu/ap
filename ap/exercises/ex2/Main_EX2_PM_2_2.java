@@ -5,20 +5,35 @@ import java.util.Scanner;
 
 public class Main_EX2_PM_2_2
 {
-    String[][]b; //Game Board
-    int row=1,col=1; //Position of Pacman (X)
-    int k; //Length Of Game Board
-    public void main(String[] args) {
-        Main_EX2_PM_2_2 m = new Main_EX2_PM_2_2();
+    //Length Of Game Board
+    public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         System.out.print("enter the side of board:");
-        this.k = s.nextInt();
+        int k = s.nextInt();
         s.nextLine();
-        this.b = new String[(this.k) + 2][(this.k) + 2];
-        for (int i = 0; i < (this.k) + 2; i++) //initializing game board
+        GameBoard g=new GameBoard();
+        g.initializing(k);
+        Food f=new Food();
+        System.out.println("enter number of foods:");
+        f.setc(s.nextInt());
+        f.placeDots(g.b);
+        MoveP p=new MoveP();
+        p.move(g,k,f,g.b);
+        System.out.println("score: "+p.getScorse()+"\ttime:"+Math.round(p.getTimeElapsed()/1000)+" s"+"\tExact time:"+(double)p.getTimeElapsed()/1000.0+" s");
+    }
+}
+class GameBoard
+{
+    String[][]b; //Game Board
+    int row=1,col=1;//Position of Pacman (X)
+    public void initializing(int k)
+    {
+        Scanner s = new Scanner(System.in);
+        this.b = new String[(k) + 2][k + 2];
+        for (int i = 0; i < k + 2; i++) //initializing game board
         {
-            for (int j = 0; j < (this.k) + 2; j++) {
-                if (i == 0 || j == 0 || i == (this.k) + 1 || j == (this.k) + 1)
+            for (int j = 0; j <k + 2; j++) {
+                if (i == 0 || j == 0 || i ==k + 1 || j == k + 1)
                     this.b[i][j] = "*";
                 else
                     this.b[i][j] = " ";
@@ -26,13 +41,6 @@ public class Main_EX2_PM_2_2
         }
         this.b[this.row][this.col] = "X";
         System.out.print("____________________________\n");
-        Food f=new Food();
-        System.out.println("enter number of foods:");
-        f.setc(s.nextInt());
-        f.placeDots(b);
-        MoveP p=new MoveP();
-        p.move(m,k,f,b);
-        System.out.println("score: "+p.getScorse()+"\ttime:"+Math.round(p.getTimeElapsed()/1000)+" s"+"\tExact time:"+(double)p.getTimeElapsed()/1000.0+" s");
     }
 }
 class Food
@@ -64,10 +72,11 @@ class Food
 
 class MoveP
 {
-    private int z,y,s; //z for saving the x_postion of X and y is for saving y_position of X also s for scores
+    private int s; // s for scores
     private long timeElapsed;
-    public void move(Main_EX2_PM_2_2 O,int k,Food f,String[][] b)
+    public void move(GameBoard O,int k,Food f,String[][] b)
     {
+        int y,z; //z for saving the x_postion of X and y is for saving y_position of X also
         Scanner s=new Scanner(System.in);
         long start=System.currentTimeMillis();
         System.out.print("choose to move:\n1.w=Up\n2.d=Right\n3.s=Down\n4.a=Left\n5.q=quit from game\n");
@@ -83,8 +92,8 @@ class MoveP
             m=s.next();
             m=m.toLowerCase();
             o=m.charAt(0);
-            this.z=O.row;
-            this.y=O.col;
+            z=O.row;
+            y=O.col;
            try
            {
                if(o!='w' && o!='a' && o!='s' && o!='d' && o!='q')
@@ -160,17 +169,17 @@ class MoveP
                    }
                    if (b[O.row][O.col].equals(" ")) {
                        b[O.row][O.col] = "X";
-                       b[this.z][this.y] = " ";
+                       b[z][y] = " ";
                    } else if (b[O.row][O.col].equals(".")) {
                        b[O.row][O.col] = "X";
-                       b[this.z][this.y] = " ";
+                       b[z][y] = " ";
                        f.setc((f.getC()) - 1);
                        score();
                    }
                    else if(b[O.row][O.col].equals("*"))
                    {
-                       O.row = this.z;
-                       O.col = this.y;
+                       O.row = z;
+                       O.col = y;
                        System.out.println("Hiting the wall");
                    }
                    for (int i = 0; i < k + 2; i++) {
