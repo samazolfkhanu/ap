@@ -24,21 +24,21 @@ public class Main_EX2_PM_2_2
 }
 class GameBoard
 {
-    String[][]b; //Game Board
+    char[][]b; //Game Board
     int row=1,col=1;//Position of Pacman (X)
     public void initializing(int k)
     {
-        this.b = new String[(k) + 2][k + 2];
+        this.b = new char[(k) + 2][k + 2];
         for (int i = 0; i < k + 2; i++) //initializing game board
         {
             for (int j = 0; j <k + 2; j++) {
                 if (i == 0 || j == 0 || i ==k + 1 || j == k + 1)
-                    this.b[i][j] = "*";
+                    this.b[i][j] = '*';
                 else
-                    this.b[i][j] = " ";
+                    this.b[i][j] = ' ';
             }
         }
-        this.b[this.row][this.col] = "X";
+        this.b[this.row][this.col] = 'X';
         System.out.print("____________________________\n");
     }
 }
@@ -50,15 +50,15 @@ class Food
         this.c=c;
     }
 
-    public void placeDots(String[][] b)
+    public void placeDots(char[][] b)
     {
         int count = 0;
         Random r = new Random();
         while (count < c) {
             int i = r.nextInt(b.length - 2) + 1;
             int j = r.nextInt(b[0].length - 2) + 1;
-            if (b[i][j].equals(" ")) {
-                b[i][j] = ".";
+            if (b[i][j]==' ') {
+                b[i][j] = '.';
                 count++;
             }
         }
@@ -73,7 +73,7 @@ class MoveP
 {
     private int s; // s for scores
     private long timeElapsed;
-    public void move(GameBoard O,int k,Food f,String[][] b)
+    public void move(GameBoard O,int k,Food f,char[][] b)
     {
         int y,z; //z for saving the x_postion of X and y is for saving y_position of X also
         Scanner s=new Scanner(System.in);
@@ -166,12 +166,12 @@ class MoveP
                            System.out.println("exit the game...");
                            break;
                    }
-                   if (b[O.row][O.col].equals(" ")) {
-                       b[O.row][O.col] = "X";
-                       b[z][y] = " ";
-                   } else if (b[O.row][O.col].equals(".")) {
-                       b[O.row][O.col] = "X";
-                       b[z][y] = " ";
+                   if (b[O.row][O.col]==' ') {
+                       b[O.row][O.col] = 'X';
+                       b[z][y] = ' ';
+                   } else if (b[O.row][O.col]=='.') {
+                       b[O.row][O.col] ='X';
+                       b[z][y] = ' ';
                        f.setc((f.getC()) - 1);
                        score();
                    }
