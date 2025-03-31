@@ -204,7 +204,7 @@ class MoveP
     {
         this.s++;
     }
-    public int getScorse()
+    public int getScore()
     {
         return s;
     }
