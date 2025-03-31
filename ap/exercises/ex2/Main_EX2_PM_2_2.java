@@ -16,7 +16,7 @@ public class Main_EX2_PM_2_2
         f.placeDots(g.b);
         MoveP p=new MoveP();
         p.move(g,f,g.b);
-        System.out.println("score: "+p.getScorse()+"\ttime:"+Math.round(p.getTimeElapsed()/1000)+" s"+"\tExact time:"+(double)p.getTimeElapsed()/1000.0+" s");
+        System.out.println("score: "+p.getScore()+"\ttime:"+Math.round(p.getTimeElapsed()/1000)+" s"+"\tExact time:"+(double)p.getTimeElapsed()/1000.0+" s");
     }
 }
 class GameBoard
