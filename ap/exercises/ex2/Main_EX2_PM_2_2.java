@@ -95,8 +95,7 @@ class MoveP
             o=m.charAt(0);
             z=O.row;
             y=O.col;
-           try
-           {
+           try{
                if(o!='w' && o!='a' && o!='s' && o!='d' && o!='q')
                {
                    throw new Exception("invalid input!");
