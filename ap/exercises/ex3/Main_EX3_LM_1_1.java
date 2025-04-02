@@ -2,14 +2,31 @@ package ap.exercises.ex3;
 
 public class Main_EX3_LM_1_1
 {
-    public void main(String[] args)
+    public static void main(String[] args)
     {
-        Book b1=new Book("The Gifts Of Imperfection","Brene Brown",138,2010);
-        Book b2=new Book("ABC","DEF",349,2006);
+        try
+        {
+            Book[] b=new Book[2];
+            b[0]=new Book("The Gifts Of Imperfection","Brene Brown",138,2010);
+            b[1]=new Book("ABC","DEF",349,2006);
 
-        Student s1=new Student("abc","fff",675432626,"hfgf");
-        Student s2=new Student("hfgf","skjd",736863,"dss");
+            Student[] s=new Student[2];
+            s[0]=new Student("abc","fff",675432626,"hfgf");
+            s[1]=new Student("hfgf","skjd",736863,"dss");
+            for(Book B:b)
+            {
+                System.out.println(B.toString());
+            }
+            for(Student S:s)
+            {
+                System.out.println(S.toString());
+            }
 
+        }
+        catch (InvalidInputException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }
 
@@ -19,13 +36,9 @@ class Book
     private String aN;
     private int nP;
     private int pY;
-    public Book(String bN,String aN,int nP,int pY)
+    public Book(String bN,String aN,int nP,int pY)throws InvalidInputException
     {
-        setInfo(bN,aN,nP,pY);
-    }
-    public void setInfo(String bN,String aN,int nP,int pY)
-    {
-        if(bN!=null && aN!=null && nP!=0 && pY!=0)
+        if(bN!=null && aN!=null && nP>0 && pY>0)
         {
             this.bN = bN;
             this.aN = aN;
@@ -33,9 +46,8 @@ class Book
             this.pY = pY;
         }
         else {
-            ///////////;
+            throw new InvalidInputException("Error: invalid input!");
         }
-
     }
 
     public String getBookName()
@@ -88,19 +100,17 @@ class Student
     private long id;
     private String dis;
 
-    public Student(String n,String fN,long id,String dis)
+    public Student(String n,String fN,long id,String dis)throws InvalidInputException
     {
-        setInfo(n,fN,id,dis);
-    }
-    public void setInfo(String n,String fN,long id,String dis)
-    {
-        if(n!=null && fN!=null && id!=0 && dis!=null)
+        if(n!=null && fN!=null && id>0 && dis!=null)
         {
             this.n=n;
             this.fN=fN;
             this.id=id;
             this.dis=dis;
         }
+        else
+            throw new InvalidInputException("Error: invalid input!");
     }
 
     public String getName()
@@ -143,5 +153,13 @@ class Student
     public String toString()
     {
         return "Student name: "+this.n+"\tfamily name: "+fN+"\tid: "+id+"\tdiscpline: "+dis+"\n";
+    }
+}
+
+class InvalidInputException extends Exception
+{
+    public InvalidInputException(String message)
+    {
+        super(message);
     }
 }
