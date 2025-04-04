@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
+import java.util.Scanner;
 
 public class PacmanGUI extends JFrame implements KeyListener {
 
@@ -14,12 +15,18 @@ public class PacmanGUI extends JFrame implements KeyListener {
     final int LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4;
     Point dotPoint = new Point();
     int score=0;
+    int maxScore;
+    int maxTime;
+    long start;
 
-    public PacmanGUI() {
+    public PacmanGUI()
+    {
+        setMax();
         addKeyListener(this);
         pacmanPoint.setLocation((width / boxSize) / 2, (height / boxSize) / 2);
         getNewDotPointLocation();
         setSize(width, height);
+        start=System.currentTimeMillis();
     }
 
     @Override
@@ -51,9 +58,22 @@ public class PacmanGUI extends JFrame implements KeyListener {
 
     private void logic()
     {
+        long f=(System.currentTimeMillis()-start)/1000;
+        if(f>maxTime)
+        {
+            System.out.println("game time is over!");
+            JOptionPane.showMessageDialog(this,"game time is over!");
+            System.exit(0);
+        }
         if(dotPoint.x==pacmanPoint.x && dotPoint.y==pacmanPoint.y)
         {
             score++;
+            if(score>=maxScore)
+            {
+                System.out.println("congratulation you reacged end of scores!");
+                JOptionPane.showMessageDialog(this,"congratulation you reacged end of scores!");
+                System.exit(0);
+            }
             getNewDotPointLocation();
             System.out.println("Score: "+score);
             repaint();
@@ -150,6 +170,14 @@ public class PacmanGUI extends JFrame implements KeyListener {
         }
     }
 
+    public void setMax()
+    {
+        Scanner s=new Scanner(System.in);
+        System.out.print("enter maximum number od dots:");
+        maxScore=s.nextInt();
+        System.out.print("enter maximum time of game:");
+        maxTime=s.nextInt();
+    }
 
     public static void main(String[] args) {
         PacmanGUI frame = new PacmanGUI();
