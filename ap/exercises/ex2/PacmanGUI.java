@@ -112,6 +112,12 @@ public class PacmanGUI extends JFrame implements KeyListener {
             direction = 2;
         else if (e.getKeyCode() == KeyEvent.VK_P)
             direction = 0;
+        else if (e.getKeyCode()==KeyEvent.VK_Q)
+        {
+            System.out.println("exiting the game!");
+            JOptionPane.showMessageDialog(this,"exiting the game!");
+            System.exit(0);
+        }
         else
             direction = -1;
 
@@ -124,8 +130,24 @@ public class PacmanGUI extends JFrame implements KeyListener {
     public void keyReleased(KeyEvent e) {
     }
 
-    private void handleCrossBorder(){
-        
+    private void handleCrossBorder()
+    {
+        if(pacmanPoint.x<0)
+        {
+            pacmanPoint.x=(width/boxSize)-1;
+        }
+        else if(pacmanPoint.x>=(width/boxSize))
+        {
+            pacmanPoint.x=0;
+        }
+        if(pacmanPoint.y<0)
+        {
+            pacmanPoint.y=(height/boxSize)-1;
+        }
+        else if(pacmanPoint.y>=(height/boxSize))
+        {
+            pacmanPoint.y=0;
+        }
     }
 
 
