@@ -118,6 +118,7 @@ public class PacmanGUI extends JFrame implements KeyListener {
         System.out.println("direction:" + direction + "    <- e.getKeyCode()=" + e.getKeyCode());
 
         repaint();
+        
     }
 
     @Override
