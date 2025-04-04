@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main_EX2_PM_3_1 extends JFrame implements KeyListener {
 
@@ -14,12 +15,17 @@ public class Main_EX2_PM_3_1 extends JFrame implements KeyListener {
     final int LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4;
     Point dotPoint = new Point();
     int score;
+    int maxScore;
+    int maxTime;
+    long start;
 
     public Main_EX2_PM_3_1() {
+        setMax();
         addKeyListener(this);
         pacmanPoint.setLocation((width / boxSize) / 2, (height / boxSize) / 2);
         getNewDotPointLocation();
         setSize(width, height);
+        start=System.currentTimeMillis();
     }
 
     @Override
@@ -50,8 +56,22 @@ public class Main_EX2_PM_3_1 extends JFrame implements KeyListener {
     }
 
     private void logic() {
-        if (dotPoint.x == pacmanPoint.x && dotPoint.y == pacmanPoint.y) {
+        long f=(System.currentTimeMillis()-start)/1000;
+        if(f>maxTime)
+        {
+            System.out.println("game time is over!");
+            JOptionPane.showMessageDialog(this,"game time is over!");
+            System.exit(0);
+        }
+        if(dotPoint.x==pacmanPoint.x && dotPoint.y==pacmanPoint.y)
+        {
             score++;
+            if(score>=maxScore)
+            {
+                System.out.println("congratulation you reacged end of scores!");
+                JOptionPane.showMessageDialog(this,"congratulation you reacged end of scores!");
+                System.exit(0);
+            }
             getNewDotPointLocation();
             System.out.println("Score: "+score);
             repaint();
@@ -148,6 +168,14 @@ public class Main_EX2_PM_3_1 extends JFrame implements KeyListener {
         }
     }
 
+    public void setMax()
+    {
+        Scanner s=new Scanner(System.in);
+        System.out.print("enter maximum number od dots:");
+        maxScore=s.nextInt();
+        System.out.print("enter maximum time of game:");
+        maxTime=s.nextInt();
+    }
 
     public static void main(String[] args) {
         Main_EX2_PM_3_1 frame = new Main_EX2_PM_3_1();
