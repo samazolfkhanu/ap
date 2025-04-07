@@ -31,8 +31,9 @@ public class Main_EX3_LM_1_2
             String dis=s.nextLine();
             st[i]=new StudentC(name,familyname,id,dis);
             writeToFileS(st[i]);
-
         }
+        readFileB();
+        readFileS();
     }
 
     public static void writeToFileB(BookLib b)
@@ -77,6 +78,43 @@ public class Main_EX3_LM_1_2
         catch(Exception e)
         {
             System.out.println(e.getMessage());
+        }
+    }
+    public static void readFileB()
+    {
+        try(ObjectInputStream i=new ObjectInputStream(new FileInputStream("F:/MainProjects/ap/exercises/ex3/Book.txt"));)
+        {
+            int count=0;
+            BookLib b=new BookLib();
+            while(true)
+            {
+                b=(BookLib) i.readObject();
+                System.out.println(">>>Book "+(count+1)+"\n"+b.toString());
+                count++;
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("end of file!");
+        }
+    }
+
+    public static void readFileS()
+    {
+        try(ObjectInputStream i=new ObjectInputStream(new FileInputStream("F:/MainProjects/ap/exercises/ex3/Student.txt"));)
+        {
+            int count=0;
+            StudentC s=new StudentC();
+            while(true)
+            {
+                s=(StudentC) i.readObject();
+                System.out.println(">>>Student "+(count+1)+"\n"+s.toString());
+                count++;
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("end of file!");
         }
     }
 
