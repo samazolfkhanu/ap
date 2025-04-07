@@ -6,121 +6,89 @@ import java.util.Scanner;
 public class Main_EX3_LM_1_2
 {
     public static void main(String[] args) throws InvalidInputExceptionErr {
-        Scanner s=new Scanner(System.in);
-        BookLib[] b=new BookLib[4];
-        for(int i=0;i<4;i++)
-        {
-            System.out.println("enter name of book,name of author,number of pages and published year:");
-            String bN=s.nextLine();
-            String aN=s.nextLine();
-            int nP=s.nextInt();
-            int pY=s.nextInt();
-            s.nextLine();
-            b[i]=new BookLib(bN,aN,nP,pY);
-            writeToFileB(b[i]);
+        Scanner s = new Scanner(System.in);
+        int c, c1, c2;
+        do {
+            System.out.println("1.Book\n2.Student\n3.exit\n");
+            c = s.nextInt();
+            switch (c) {
+                case 1:
+                    do {
+                        System.out.println("1.add\n2.display info\n3.exit");
+                        c1 = s.nextInt();
+                        s.nextLine();
+                        switch (c1) {
+                            case 1:
+                                System.out.println("enter number of books: ");
+                                int nb = s.nextInt();
+                                s.nextLine();
+                                BookLib[] b = new BookLib[nb];
+                                for (int i = 0; i < nb; i++) {
+                                    System.out.println("enter name of book,name of author,number of pages and published year:");
+                                    String bN = s.nextLine();
+                                    String aN = s.nextLine();
+                                    int nP = s.nextInt();
+                                    int pY = s.nextInt();
+                                    s.nextLine();
+                                    b[i] = new BookLib(bN, aN, nP, pY);
+                                    FileHandle.writeInFile(b[i], "F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                }
+                                break;
 
-        }
-        StudentC[] st=new StudentC[3];
-        for(int i=0;i<3;i++)
-        {
-            System.out.println("enter name ,family name,id and discipline:");
-            String name=s.nextLine();
-            String familyname=s.nextLine();
-            long id=s.nextLong();
-            s.nextLine();
-            String dis=s.nextLine();
-            st[i]=new StudentC(name,familyname,id,dis);
-            writeToFileS(st[i]);
-        }
-        readFileB();
-        readFileS();
-    }
+                            case 2:
+                                FileHandle.readFileB("F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                break;
 
-    public static void writeToFileB(BookLib b)
-    {
-        try
-        {
-            File f=new File("F:/MainProjects/ap/exercises/ex3/Book.txt");
-            ObjectOutputStream O;
-            if(f.length()==0)
-            {
-                O=new ObjectOutputStream(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Book.txt"));
-                O.writeObject(b);
-            }
-            else
-            {
-                O=new AppendObj(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Book.txt",true));
-                O.writeObject(b);
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
-    public static void writeToFileS(StudentC s)
-    {
-        try
-        {
-            File f=new File("F:/MainProjects/ap/exercises/ex3/Student.txt");
-            ObjectOutputStream O;
-            if(f.length()==0)
-            {
-                O=new ObjectOutputStream(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Student.txt"));
-                O.writeObject(s);
-            }
-            else
-            {
-                O=new AppendObj(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Student.txt",true));
-                O.writeObject(s);
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
-    public static void readFileB()
-    {
-        try(ObjectInputStream i=new ObjectInputStream(new FileInputStream("F:/MainProjects/ap/exercises/ex3/Book.txt"));)
-        {
-            int count=0;
-            BookLib b=new BookLib();
-            while(true)
-            {
-                b=(BookLib) i.readObject();
-                System.out.println(">>>Book "+(count+1)+"\n"+b.toString());
-                count++;
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println("end of file!");
-        }
-    }
+                            case 3:
+                                System.out.println("exiting...");
 
-    public static void readFileS()
-    {
-        try(ObjectInputStream i=new ObjectInputStream(new FileInputStream("F:/MainProjects/ap/exercises/ex3/Student.txt"));)
-        {
-            int count=0;
-            StudentC s=new StudentC();
-            while(true)
-            {
-                s=(StudentC) i.readObject();
-                System.out.println(">>>Student "+(count+1)+"\n"+s.toString());
-                count++;
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println("end of file!");
-        }
-    }
+                        }
+                    } while (c1 != 3);
+                    break;
 
+                case 2:
+                    do {
+                        System.out.println("1.add\n2.display info\n3.exit\n");
+                        c2 = s.nextInt();
+                        s.nextLine();
+                        switch (c2) {
+                            case 1:
+                                System.out.println("enter number of student: ");
+                                int ns = s.nextInt();
+                                s.nextLine();
+                                StudentC[] st = new StudentC[ns];
+                                for (int i = 0; i < ns; i++) {
+                                    System.out.println("enter name ,family name,id and discipline:");
+                                    String name = s.nextLine();
+                                    String familyname = s.nextLine();
+                                    long id = s.nextLong();
+                                    s.nextLine();
+                                    String dis = s.nextLine();
+                                    st[i] = new StudentC(name, familyname, id, dis);
+                                    FileHandle.writeInFile(st[i], "F:/MainProjects/ap/exercises/ex3/Student.txt");
+                                }
+                                break;
+
+                            case 2:
+                                FileHandle.readFileB("F:/MainProjects/ap/exercises/ex3/Student.txt");
+                                break;
+
+                            case 3:
+                                System.out.println("exiting...");
+
+                        }
+                    } while (c2 != 3);
+                    break;
+
+                case 3:
+                    System.out.println("exiting...");
+                    break;
+            }
+        }while(c!=3);
+    }
 }
 
-class BookLib implements Serializable
+class BookLib extends Object implements Serializable
 {
     private String bN;
     private String aN;
@@ -182,11 +150,11 @@ class BookLib implements Serializable
     @Override
     public String toString()
     {
-        return "book name: "+this.bN+"\tauthor name: "+aN+"\tnumber of pages: "+nP+"\tyear of published:"+pY+"\n";
+        return "book name: "+this.bN+"\tauthor name: "+aN+"\t  number of pages: "+nP+"\tyear of published:"+pY+"\n";
     }
 }
 
-class StudentC implements Serializable
+class StudentC extends Object implements Serializable
 {
     private String n;
     private String fN;
@@ -250,6 +218,48 @@ class StudentC implements Serializable
     public String toString()
     {
         return "Student name: "+this.n+"\tfamily name: "+fN+"\tid: "+id+"\tdiscpline: "+dis+"\n";
+    }
+}
+
+class FileHandle
+{
+    public static void writeInFile(Object o,String filePath)
+    {
+        try
+        {
+            File f=new File(filePath);
+            ObjectOutputStream O;
+            if(f.length()==0)
+            {
+                O=new ObjectOutputStream(new FileOutputStream(filePath));
+                O.writeObject(o);
+            }
+            else
+            {
+                O=new AppendObj(new FileOutputStream(filePath,true));
+                O.writeObject(o);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void readFileB(String filePath)
+    {
+        try(ObjectInputStream i=new ObjectInputStream(new FileInputStream(filePath)))
+        {
+            while(true)
+            {
+                Object obj=i.readObject();
+                System.out.println(obj.toString());
+            }
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("end of file!");
+        }
     }
 }
 
