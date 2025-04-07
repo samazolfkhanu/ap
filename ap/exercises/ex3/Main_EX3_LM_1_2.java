@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class Main_EX3_LM_1_2
 {
-    public static void main(String[] args) throws InvalidInputException {
+    public static void main(String[] args) throws InvalidInputExceptionErr {
         Scanner s=new Scanner(System.in);
-        /*BookLib[] b=new BookLib[4];
+        BookLib[] b=new BookLib[4];
         for(int i=0;i<4;i++)
         {
             System.out.println("enter name of book,name of author,number of pages and published year:");
@@ -19,7 +19,7 @@ public class Main_EX3_LM_1_2
             b[i]=new BookLib(bN,aN,nP,pY);
             writeToFileB(b[i]);
 
-        }*/
+        }
         StudentC[] st=new StudentC[3];
         for(int i=0;i<3;i++)
         {
@@ -40,15 +40,16 @@ public class Main_EX3_LM_1_2
         try
         {
             File f=new File("F:/MainProjects/ap/exercises/ex3/Book.txt");
-            ObjectOutputStream O=new ObjectOutputStream(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Book.txt"));
-            ObjectOutputStream a=new AppendObj(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Book.txt",true));
+            ObjectOutputStream O;
             if(f.length()==0)
             {
+                O=new ObjectOutputStream(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Book.txt"));
                 O.writeObject(b);
             }
             else
             {
-                a.writeObject(b);
+                O=new AppendObj(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Book.txt",true));
+                O.writeObject(b);
             }
         }
         catch(Exception e)
@@ -61,15 +62,16 @@ public class Main_EX3_LM_1_2
         try
         {
             File f=new File("F:/MainProjects/ap/exercises/ex3/Student.txt");
-            ObjectOutputStream O=new ObjectOutputStream(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Student.txt"));
-            ObjectOutputStream a=new AppendObj(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Student.txt",true));
+            ObjectOutputStream O;
             if(f.length()==0)
             {
+                O=new ObjectOutputStream(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Student.txt"));
                 O.writeObject(s);
             }
             else
             {
-                a.writeObject(s);
+                O=new AppendObj(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Student.txt",true));
+                O.writeObject(s);
             }
         }
         catch(Exception e)
@@ -77,6 +79,7 @@ public class Main_EX3_LM_1_2
             System.out.println(e.getMessage());
         }
     }
+
 }
 
 class BookLib implements Serializable
@@ -85,8 +88,11 @@ class BookLib implements Serializable
     private String aN;
     private int nP;
     private int pY;
-    public BookLib(String bN,String aN,int nP,int pY)throws InvalidInputException
+    public BookLib()
     {
+
+    }
+    public BookLib(String bN,String aN,int nP,int pY) throws InvalidInputExceptionErr {
         if(bN!=null && aN!=null && nP>0 && pY>0)
         {
             this.bN = bN;
@@ -95,7 +101,7 @@ class BookLib implements Serializable
             this.pY = pY;
         }
         else {
-            throw new InvalidInputException("Error: invalid input!");
+            throw new InvalidInputExceptionErr("Error: invalid input!");
         }
     }
 
@@ -149,8 +155,12 @@ class StudentC implements Serializable
     private long id;
     private String dis;
 
-    public StudentC(String n,String fN,long id,String dis)throws InvalidInputException
+    public StudentC()
     {
+
+    }
+
+    public StudentC(String n,String fN,long id,String dis) throws InvalidInputExceptionErr {
         if(n!=null && fN!=null && id>0 && dis!=null)
         {
             this.n=n;
@@ -159,7 +169,7 @@ class StudentC implements Serializable
             this.dis=dis;
         }
         else
-            throw new InvalidInputException("Error: invalid input!");
+            throw new InvalidInputExceptionErr("Error: invalid input!");
     }
 
     public String getName()
