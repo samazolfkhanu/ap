@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main_EX2_PM_1_3
 {
-    public void main(String[] args)
+    public static void main(String[] args)
     {
         Scanner s=new Scanner(System.in);
         System.out.print("enter the side of board:");
@@ -39,7 +39,8 @@ public class Main_EX2_PM_1_3
                     throw new IllegalArgumentException("error!\nnumber of food is more than number of empty spaces!");
                 }
                 else {
-                    placeDots(b, c);
+                    Main_EX2_PM_1_3 m=new Main_EX2_PM_1_3();
+                    m.placeDots(b, c);
                     for(int i=0;i<k+2;i++)
                     {
                         for(int j=0;j<k+2;j++)
