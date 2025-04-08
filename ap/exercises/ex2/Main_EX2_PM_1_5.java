@@ -7,7 +7,7 @@ public class Main_EX2_PM_1_5
 {
     String[][] b;
     int row=1,col=1;
-    public void main(String[] args)
+    public static void main(String[] args)
     {
         Main_EX2_PM_1_5 t=new Main_EX2_PM_1_5();
         Scanner s=new Scanner(System.in);
