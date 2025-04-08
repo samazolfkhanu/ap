@@ -41,14 +41,6 @@ public class Main_EX2_PM_1_5
         while(true)
         {
             m.move(k,t);
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch(Exception e)
-            {
-                System.out.println(e.getMessage());
-            }
             for(int i=0;i<k+2;i++)
             {
                 for(int j=0;j<k+2;j++)
@@ -58,6 +50,15 @@ public class Main_EX2_PM_1_5
                 System.out.print("\n");
             }
             System.out.print("____________________________\n");
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch(Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
+
         }
 
     }
