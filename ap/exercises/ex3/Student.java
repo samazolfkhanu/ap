@@ -1,6 +1,8 @@
 package ap.exercises.ex3;
 
-public class Student
+import java.io.Serializable;
+
+public class Student implements Serializable
 {
     private String n;
     private String fN;
