@@ -1,4 +1,6 @@
 package ap.exercises.ex2;
+import ap.exercises.ex3.InvalidInputException;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -15,34 +17,43 @@ class PacmanEngine
     String sr="F:/MainProjects/ap/exercises/ex2/PM.txt";
     public PacmanEngine(int k,int c)
     {
-        if(c>0 && k>0)
+        try
         {
-            this.k=k;
-            this.c=c;
-            this.b = new char[(k) + 2][k + 2];
-            for (int i = 0; i < k + 2; i++) //initializing game board
+            if(c>0 && k>0)
             {
-                for (int j = 0; j <k + 2; j++)
+                this.k=k;
+                this.c=c;
+                this.b = new char[(k) + 2][k + 2];
+                for (int i = 0; i < k + 2; i++) //initializing game board
                 {
-                    if (i == 0 || j == 0 || i ==k + 1 || j == k + 1)
-                        this.b[i][j] = '*';
-                    else
-                        this.b[i][j] = ' ';
+                    for (int j = 0; j <k + 2; j++)
+                    {
+                        if (i == 0 || j == 0 || i ==k + 1 || j == k + 1)
+                            this.b[i][j] = '*';
+                        else
+                            this.b[i][j] = ' ';
+                    }
                 }
-            }
-            this.b[this.row][this.col] = 'X';
-            int count = 0;
-            Random r = new Random();
-            while (count < c)
-            {
-                int i = r.nextInt(b.length - 2) + 1;
-                int j = r.nextInt(b[0].length - 2) + 1;
-                if (b[i][j]==' ') {
-                    b[i][j] = '.';
-                    count++;
+                this.b[this.row][this.col] = 'X';
+                int count = 0;
+                Random r = new Random();
+                while (count < c)
+                {
+                    int i = r.nextInt(b.length - 2) + 1;
+                    int j = r.nextInt(b[0].length - 2) + 1;
+                    if (b[i][j]==' ') {
+                        b[i][j] = '.';
+                        count++;
+                    }
                 }
+                System.out.print("____________________________\n");
             }
-            System.out.print("____________________________\n");
+            else
+                throw new InvalidInputException("invalid input!");
+        }
+        catch(InvalidInputException e)
+        {
+            System.out.println(e.getMessage());
         }
     }
     public void printMatrix()
