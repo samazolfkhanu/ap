@@ -1,6 +1,8 @@
 package ap.exercises.ex3;
 
-public class Book
+import java.io.Serializable;
+
+public class Book implements Serializable
 {
     private String bN;
     private String aN;
