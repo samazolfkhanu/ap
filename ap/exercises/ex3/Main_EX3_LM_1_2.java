@@ -41,7 +41,7 @@ public class Main_EX3_LM_1_2
                                 break;
 
                             case 2:
-                                F.readFileB("F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                F.printAll("F:/MainProjects/ap/exercises/ex3/Book.txt");
                                 break;
 
                             case 3:
@@ -82,11 +82,12 @@ public class Main_EX3_LM_1_2
                                 break;
 
                             case 2:
-                                F.readFileB("F:/MainProjects/ap/exercises/ex3/Student.txt");
+                                F.printAll("F:/MainProjects/ap/exercises/ex3/Student.txt");
                                 break;
 
                             case 3:
                                 System.out.println("exiting...!");
+                                break;
 
                         }
                     } while (c2 != 3);
@@ -96,7 +97,8 @@ public class Main_EX3_LM_1_2
                     System.out.println("exiting...");
                     break;
             }
-        }while(c!=3);
+        }while(c!=4);
     }
+
 }
 
