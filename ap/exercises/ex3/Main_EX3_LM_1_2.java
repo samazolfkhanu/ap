@@ -115,7 +115,7 @@ public class Main_EX3_LM_1_2
                                 }
                                 break;
 
-                            case 3:
+                            case 2:
                                 System.out.println("exiting...");
 
                         }
