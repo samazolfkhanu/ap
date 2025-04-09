@@ -8,6 +8,7 @@ public class Main_EX3_LM_1_2
     public static void main(String[] args)  {
         Scanner s = new Scanner(System.in);
         int c, c1, c2;
+        FileHandle F=new FileHandle();
         do {
             System.out.println("1.Book\n2.Student\n3.exit\n");
             c = s.nextInt();
@@ -30,49 +31,17 @@ public class Main_EX3_LM_1_2
                                     int nP = s.nextInt();
                                     int pY = s.nextInt();
                                     s.nextLine();
-                                    try
-                                    {
+                                    try {
                                         b[i] = new Book(bN, aN, nP, pY);
-                                    }
-                                    catch(InvalidInputException e)
-                                    {
+                                    } catch (InvalidInputException e) {
                                         System.out.println(e.getMessage());
                                     }
-                                    try
-                                    {
-                                        File f=new File("F:/MainProjects/ap/exercises/ex3/Book.txt");
-                                        ObjectOutputStream O;
-                                        if(f.length()==0)
-                                        {
-                                            O=new ObjectOutputStream(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Book.txt"));
-                                            O.writeObject(b[i]);
-                                        }
-                                        else
-                                        {
-                                            O=new AppendObj(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Book.txt",true));
-                                            O.writeObject(b[i]);
-                                        }
-                                    }
-                                    catch(Exception e)
-                                    {
-                                        System.out.println(e.getMessage());
-                                    }
+                                    F.writeInFile(b[i],"F:/MainProjects/ap/exercises/ex3/Book.txt");
                                 }
                                 break;
 
                             case 2:
-                                try(ObjectInputStream i=new ObjectInputStream(new FileInputStream("F:/MainProjects/ap/exercises/ex3/Book.txt")))
-                                {
-                                    while(true)
-                                    {
-                                        Object obj=i.readObject();
-                                        System.out.println(obj.toString());
-                                    }
-                                }
-                                catch(Exception e)
-                                {
-                                    System.out.println("end of file!");
-                                }
+                                F.readFileB("F:/MainProjects/ap/exercises/ex3/Book.txt");
                                 break;
 
                             case 3:
@@ -108,41 +77,12 @@ public class Main_EX3_LM_1_2
                                     {
                                         System.out.println(e.getMessage());
                                     }
-                                    try
-                                    {
-                                        File f=new File("F:/MainProjects/ap/exercises/ex3/Student.txt");
-                                        ObjectOutputStream O;
-                                        if(f.length()==0)
-                                        {
-                                            O=new ObjectOutputStream(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Student.txt"));
-                                            O.writeObject(st[i]);
-                                        }
-                                        else
-                                        {
-                                            O=new AppendObj(new FileOutputStream("F:/MainProjects/ap/exercises/ex3/Student.txt",true));
-                                            O.writeObject(st[i]);
-                                        }
-                                    }
-                                    catch(Exception e)
-                                    {
-                                        System.out.println(e.getMessage());
-                                    }
+                                    F.writeInFile(st[i],"F:/MainProjects/ap/exercises/ex3/Student.txt");
                                 }
                                 break;
 
                             case 2:
-                                try(ObjectInputStream i=new ObjectInputStream(new FileInputStream("F:/MainProjects/ap/exercises/ex3/Student.txt")))
-                                {
-                                    while(true)
-                                    {
-                                        Object obj=i.readObject();
-                                        System.out.println(obj.toString());
-                                    }
-                                }
-                                catch(Exception e)
-                                {
-                                    System.out.println("end of file!");
-                                }
+                                F.readFileB("F:/MainProjects/ap/exercises/ex3/Student.txt");
                                 break;
 
                             case 3:
