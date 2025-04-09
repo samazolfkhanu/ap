@@ -15,8 +15,35 @@ class PacmanEngine
     String sr="F:/MainProjects/ap/exercises/ex2/PM.txt";
     public PacmanEngine(int k,int c)
     {
-        this.k=k;
-        this.c=c;
+        if(c>0 && k>0)
+        {
+            this.k=k;
+            this.c=c;
+            this.b = new char[(k) + 2][k + 2];
+            for (int i = 0; i < k + 2; i++) //initializing game board
+            {
+                for (int j = 0; j <k + 2; j++)
+                {
+                    if (i == 0 || j == 0 || i ==k + 1 || j == k + 1)
+                        this.b[i][j] = '*';
+                    else
+                        this.b[i][j] = ' ';
+                }
+            }
+            this.b[this.row][this.col] = 'X';
+            int count = 0;
+            Random r = new Random();
+            while (count < c)
+            {
+                int i = r.nextInt(b.length - 2) + 1;
+                int j = r.nextInt(b[0].length - 2) + 1;
+                if (b[i][j]==' ') {
+                    b[i][j] = '.';
+                    count++;
+                }
+            }
+            System.out.print("____________________________\n");
+        }
     }
     public void printMatrix()
     {
@@ -28,33 +55,6 @@ class PacmanEngine
                 System.out.print(b[i][j]);
             }
             System.out.print("\n");
-        }
-        System.out.print("____________________________\n");
-    }
-    public void initializing()
-    {
-        this.b = new char[(k) + 2][k + 2];
-        for (int i = 0; i < k + 2; i++) //initializing game board
-        {
-            for (int j = 0; j <k + 2; j++)
-            {
-                if (i == 0 || j == 0 || i ==k + 1 || j == k + 1)
-                    this.b[i][j] = '*';
-                else
-                    this.b[i][j] = ' ';
-            }
-        }
-        this.b[this.row][this.col] = 'X';
-        int count = 0;
-        Random r = new Random();
-        while (count < c)
-        {
-            int i = r.nextInt(b.length - 2) + 1;
-            int j = r.nextInt(b[0].length - 2) + 1;
-            if (b[i][j]==' ') {
-                b[i][j] = '.';
-                count++;
-            }
         }
         System.out.print("____________________________\n");
     }
