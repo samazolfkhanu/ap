@@ -14,7 +14,7 @@ public class Main_EX3_LM_1_2
             switch (c) {
                 case 1:
                     do {
-                        System.out.println("1.add\n2.exit\n");
+                        System.out.println("1.add\n2.display info\n3.exit\n");
                         c1 = s.nextInt();
                         s.nextLine();
                         switch (c1) {
@@ -61,15 +61,30 @@ public class Main_EX3_LM_1_2
                                 break;
 
                             case 2:
-                                System.out.println("exiting...");
+                                try(ObjectInputStream i=new ObjectInputStream(new FileInputStream("F:/MainProjects/ap/exercises/ex3/Book.txt")))
+                                {
+                                    while(true)
+                                    {
+                                        Object obj=i.readObject();
+                                        System.out.println(obj.toString());
+                                    }
+                                }
+                                catch(Exception e)
+                                {
+                                    System.out.println("end of file!");
+                                }
+                                break;
 
+                            case 3:
+                                System.out.println("exiting...!");
+                                break;
                         }
-                    } while (c1 != 2);
+                    } while (c1 != 3);
                     break;
 
                 case 2:
                     do {
-                        System.out.println("1.add\n2.exit\n");
+                        System.out.println("1.add\n2.display info\n3.exit\n");
                         c2 = s.nextInt();
                         s.nextLine();
                         switch (c2) {
@@ -116,10 +131,25 @@ public class Main_EX3_LM_1_2
                                 break;
 
                             case 2:
-                                System.out.println("exiting...");
+                                try(ObjectInputStream i=new ObjectInputStream(new FileInputStream("F:/MainProjects/ap/exercises/ex3/Student.txt")))
+                                {
+                                    while(true)
+                                    {
+                                        Object obj=i.readObject();
+                                        System.out.println(obj.toString());
+                                    }
+                                }
+                                catch(Exception e)
+                                {
+                                    System.out.println("end of file!");
+                                }
+                                break;
+
+                            case 3:
+                                System.out.println("exiting...!");
 
                         }
-                    } while (c2 != 2);
+                    } while (c2 != 3);
                     break;
 
                 case 3:
