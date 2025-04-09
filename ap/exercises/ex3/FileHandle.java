@@ -1,6 +1,8 @@
 package ap.exercises.ex3;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class FileHandle
 {
@@ -26,7 +28,7 @@ class FileHandle
             System.out.println(e.getMessage());
         }
     }
-    public void readFileB(String filePath)
+    public void printAll(String filePath)
     {
         try(ObjectInputStream i=new ObjectInputStream(new FileInputStream(filePath)))
         {
@@ -40,6 +42,32 @@ class FileHandle
         {
             System.out.println("end of file!");
         }
+    }
+
+    @SuppressWarnings("unchcked")
+    public <T> List<T> readObjFromFile(String fP, Class<T> clazz)
+    {
+        List<T> a=new ArrayList<>();
+        try(ObjectInputStream o=new ObjectInputStream(new FileInputStream(fP)))
+        {
+            while(true)
+            {
+                Object obj= o.readObject();
+                if(clazz.isInstance(obj))
+                {
+                    a.add((T) obj);
+                }
+            }
+        }
+        catch(EOFException e)
+        {
+            System.out.println("end of file!");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return a;
     }
 }
 
