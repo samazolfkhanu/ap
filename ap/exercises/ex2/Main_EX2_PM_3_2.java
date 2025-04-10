@@ -29,6 +29,7 @@ public class Main_EX2_PM_3_2 extends JFrame implements KeyListener
         getNewDotPointLocation();
         setSize(width, height);
         start=System.currentTimeMillis();
+        JOptionPane.showMessageDialog(this,"choose to move:\n1.w=Up\n2.d=Right\n3.s=Down\n4.a=Left\n5.q=quit from game\n");
     }
 
     public void setK()
