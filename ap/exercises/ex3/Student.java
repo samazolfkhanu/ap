@@ -8,7 +8,7 @@ public class Student implements Serializable
     private String fN;
     private long id;
     private String dis;
-
+    private int numTrust;
     public Student(String n,String fN,long id,String dis)throws InvalidInputException
     {
         if(n!=null && fN!=null && id>0 && dis!=null)
@@ -20,6 +20,11 @@ public class Student implements Serializable
         }
         else
             throw new InvalidInputException("Error: invalid input!");
+    }
+
+    public Student()
+    {
+
     }
 
     public String getName()
@@ -46,6 +51,21 @@ public class Student implements Serializable
             throw new InvalidInputException("invalid input\n");
     }
 
+    public void addTrust()
+    {
+        if(numTrust<3)
+        {
+            numTrust++;
+        }
+        else
+            System.out.println("maximum number of book!");
+    }
+
+    public int getTrust()
+    {
+        return numTrust;
+    }
+
     public long getid()
     {
         return id;
@@ -70,9 +90,27 @@ public class Student implements Serializable
             throw new InvalidInputException("invalid input\n");
     }
 
+    public int searchST(Student[] s,String name)
+    {
+        int i=0;
+        boolean found=false;
+        for(Student S:s)
+        {
+            if(S.getName().equals(name))
+            {
+                found=true;
+                return i;
+            }
+            i++;
+        }
+        if(!found)
+            System.out.println("Student with that name not found!");
+        return 0;
+    }
+
     @Override
     public String toString()
     {
-        return "Student name: "+this.n+"\tfamily name: "+fN+"\tid: "+id+"\tdiscpline: "+dis+"\n";
+        return "Student name: "+this.n+"\tfamily name: "+fN+"\tid: "+id+"\tdiscpline: "+dis+"\t"+"number of book which has been borrowed: "+numTrust+"\n";
     }
 }
