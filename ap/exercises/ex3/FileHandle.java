@@ -69,5 +69,17 @@ class FileHandle
         }
         return a;
     }
+
+    public void clearFile(String path)
+    {
+        try
+        {
+            PrintWriter p=new PrintWriter(path);
+            p.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
