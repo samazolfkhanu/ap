@@ -88,7 +88,7 @@ public class Main_EX3_LM_1_3
                             case 3:
                                 System.out.println("enter name: ");
                                 String name=s.nextLine();
-                                Main_EX3_LM_1_3 x=new Main_EX3_LM_1_3();
+                                Student x=new Student();
                                 List<Student> S=F.readObjFromFile("F:/MainProjects/ap/exercises/ex3/Student.txt",Student.class);
                                 Student[] Stud=S.toArray(new Student[0]);
                                 System.out.println("\ninfo:\n>>"+Stud[x.searchST(Stud,name)].toString());
@@ -105,23 +105,7 @@ public class Main_EX3_LM_1_3
                     System.out.println("exiting...");
                     break;
             }
-        } while (c != 4);
+        } while (c != 3);
     }
-    public int searchST(Student[] s,String name)
-    {
-        int i=0;
-        boolean found=false;
-        for(Student S:s)
-        {
-            if(S.getName().equals(name))
-            {
-                found=true;
-                return i;
-            }
-            i++;
-        }
-        if(!found)
-            System.out.println("Student with that name not found!");
-        return 0;
-    }
+
 }
