@@ -8,6 +8,7 @@ public class Book implements Serializable
     private String aN;
     private int nP;
     private int pY;
+    private boolean trust=false;
     public Book(String bN,String aN,int nP,int pY)throws InvalidInputException
     {
         if(bN!=null && aN!=null && nP>0 && pY>0)
@@ -20,6 +21,17 @@ public class Book implements Serializable
         else {
             throw new InvalidInputException("Error: invalid input!");
         }
+    }
+
+
+    public void setTrust()
+    {
+        trust=true;
+    }
+
+    public boolean getTrust()
+    {
+        return trust;
     }
 
     public String getBookName()
@@ -74,6 +86,6 @@ public class Book implements Serializable
     @Override
     public String toString()
     {
-        return "book name: "+this.bN+"\tauthor name: "+aN+"\tnumber of pages: "+nP+"\tyear of published:"+pY+"\n";
+        return "book name: "+this.bN+"\tauthor name: "+aN+"\tnumber of pages: "+nP+"\tyear of published:"+pY+"\t"+"is borrowed?"+trust+"\n";
     }
 }
