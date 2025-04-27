@@ -2,13 +2,13 @@ package ap.exercises.ex4;
 
 public class HallwayLightCircuit
 {
-    private int f;
-    private int s;
+    private int firstSwitchState=0;
+    private int secondSwitchState=0;
     private int lampS;
 
     private void updateLampS()
     {
-        lampS=(f==s)?0:1;
+        lampS=(firstSwitchState==secondSwitchState)?0:1;
     }
     public String getLampS()
     {
@@ -17,39 +17,23 @@ public class HallwayLightCircuit
         return "OFF";
     }
 
-    public int getF()
+    public int getFirstSwitchState()
     {
-        return f;
+        return firstSwitchState;
     }
 
-    public int getS()
+    public int getSecondSwitchState()
     {
-        return s;
+        return secondSwitchState;
     }
-    public void setF(String s)
+    public void toggleFirstSwitch()
     {
-        switch(s)
-        {
-            case "up":
-                f=1;
-                break;
-            case "down":
-                f=0;
-                break;
-        }
+        firstSwitchState=1-firstSwitchState;
         updateLampS();
     }
-    public void setS(String str)
+    public void toggleSecondSwitch()
     {
-        switch(str)
-        {
-            case "up":
-                s=1;
-                break;
-            case "down":
-                s=0;
-                break;
-        }
+        secondSwitchState=1-secondSwitchState;
         updateLampS();
     }
 }
