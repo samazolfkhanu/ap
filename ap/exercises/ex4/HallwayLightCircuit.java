@@ -6,34 +6,33 @@ public class HallwayLightCircuit
     private int secondSwitchState=0;
     private int lampS;
 
-    private void updateLampS()
+    public int getLampS()
     {
-        lampS=(firstSwitchState==secondSwitchState)?0:1;
-    }
-    public String getLampS()
-    {
-        if(lampS==1)
-            return "ON";
-        return "OFF";
+        return firstSwitchState ^ secondSwitchState;
     }
 
-    public int getFirstSwitchState()
+    public int getSwitchState(int switchNum)
     {
-        return firstSwitchState;
+        switch(switchNum)
+        {
+            case 1:
+                return firstSwitchState;
+            case 2:
+                return secondSwitchState;
+        }
+        return 0;
     }
+    public void toggleSwitch(int switchNum)
+    {
+        switch(switchNum)
+        {
+            case 1:
+                firstSwitchState=1-firstSwitchState;
+                break;
 
-    public int getSecondSwitchState()
-    {
-        return secondSwitchState;
-    }
-    public void toggleFirstSwitch()
-    {
-        firstSwitchState=1-firstSwitchState;
-        updateLampS();
-    }
-    public void toggleSecondSwitch()
-    {
-        secondSwitchState=1-secondSwitchState;
-        updateLampS();
+            case 2:
+                secondSwitchState=1-secondSwitchState;
+                break;
+        }
     }
 }
