@@ -13,21 +13,21 @@ public class CircuitTester
             c = s.nextInt();
             switch (c) {
                 case 1:
-                    h.toggleFirstSwitch();
-                    System.out.println("Lamp State: " + h.getLampS() + "\n");
+                    h.toggleSwitch(1);
+                    System.out.println("first switch state: " + ((h.getSwitchState(1)==1)?"up":"down"));
+                    System.out.println("Lamp State: " +((h.getLampS()==1)?"on":"off") + "\n");
                     break;
 
                 case 2:
-                    h.toggleSecondSwitch();
-                    System.out.println("Lamp State: " + h.getLampS() + "\n");
+                    h.toggleSwitch(2);
+                    System.out.println("second switch state: " +((h.getSwitchState(2)==1)?"up":"down"));
+                    System.out.println("Lamp State: " +((h.getLampS()==1)?"on":"off")+ "\n");
                     break;
 
                 case 3:
                     System.out.println("exiting the code!");
                     break;
             }
-            System.out.println("first switch state: " + ((h.getFirstSwitchState()==1)?"up":"down"));
-            System.out.println("second switch state: " +((h.getSecondSwitchState()==1)?"up":"down"));
         } while (c != 3);
     }
 }
