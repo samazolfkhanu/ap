@@ -3,10 +3,9 @@ package ap.exercises.ex1;
 import java.util.Scanner;
 
 public class Main_E5_2 {
-    
+
     public static void main(String[] args)
-    {
-        Scanner scan=new Scanner(System.in);
+    {Scanner scan=new Scanner(System.in);
         System.out.print("enter a number:");
         double num=scan.nextDouble();
         signOfNumber(num);
