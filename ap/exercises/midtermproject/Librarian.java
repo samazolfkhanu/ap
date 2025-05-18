@@ -1,10 +1,11 @@
-package ap.exercises;
+package ap.exercises.midtermproject;
 
 import java.io.Serializable;
 import java.util.Random;
 
-public class Librarian implements Serializable
+public class Librarian implements Serializable,HashId<Librarian>
 {
+    private static final long sv=1L;
     private String n;
     private String fN;
     private Long id;
@@ -13,14 +14,13 @@ public class Librarian implements Serializable
 
     public Librarian(){}
 
-    public Librarian(String n,String fN)throws InvalidInputException
+    public Librarian(String n,String fN,long id)throws InvalidInputException
     {
-        Random r=new Random();
-        if(n!=null && fN!=null )
+        if(n!=null && fN!=null && id>0)
         {
             this.n=n;
             this.fN=fN;
-            this.id=r.nextLong(1000);
+            this.id=id;
             this.nOBB=0;
             this.nORB=0;
         }
@@ -53,21 +53,22 @@ public class Librarian implements Serializable
         return fN;
     }
 
-    public Long getID()
+    public Long getId()
     {
         return id;
     }
 
-    public void setnOBB()
+
+    public void increasenOBB()
     {
         nOBB++;
     }
-    public int increasenOBB()
+    public int getnOBB()
     {
         return nOBB;
     }
 
-    public void increaseORB()
+    public void increasenORB()
     {
         nORB++;
     }
@@ -79,7 +80,7 @@ public class Librarian implements Serializable
     @Override
     public String toString()
     {
-        return "\n[\nName: "+n+"\nFamily Name: "+fN+"\nID: "+id+"\n]\n";
+        return ">>Librarian Information:\n"+"\tName: "+n+"\n"+"\tFamily Name: "+fN+"\n"+"\tId: "+id+"\n"+"\tBorrowed Books: "+nOBB+"\n"+"\tReturned Book: "+nORB;
     }
 
 }
