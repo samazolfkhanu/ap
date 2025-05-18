@@ -1,4 +1,4 @@
-package ap.exercises;
+package ap.exercises.midtermproject;
 
 public class InvalidInputException extends RuntimeException
 {
