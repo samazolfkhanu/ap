@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 public class Book implements Serializable
 {
-    
+
     private String bN;
     private String aN;
     private int nP;
