@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class Main_EX2_PM_3_1 extends JFrame implements KeyListener {
 
+    
     Point pacmanPoint = new Point();
     final int width = 300, height = 300, boxSize = 5;
     static int direction = 1;
