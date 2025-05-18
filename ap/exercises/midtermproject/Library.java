@@ -126,6 +126,7 @@ public class Library implements Serializable {
         {
             if (Objects.equals(m1.getValue().getB().getId(), l.getB().getId())) {
                 Request r=new Request(l.getB(),l.getS(),l.getIssuedBy());
+                System.out.println(l);
                 r.setRecivedBy(libra);
                 requestsb.put(l.getReceivedBy().getId(),r);
                 f4.writeToFile(r,"F:/JavaProject/ap/exercises/midtermproject/RequestR.txt");
