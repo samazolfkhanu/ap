@@ -10,6 +10,7 @@ public class Main_E6_13 {
         int n=scan.nextInt();
         convertToBiary(n);
     }
+    
     static void convertToBiary(int n)
     {
         while(n>0)
