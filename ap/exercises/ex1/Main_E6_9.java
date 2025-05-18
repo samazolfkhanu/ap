@@ -11,6 +11,7 @@ public class Main_E6_9 {
         reversing(s);
         scan.close();
     }
+    
     static void reversing(String s)
     {
         for(int i=(s.length())-1;i>=0;i--)
