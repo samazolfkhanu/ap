@@ -3,6 +3,7 @@ package ap.exercises.ex2;
 import java.util.Random;
 import java.util.Scanner;
 
+
 public class Main_EX2_PM_1_5
 {
     String[][] b;
