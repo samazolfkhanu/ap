@@ -1,25 +1,24 @@
-package ap.exercises;
+package ap.exercises.midtermproject;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Student implements Serializable
+public class Student implements Serializable,HashId<Student>
 {
-    private static int idCount=14030;
+    private static final long sv=1L;
     private String n;
     private String fN;
-    private long id;
+    private Long id;
     private String dis;
     private int numBB;
     private LocalDate memberShipDate;
-    public Student(String n,String fN,String dis,LocalDate memberShipDate)throws InvalidInputException
+    public Student(String n,String fN,String dis,LocalDate memberShipDate,long id)throws InvalidInputException
     {
-        if(n!=null && fN!=null  && dis!=null && memberShipDate!=null)
+        if(n!=null && fN!=null  && dis!=null && memberShipDate!=null && id>0)
         {
-            idCount+=1;
             this.n=n;
             this.fN=fN;
-            this.id=idCount;
+            this.id=id;
             this.dis=dis;
             this.numBB=0;
             this.memberShipDate=memberShipDate;
@@ -78,7 +77,7 @@ public class Student implements Serializable
         return numBB;
     }
 
-    public long getid()
+    public Long getId()
     {
         return id;
     }
@@ -123,6 +122,6 @@ public class Student implements Serializable
     @Override
     public String toString()
     {
-        return "\n[\nStudent name: "+this.n+"\nfamily name: "+fN+"\nid: "+id+"\nMemberShipDdate:"+memberShipDate+"\ndiscpline: "+dis+"\n"+"number of book which has been borrowed: "+numBB+"\n]\n";
+        return ">>Student Information:"+"\n"+"\tName: "+this.n+"\n"+"\tFamily Name: "+fN+"\n"+"\tId: "+id+"\n"+"\tMemberShipDdate: "+memberShipDate+"\n"+"\tDiscpline: "+dis+"\n"+"\tNumber Of Book Which Has Been Borrowed: "+numBB;
     }
 }
