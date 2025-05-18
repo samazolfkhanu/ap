@@ -5,6 +5,7 @@ public class Main_Ex2_PM_1_4
 {
     public static void main(String[] args)
     {
+        
         Scanner s=new Scanner(System.in);
         String c;
         do {
