@@ -11,6 +11,7 @@ public class Main_E6_18 {
         pattern(n);
         scan.close();
     }
+    
     static void pattern(int n)
     {
         int nb=n-1,ns=1;
