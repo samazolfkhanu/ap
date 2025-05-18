@@ -36,12 +36,12 @@ public class Main_EX3_LM_1_2
                                     } catch (InvalidInputException e) {
                                         System.out.println(e.getMessage());
                                     }
-                                    F.writeInFile(b[i],"F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                    F.writeInFile(b[i],"F:/JavaProject/ap/exercises/ex3/Book.txt");
                                 }
                                 break;
 
                             case 2:
-                                F.printAll("F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                F.printAll("F:/JavaProject/ap/exercises/ex3/Book.txt");
                                 break;
 
                             case 3:
@@ -77,12 +77,12 @@ public class Main_EX3_LM_1_2
                                     {
                                         System.out.println(e.getMessage());
                                     }
-                                    F.writeInFile(st[i],"F:/MainProjects/ap/exercises/ex3/Student.txt");
+                                    F.writeInFile(st[i],"F:/JavaProject/ap/exercises/ex3/Student.txt");
                                 }
                                 break;
 
                             case 2:
-                                F.printAll("F:/MainProjects/ap/exercises/ex3/Student.txt");
+                                F.printAll("F:/JavaProject/ap/exercises/ex3/Student.txt");
                                 break;
 
                             case 3:
