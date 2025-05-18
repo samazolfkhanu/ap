@@ -2,6 +2,7 @@ package ap.exercises.ex4;
 
 public class HallwayLightCircuit
 {
+    
     private int firstSwitchState=0;
     private int secondSwitchState=0;
     private int lampS;
