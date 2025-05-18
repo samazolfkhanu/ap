@@ -72,6 +72,7 @@ class FileHandle
 
     public void clearFile(String path)
     {
+        
         try
         {
             PrintWriter p=new PrintWriter(path);
