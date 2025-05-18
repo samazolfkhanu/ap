@@ -3,6 +3,7 @@ package ap.exercises.ex1;
 import java.util.Scanner;
 
 public class Main_E6_3 {
+    
     public static void main(String[] args)
     {
         int c;
