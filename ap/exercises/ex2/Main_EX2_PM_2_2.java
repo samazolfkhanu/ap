@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Main_EX2_PM_2_2
 {
+    
     public static void main(String[] args) {
         Scanner s=new Scanner(System.in);
         GameBoard g=new GameBoard();
