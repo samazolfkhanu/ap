@@ -38,7 +38,7 @@ public class Main_EX3_LM_2_1
                                     s.nextLine();
                                     try {
                                         b[i] = new Book(bN, aN, nP, pY);
-                                        F.writeInFile(b[i], "F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                        F.writeInFile(b[i], "F:/JavaProject/ap/exercises/ex3/Book.txt");
                                     } catch (InvalidInputException e) {
                                         System.out.println(e.getMessage());
                                     }
@@ -46,7 +46,7 @@ public class Main_EX3_LM_2_1
                                 break;
 
                             case 2:
-                                F.printAll("F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                F.printAll("F:/JavaProject/ap/exercises/ex3/Book.txt");
                                 break;
 
                             case 3:
@@ -79,19 +79,19 @@ public class Main_EX3_LM_2_1
                                     } catch (InvalidInputException e) {
                                         System.out.println(e.getMessage());
                                     }
-                                    F.writeInFile(st[i], "F:/MainProjects/ap/exercises/ex3/Student.txt");
+                                    F.writeInFile(st[i], "F:/JavaProject/ap/exercises/ex3/Student.txt");
                                 }
                                 break;
 
                             case 2:
-                                F.printAll("F:/MainProjects/ap/exercises/ex3/Student.txt");
+                                F.printAll("F:/JavaProject/ap/exercises/ex3/Student.txt");
                                 break;
 
                             case 3:
                                 System.out.println("enter name: ");
                                 String name=s.nextLine();
                                 Student x=new Student();
-                                List<Student> S=F.readObjFromFile("F:/MainProjects/ap/exercises/ex3/Student.txt",Student.class);
+                                List<Student> S=F.readObjFromFile("F:/JavaProject/ap/exercises/ex3/Student.txt",Student.class);
                                 Student[] Stud=S.toArray(new Student[0]);
                                 System.out.println("\ninfo:\n>>"+Stud[x.searchST(Stud,name)].toString());
                                 break;
@@ -101,12 +101,12 @@ public class Main_EX3_LM_2_1
                                 long id=s.nextLong();
                                 s.nextLine();
                                 List<Student> student=new ArrayList<>();
-                                student=F.readObjFromFile("F:/MainProjects/ap/exercises/ex3/Student.txt",Student.class);
+                                student=F.readObjFromFile("F:/JavaProject/ap/exercises/ex3/Student.txt",Student.class);
                                 for(Student Stu:student)
                                 {
                                     if(Stu.getid()==id)
                                     {
-                                        F.printAll("F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                        F.printAll("F:/JavaProject/ap/exercises/ex3/Book.txt");
                                         List<Book> Book=new ArrayList<>();
                                         Book=F.readObjFromFile("F:/MainProjects/ap/exercises/ex3/Book.txt",Book.class);
                                         System.out.println("enter book name:");
@@ -132,14 +132,14 @@ public class Main_EX3_LM_2_1
                                         {
                                             System.out.println(e.getMessage());
                                         }
-                                        F.clearFile("F:/MainProjects/ap/exercises/ex3/Student.txt");
-                                        F.clearFile("F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                        F.clearFile("F:/JavaProject/ap/exercises/ex3/Student.txt");
+                                        F.clearFile("F:/JavaProject/ap/exercises/ex3/Book.txt");
                                         for(Book B:Book) {
-                                            F.writeInFile(B, "F:/MainProjects/ap/exercises/ex3/Book.txt");
+                                            F.writeInFile(B, "F:/JavaProject/ap/exercises/ex3/Book.txt");
                                         }
                                         for(Student St:student)
                                         {
-                                            F.writeInFile(St,"F:/MainProjects/ap/exercises/ex3/Student.txt");
+                                            F.writeInFile(St,"F:/JavaProject/ap/exercises/ex3/Student.txt");
                                         }
 
                                     }
@@ -160,5 +160,8 @@ public class Main_EX3_LM_2_1
             }
         } while (c != 3);
     }
+
+}
+
 
 }
