@@ -10,6 +10,7 @@ public class Main_E6_17 {
         int s=scan.nextInt();
         pattern(s);
     }
+    
     static void pattern(int n)
     {
         for(int i=0;i<n;i++)
