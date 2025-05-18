@@ -6,7 +6,6 @@ public class Main_EX2_PM_2_4
 {
     public static void main(String[] args)
     {
-
         int k=9; //عدد مربوط به تمرین EX2_PM_1_1 و EX2_PM_1_2
         int c=15; //عدد مربوط به تمرین EX2_PM_1_3
 
