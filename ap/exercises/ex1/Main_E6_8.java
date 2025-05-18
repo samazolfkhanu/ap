@@ -10,6 +10,7 @@ public class Main_E6_8 {
         String s=scan.nextLine();
         print(s);
     }
+    
     static void print(String s)
     {
         for(int i=0;i<s.length();i++)
