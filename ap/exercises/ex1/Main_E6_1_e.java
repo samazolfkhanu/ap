@@ -11,6 +11,7 @@ public class Main_E6_1_e {
         while(n>0)
         {
             x=n%10;
+            
             if(x%2!=0) m=m+x;
             n=n/10;
         }
