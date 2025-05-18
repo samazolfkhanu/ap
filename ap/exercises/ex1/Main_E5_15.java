@@ -3,7 +3,7 @@ package ap.exercises.ex1;
 import java.util.Scanner;
 
 public class Main_E5_15 {
-    
+
     public static void main(String[] args)
     {
         double t=0;
