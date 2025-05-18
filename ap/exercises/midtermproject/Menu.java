@@ -8,11 +8,14 @@ public class Menu
     InputeScanner s=new InputeScanner();
     private Library lib=new Library();
     private final Manager m=new Manager("Sama","Zolfkhani",1L,"PostDoc");
-
+    private FileHandling<Manager> m1;
     public Menu(Library lib)
     {
-        if(lib!=null)
-            this.lib=lib;
+        if(lib!=null) {
+            this.lib = lib;
+            m1=new FileHandling<>();
+            m1.writeToFile(m,"F:/JavaProject/ap/exercises/midtermproject/Manager.txt");
+        }
         else
             throw new NullPointerException("library field is null!");
     }
@@ -122,61 +125,74 @@ public class Menu
 
     public void managerMenu()
     {
-        int c1;
-        do {
-            System.out.println("1.Add librarian\n2.Borrowed Books\n3.10 top Books\n4.Librarian History\n0.Back");
-            c1=s.getIntOption();
-            s.getStringOption();
-            switch(c1)
+        System.out.println("Enter your Id: ");
+        Long i=s.getLongOption();
+        boolean ifo=false;
+        Map<Long,Manager> m2=m1.readFromFile("F:/JavaProject/ap/exercises/midtermproject/Manager.txt");
+        for(Manager m3:m2.values())
+        {
+            if(Objects.equals(m3.getId(), i))
             {
-                case 1:
-                    System.out.println("Enter name and family name and id:");
-                    String name=s.getStringOption();
-                    String familyName=s.getStringOption();
-                    long id=s.getLongOption();
+                ifo=true;
+                int c1;
+                do {
+                    System.out.println("1.Add librarian\n2.Borrowed Books\n3.10 top Books\n4.Librarian History\n0.Back");
+                    c1=s.getIntOption();
                     s.getStringOption();
-                    try
+                    switch(c1)
                     {
-                        lib.registerLibrarian(new Librarian(name,familyName,id));
-                    }
-                    catch(InvalidInputException e)
-                    {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
+                        case 1:
+                            System.out.println("Enter name and family name and id:");
+                            String name=s.getStringOption();
+                            String familyName=s.getStringOption();
+                            long id=s.getLongOption();
+                            s.getStringOption();
+                            try
+                            {
+                                lib.registerLibrarian(new Librarian(name,familyName,id));
+                            }
+                            catch(InvalidInputException e)
+                            {
+                                System.out.println(e.getMessage());
+                            }
+                            break;
 
-                case 2:
-                    List<Book> b=lib.getborrowdBook();
-                    for(Book book:b)
-                    {
-                        System.out.println(book);
-                    }
-                    break;
+                        case 2:
+                            List<Book> b=lib.getborrowdBook();
+                            for(Book book:b)
+                            {
+                                System.out.println(book);
+                            }
+                            break;
 
-                case 3:
-                    Book[] books=lib.getTopBooks();
-                    try
-                    {
-                        for(Book book:books)
-                        {
-                            System.out.println(book.toString());
-                        }
-                    }
-                    catch(Exception e)
-                    {
-                        System.out.println("End!");
-                    }
-                    break;
+                        case 3:
+                            Book[] books=lib.getTopBooks();
+                            try
+                            {
+                                for(Book book:books)
+                                {
+                                    System.out.println(book.toString());
+                                }
+                            }
+                            catch(Exception e)
+                            {
+                                System.out.println("End!");
+                            }
+                            break;
 
-                case 4:
-                    Map<Long,Librarian> m=lib.getLibrarians();
-                    for(Librarian l:m.values()) {
-                        System.out.println(">>Librarian Information:\nName: "+ l.getN()+"\nFamily Name: "+ l.getFN()+"\nNumber Of Borrowd Book: "+ l.getnOBB()+"\nNumber of returned book: "+ l.getnORB());
-                    }
-                    break;
+                        case 4:
+                            Map<Long,Librarian> m=lib.getLibrarians();
+                            for(Librarian l:m.values()) {
+                                System.out.println(">>Librarian Information:\nName: "+ l.getN()+"\nFamily Name: "+ l.getFN()+"\nNumber Of Borrowd Book: "+ l.getnOBB()+"\nNumber of returned book: "+ l.getnORB());
+                            }
+                            break;
 
+                    }
+                }while(c1!=0);
             }
-        }while(c1!=0);
+        }
+        if(!ifo)
+            System.out.println("No Manager with This Id!");
 
     }
 
@@ -304,7 +320,7 @@ public class Menu
                                                     }
                                                 }
                                                 lib.addNewStudentrt(r1.getValue().getStudent().getId());
-                                                r.remove(idii);
+                                                lib.updateRequestR(r.get(idii));
                                                 break;
                                             }
                                         }

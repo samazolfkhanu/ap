@@ -204,6 +204,10 @@ public class Library implements Serializable {
     public Map<Long,Student> getStudents() {
         return f1.readFromFile("F:/JavaProject/ap/exercises/midtermproject/Students.txt");
     }
+    public Map<Long,Request> getReturnRequest()
+    {
+        return f4.readFromFile("F:/JavaProject/ap/exercises/midtermproject/RequestR.txt");
+    }
     public void addNew(Map<Long,Librarian> l)
     {
         f2.clearFile("F:/JavaProject/ap/exercises/midtermproject/Librarians.txt");
@@ -225,16 +229,21 @@ public class Library implements Serializable {
         }
     }
 
-    public void updateRequestR (Map<Long,Request> l)
+    public void updateRequestR (Request r)
     {
-        if(l.size()==0)
-            f4.clearFile("F:/JavaProject/ap/exercises/midtermproject/RequestR.txt");
-        else {
-            f4.clearFile("F:/JavaProject/ap/exercises/midtermproject/RequestR.txt");
-            for(Map.Entry<Long,Request> m:l.entrySet())
+        Map<Long,Request> l=getRL();
+        for(Map.Entry<Long,Request> l1:l.entrySet())
+        {
+            if(Objects.equals(l1.getValue().getId(), r.getId()))
             {
-                f4.writeToFile(m.getValue(),"F:/JavaProject/ap/exercises/midtermproject/Requests.txt");
+                l.remove(r.getId());
+                break;
             }
+        }
+        f4.clearFile("F:/JavaProject/ap/exercises/midtermproject/RequestR.txt");
+        for(Request l1:l.values())
+        {
+            f4.writeToFile(l1,"F:/JavaProject/ap/exercises/midtermproject/RequestR.txt");
         }
     }
     public Map<Long,Request> getRequestsb()
@@ -334,6 +343,7 @@ public class Library implements Serializable {
         List<Long> l1=new ArrayList<>(l.keySet());
         Random r=new Random();
         Map<Long,Book> m=getBooks();
+        Map<Long,Student> students=getStudents();
         for(Map.Entry<Long,Book> book:m.entrySet())
         {
             if(book.getValue().getBookName().equalsIgnoreCase(name))
