@@ -8,6 +8,7 @@ public class Main_E6_1_a {
         {
             m+=i;
         }
+        
         System.out.print("sum of even numbers till 100: "+m);
     }
 }
