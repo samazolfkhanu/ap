@@ -1,4 +1,4 @@
-package ap.exercises;
+package ap.exercises.midtermproject;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
