@@ -11,6 +11,7 @@ public class Main_E6_5 {
         float[] a=new float[n];
         for(int i=0;i<n;i++)
         {
+
             System.out.printf("enter a[%d]:",i);
             a[i]=scan.nextFloat();
         }
