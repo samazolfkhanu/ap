@@ -1,4 +1,4 @@
-package ap.exercises;
+package ap.exercises.midtermproject;
 
 public class Main
 {
@@ -6,7 +6,14 @@ public class Main
     {
         Library l=new Library("Central");
         Menu m=new Menu(l);
-        m.run();
+        try
+        {
+            m.run();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
 
     }
 }
