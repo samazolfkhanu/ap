@@ -1,11 +1,12 @@
-package ap.exercises;
+package ap.exercises.midtermproject;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Loan implements Serializable
+public class Loan implements Serializable,  HashId<Loan>
 {
+    private static final long sv=1L;
     private Book b;
     private Student s;
     private Librarian issuedBy;
@@ -13,16 +14,28 @@ public class Loan implements Serializable
     private LocalDate issueDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
+    private Long id;
+    private static Long idCount= 0L;
 
-    public Loan(Book b,Student s, Librarian issuedBy, Librarian receivedBy, LocalDate issueDate, LocalDate dueDate, LocalDate returnDate)
+    public Loan(Book b,Student s, Librarian issuedBy,LocalDate issueDate, LocalDate dueDate)
     {
+        idCount+=1;
         this.b=b;
         this.s=s;
         this.issuedBy=issuedBy;
         this.receivedBy=receivedBy;
         this.issueDate=issueDate;
         this.dueDate=dueDate;
-        this.returnDate=returnDate;
+        this.returnDate=null;
+        id=idCount;
+    }
+
+    public void setReceivedBy(Librarian l)
+    {
+        if(l!=null)
+            this.receivedBy=l;
+        else
+            throw new InvalidInputException("Invalid Input!");
     }
 
     public boolean isOverDue()
@@ -88,10 +101,15 @@ public class Loan implements Serializable
             throw new NullPointerException("Invalid input!");
     }
 
+    @Override
+    public Long getId()
+    {
+        return id;
+    }
 
     @Override
     public String toString()
     {
-        return "INFORMATION: "+"\n"+"Book: \n"+b.toString()+"Student: \n"+s.toString()+"IssuedBy: "+issuedBy+"\nReceivedBy: "+receivedBy+"\nIssueDate: "+issueDate+"\ndueDate"+dueDate+"\n"+"\nreturnDate: "+(returnDate!=null ?returnDate:"Not Yet Returned!");
+        return ">>Loan Information: "+"\n"+"\t"+b.toString()+"\n"+"\t"+s.toString()+"\n"+"\t"+"IssuedBy: "+issuedBy+"\n"+"\t"+"ReceivedBy: "+receivedBy+"\n"+"\t"+"Id: "+id+"\n"+"\t"+"IssueDate: "+issueDate+"\n"+"\tdueDate"+dueDate+"\n"+"\treturnDate: "+(returnDate!=null ?returnDate:"Not Yet Returned!");
     }
 }
