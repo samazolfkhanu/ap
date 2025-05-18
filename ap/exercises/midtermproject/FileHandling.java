@@ -1,12 +1,12 @@
-package ap.exercises;
+package ap.exercises.midtermproject;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class FileHandling<T>
+public class FileHandling<E extends HashId<E>>
 {
-    public void writeToFile(T item,String filePath)
+    public void writeToFile(E item,String filePath)
     {
         File f=new File(filePath);
         try
@@ -22,6 +22,8 @@ public class FileHandling<T>
                 obj = new ObjectOutputStream(out);
                 obj.writeObject(item);
             }
+            obj.flush();
+            obj.close();
         }
         catch(IOException e)
         {
@@ -29,9 +31,9 @@ public class FileHandling<T>
         }
 
     }
-    public List<T> readFromFile(String filePath)
+    public Map<Long,E> readFromFile(String filePath)
     {
-        List<T> l=new ArrayList<>();
+        Map<Long,E> l=new TreeMap<>();
         try
         {
             FileInputStream out=new FileInputStream(filePath);
@@ -40,8 +42,8 @@ public class FileHandling<T>
             {
                 while(true)
                 {
-                    T obj= (T) oi.readObject();
-                    l.add(obj);
+                    E obj= (E) oi.readObject();
+                    l.put(obj.getId(),obj);
 
                 }
             }
@@ -53,6 +55,7 @@ public class FileHandling<T>
             {
                 System.out.println(" ");
             }
+            oi.close();
         }
         catch(IOException err)
         {
