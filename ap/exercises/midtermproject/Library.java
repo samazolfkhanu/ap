@@ -184,7 +184,6 @@ public class Library implements Serializable {
         history.add(l);
         f3.writeToFile(l,"F:/JavaProject/ap/exercises/midtermproject/history.txt");
     }
-
     public Map<Long,Request> getRL() {
         return f4.readFromFile("F:/JavaProject/ap/exercises/midtermproject/Requests.txt");
     }
