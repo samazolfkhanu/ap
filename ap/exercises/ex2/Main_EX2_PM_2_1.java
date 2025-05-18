@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Main_EX2_PM_2_1
 {
+    
     String[][] b;
     int row=1,col=1;
     public void main(String[] args)
