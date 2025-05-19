@@ -218,20 +218,26 @@ public class Library implements Serializable {
         Map<Long,Loan> loan=getLL();
         Map<Long,Librarian> l4=getLibrarians();
         List<Long> l3=new ArrayList<>(l4.keySet());
+        System.out.println("hi");
         Random rand=new Random();
-        for(Loan loan1:loan.values())
+        Iterator<Map.Entry<Long,Loan>> it=loan.entrySet().iterator();
+        while(it.hasNext())
         {
-            if(loan1.getB().getBookName().equalsIgnoreCase(bookn))
+            System.out.println("hii");
+            Map.Entry<Long,Loan> m=it.next();
+            if(m.getValue().getB().getBookName().equalsIgnoreCase(bookn))
             {
                 Long k= l3.get(rand.nextInt(l3.size()));
-                loan1.setReceivedBy(l4.get(k));
-                if(returnBookRequest(loan1,l4.get(k))) {
+                m.getValue().setReceivedBy(l4.get(k));
+                if(returnBookRequest(m.getValue(),l4.get(k))) {
                     LocalDate l=LocalDate.now();
-                    loan1.setReturnDate(l);
-                    addToHistory(loan1);
-                    loan.remove(loan1.getId());
+                    m.getValue().setReturnDate(l);
+                    addToHistory(m.getValue());
+                    System.out.println("Added to pending List!");
+                    it.remove();
                     removeFromLoans(loan);
                 }
+                break;
             }
         }
     }
@@ -246,7 +252,6 @@ public class Library implements Serializable {
                 r.setRecivedBy(libra);
                 requestsb.put(l.getReceivedBy().getId(),r);
                 f4.writeToFile(r,"F:/JavaProject/ap/exercises/midtermproject/RequestR.txt");
-                System.out.println("Added to pending List!");
                 return true;
             }
             else
