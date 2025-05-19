@@ -2,7 +2,7 @@ package ap.exercises.midtermproject;
 
 import java.io.Serializable;
 
-public class Request implements Serializable,HashId<Request> {
+public class Request implements Serializable,HashId {
     private static final long sv=1L;
     private Book book;
     private Student student;

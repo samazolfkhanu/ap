@@ -21,105 +21,125 @@ public class Menu
     }
     public void run()
     {
-        Role c;
+        Role c = null;
         String r;
         do {
-            System.out.println("Choose your role:\nManager\nLibrarian\nStudent\nExit");
-            c=Role.search(s.getStringOption());
-
-            switch(c)
+            try
             {
-                case Role.MANAGER:
-                    managerMenu();
-                    break;
-                case Role.LIBRARIAN:
-                    librarianMenu();
-                    break;
-                case Role.STUDENT:
-                    studentMenu();
-                    break;
-                case Role.EXIT:
-                    break;
+                System.out.println("Choose your role:\nManager\nLibrarian\nStudent\nExit");
+                c=Role.search(s.getStringOption());
+
+                switch(c)
+                {
+                    case Role.MANAGER:
+                        managerMenu();
+                        break;
+                    case Role.LIBRARIAN:
+                        librarianMenu();
+                        break;
+                    case Role.STUDENT:
+                        studentMenu();
+                        break;
+                    case Role.EXIT:
+                        break;
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.println(e.getMessage());
             }
         }while(c!=Role.EXIT);
     }
 
     public void studentMenu()
     {
-        int c1;
+        int c1 = 0;
         do{
-            System.out.println("1.Register\n2.login\n0.back");
-            c1=s.getIntOption();
-            s.getStringOption();
-            switch(c1)
-            {
-                case 1:
-                    System.out.println("Enter your name,family name,discpline and id:");
-                    String name=s.getStringOption();
-                    String family =s.getStringOption();
-                    String dis=s.getStringOption();
-                    long id=s.getLongOption();
-                    s.getStringOption();
-                    LocalDate memberShipDate=LocalDate.now();
-                    try
-                    {
-                        Student stu=new Student(name,family,dis,memberShipDate,id);
-                        lib.registerStudent(stu);
-                    }
-                    catch(InvalidInputException e)
-                    {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
+           try
+           {
+               System.out.println("1.Register\n2.login\n0.back");
+               c1=s.getIntOption();
+               switch(c1) {
+                   case 1:
+                       System.out.println("Enter your name,family name,discpline and id:");
+                       String name = s.getStringOption();
+                       String family = s.getStringOption();
+                       String dis = s.getStringOption();
+                       long id = s.getLongOption();
+                       LocalDate memberShipDate = LocalDate.now();
+                       try {
+                           Student stu = new Student(name, family, dis, memberShipDate, id);
+                           lib.registerStudent(stu);
+                       } catch (InvalidInputException e) {
+                           System.out.println(e.getMessage());
+                       }
+                       break;
 
-                case 2:
-                    boolean fs=false;
-                    Map<Long,Student> students=lib.getStudents();
-                    System.out.println("Enter your id: ");
-                    Long idi=s.getLongOption();
-                    s.getStringOption();
-                    if(students.containsKey(idi))
-                    {
-                        fs=true;
-                        int c2;
-                        do {
-                            System.out.println("1.Search Books\n2.borrow a book\n3.Return Book\n4.List Of Books Not Returned\n0.back\n");
-                            c2=s.getIntOption();
-                            s.getStringOption();
-                            switch(c2)
-                            {
-                                case 1:
-                                    System.out.println("enter book name:");
-                                    String bn=s.getStringOption();
-                                    lib.searchBook(bn);
-                                    break;
+                   case 2:
+                       boolean fs = false;
+                       Map<Long, Student> students = lib.getStudents();
+                       System.out.println("Enter your id: ");
+                       Long idi = s.getLongOption();
+                       if (students.containsKey(idi)) {
+                           fs = true;
+                           int c2;
+                           do {
+                               System.out.println("1.Search Books\n2.borrow a book\n3.Return Book\n4.List Of Books Not Returned\n5.Show Borrowing History\n6.Show Student Info\n7.Overdue Fine\n0.back\n");
+                               c2 = s.getIntOption();
+                               switch (c2) {
+                                   case 1:
+                                       System.out.println("enter book name:");
+                                       String bn = s.getStringOption();
+                                       lib.searchBook(bn);
+                                       break;
 
-                                case 2:
-                                    System.out.println("enter Book name: ");
-                                    String nameB=s.getStringOption();
-                                    lib.borrowProccess(nameB,idi);
-                                    break;
+                                   case 2:
+                                       System.out.println("enter Book name: ");
+                                       String nameB = s.getStringOption();
+                                       lib.borrowProccess(nameB, idi);
+                                       break;
 
-                                case 3:
-                                    System.out.println("enter book name: ");
-                                    String bookn=s.getStringOption();
-                                    lib.returnProccess(bookn);
-                                    break;
+                                   case 3:
+                                       System.out.println("enter book name: ");
+                                       String bookn = s.getStringOption();
+                                       lib.returnProccess(bookn);
+                                       break;
 
-                                case 4:
-                                    lib.listOfBookNR(idi);
-                                    break;
+                                   case 4:
+                                       lib.listOfBookNR(idi);
+                                       break;
 
+                                   case 5:
+                                       Map<Long, Loan> m = lib.getHistory();
+                                       for (Loan l : m.values()) {
+                                           if (Objects.equals(l.getS().getId(), idi))
+                                               System.out.println(l);
+                                       }
+                                       break;
 
-                            }
-                        }while(c2!=0);
-                        break;
-                    }
-                    if(!fs)
-                        System.out.println("Student not found");
-                    break;
+                                   case 6:
+                                       Map<Long, Student> s = lib.getStudents();
+                                       System.out.println(s.get(idi));
+                                       break;
+
+                                   case 7:
+                                       lib.overdueFee(idi);
+                                       break;
+
+                               }
+                           } while (c2 != 0);
+                           break;
+                       }
+                       if (!fs)
+                           System.out.println("Student not found");
+                       break;
+               }
 
             }
+           catch(Exception e)
+           {
+               System.out.println(e.getMessage());
+           }
         }while(c1!=0);
     }
 
@@ -134,60 +154,75 @@ public class Menu
             if(Objects.equals(m3.getId(), i))
             {
                 ifo=true;
-                int c1;
+                int c1 = 0;
                 do {
-                    System.out.println("1.Add librarian\n2.Borrowed Books\n3.10 top Books\n4.Librarian History\n0.Back");
-                    c1=s.getIntOption();
-                    s.getStringOption();
-                    switch(c1)
-                    {
-                        case 1:
-                            System.out.println("Enter name and family name and id:");
-                            String name=s.getStringOption();
-                            String familyName=s.getStringOption();
-                            long id=s.getLongOption();
-                            s.getStringOption();
-                            try
-                            {
-                                lib.registerLibrarian(new Librarian(name,familyName,id));
-                            }
-                            catch(InvalidInputException e)
-                            {
-                                System.out.println(e.getMessage());
-                            }
-                            break;
-
-                        case 2:
-                            List<Book> b=lib.getborrowdBook();
-                            for(Book book:b)
-                            {
-                                System.out.println(book);
-                            }
-                            break;
-
-                        case 3:
-                            Book[] books=lib.getTopBooks();
-                            try
-                            {
-                                for(Book book:books)
-                                {
-                                    System.out.println(book.toString());
+                    try {
+                        System.out.println("1.Add librarian\n2.Overdue Book List\n3.10 top Books\n4.Librarian History\n5.Filter History\n6.Show all History\n0.Back");
+                        c1 = s.getIntOption();
+                        switch (c1) {
+                            case 1:
+                                System.out.println("Enter name and family name and id:");
+                                String name = s.getStringOption();
+                                String familyName = s.getStringOption();
+                                long id = s.getLongOption();
+                                try {
+                                    lib.registerLibrarian(new Librarian(name, familyName, id));
+                                } catch (InvalidInputException e) {
+                                    System.out.println(e.getMessage());
                                 }
-                            }
-                            catch(Exception e)
-                            {
-                                System.out.println("End!");
-                            }
-                            break;
+                                break;
 
-                        case 4:
-                            Map<Long,Librarian> m=lib.getLibrarians();
-                            for(Librarian l:m.values()) {
-                                System.out.println(">>Librarian Information:\nName: "+ l.getN()+"\nFamily Name: "+ l.getFN()+"\nNumber Of Borrowd Book: "+ l.getnOBB()+"\nNumber of returned book: "+ l.getnORB());
-                            }
-                            break;
+                            case 2:
+                                List<Book> b = lib.getborrowdBook();
+                                for (Book book : b) {
+                                    System.out.println(book);
+                                }
+                                break;
 
+                            case 3:
+                                System.out.println("10 Top Books in a Year:\n");
+                                Book[] books = lib.getTopBooks();
+                                try {
+                                    for (Book book : books) {
+                                        System.out.println(book.toString());
+                                    }
+                                } catch (Exception e) {
+                                    System.out.println("End!");
+                                }
+                                break;
+
+                            case 4:
+                                Map<Long, Librarian> m = lib.getLibrarians();
+                                for (Librarian l : m.values()) {
+                                    System.out.println(">>Librarian Information:\nName: " + l.getName() + "\nFamily Name: " + l.getFamilyName() + "\nNumber Of Borrowd Book: " + l.getnOBB() + "\nNumber of returned book: " + l.getnORB());
+                                }
+                                break;
+
+                            case 5:
+                                System.out.println("Enter Character: ");
+                                String c=s.getStringOption();
+                                Map<Long,Loan> h=lib.getHistory();
+                                for(Loan h1:h.values())
+                                {
+                                    if(h1.getB().getBookName().startsWith(c))
+                                        System.out.println(h1);
+                                }
+                                break;
+
+                            case 6:
+                                Map<Long,Loan> h1=lib.getHistory();
+                                for(Loan h2:h1.values())
+                                {
+                                    System.out.println(h2);
+                                }
+                                break;
+
+                        }
+                    }catch(Exception e)
+                    {
+                        System.out.println(e.getMessage());
                     }
+
                 }while(c1!=0);
             }
         }
@@ -202,7 +237,6 @@ public class Menu
         do {
             System.out.println("1.Login\n0.Back");
             c1=s.getIntOption();
-            s.getStringOption();
             switch(c1)
             {
                 case 1:
@@ -215,9 +249,8 @@ public class Menu
                     {
                         isfound=true;
                         do {
-                            System.out.println("1.Edit info\n2.Add Book\n3.Show info\n4.Accept Borrowing Book\n5.Accept Returning Book\n0.Back");
+                            System.out.println("1.Edit info\n2.Add Book\n3.Show info\n4.Accept Borrowing Book\n5.Accept Returning Book\n6.History Of Librarian\n7.History Of Borrowed Books\n0.Back");
                             c2=s.getIntOption();
-                            s.getStringOption();
                             try
                             {
                                 switch(c2)
@@ -225,19 +258,18 @@ public class Menu
                                     case 1:
                                         System.out.println("1.Name\n2.Family Name");
                                         c3=s.getIntOption();
-                                        s.getStringOption();
                                         switch(c3)
                                         {
                                             case 1:
                                                 System.out.println("Enter name: ");
                                                 String name=s.getStringOption();
-                                                libra.get(id).setN(name);
+                                                libra.get(id).setName(name);
                                                 lib.addNew(libra);
                                                 break;
                                             case 2:
                                                 System.out.println("Enter name: ");
                                                 String fname=s.getStringOption();
-                                                libra.get(id).setFN(fname);
+                                                libra.get(id).setFamilyName(fname);
                                                 lib.addNew(libra);
                                                 break;}
                                         break;
@@ -249,7 +281,6 @@ public class Menu
                                         int np=s.getIntOption();
                                         int py=s.getIntOption();
                                         long idi=s.getLongOption();
-                                        s.getStringOption();
                                         lib.addBook(new Book(bn,an,np,py,idi));
                                         break;
 
@@ -272,24 +303,36 @@ public class Menu
                                         {
                                             if(Objects.equals(r1.getValue().getId(), i))
                                             {
-                                                LocalDate date=LocalDate.now();
-                                                Loan l=new Loan(r1.getValue().getBook(),r1.getValue().getStudent(),r1.getValue().getIssuedBy(),date,date.plusDays(30));
-                                                lib.addNewBook(l.getB().getId());
-                                                lib.addNewStudentit(l.getS().getId());
-                                                re.remove(i);
-                                                Map<Long,Librarian> m=lib.getLibrarians();
-                                                for(Map.Entry<Long,Librarian> m1:m.entrySet())
+                                                System.out.println("\n1.Accept\n2.Reject\n");
+                                                int aR=s.getIntOption();
+                                                switch(aR)
                                                 {
-                                                    if(Objects.equals(m1.getValue().getId(), id))
-                                                    {
-                                                        m1.getValue().increasenOBB();
-                                                        lib.addNew(m);
+                                                    case 1:
+                                                        LocalDate date=LocalDate.now();
+                                                        Loan l=new Loan(r1.getValue().getBook(),r1.getValue().getStudent(),r1.getValue().getIssuedBy(),date,date.plusDays(30));
+                                                        lib.addNewBook(l.getB().getId());
+                                                        lib.addNewStudentit(l.getS().getId());
+                                                        re.remove(i);
+                                                        Map<Long,Librarian> m=lib.getLibrarians();
+                                                        for(Map.Entry<Long,Librarian> m1:m.entrySet())
+                                                        {
+                                                            if(Objects.equals(m1.getValue().getId(), id))
+                                                            {
+                                                                m1.getValue().increasenOBB();
+                                                                lib.addNew(m);
+                                                                break;
+                                                            }
+                                                        }
+                                                        lib.addTOLoans(l);
+                                                        lib.updateRequest(re);
                                                         break;
-                                                    }
+
+                                                    case 2:
+                                                        re.remove(i);
+                                                        System.out.println("Request was Rejected");
+                                                        lib.updateRequest(re);
+                                                        break;
                                                 }
-                                                lib.addTOLoans(l);
-                                                lib.updateRequest(re);
-                                                break;
                                             }
                                         }
                                         break;
@@ -309,24 +352,54 @@ public class Menu
                                         {
                                             if(Objects.equals(r1.getValue().getId(), idii))
                                             {
-                                                Map<Long,Librarian> librar=lib.getLibrarians();
-                                                for(Map.Entry<Long,Librarian> m1:librar.entrySet())
+                                                System.out.println("\n1.Accept\n2.Reject\n");
+                                                int aR=s.getIntOption();
+                                                switch(aR)
                                                 {
-                                                    if(Objects.equals(m1.getValue().getId(), id))
-                                                    {
-                                                        m1.getValue().increasenORB();
-                                                        lib.addNew(librar);
+                                                    case 1:
+                                                        Map<Long,Librarian> librar=lib.getLibrarians();
+                                                        for(Map.Entry<Long,Librarian> m1:librar.entrySet())
+                                                        {
+                                                            if(Objects.equals(m1.getValue().getId(), id))
+                                                            {
+                                                                m1.getValue().increasenORB();
+                                                                lib.addNew(librar);
+                                                                break;
+                                                            }
+                                                        }
+                                                        lib.addNewStudentrt(r1.getValue().getStudent().getId());
+                                                        lib.updateRequestR(r.get(idii));
                                                         break;
-                                                    }
+
+                                                    case 2:
+                                                        lib.updateRequestR(r.get(idii));
+                                                        System.out.println("Request was Rejected!");
+                                                        break;
                                                 }
-                                                lib.addNewStudentrt(r1.getValue().getStudent().getId());
-                                                lib.updateRequestR(r.get(idii));
-                                                break;
                                             }
                                         }
+                                        break;
+
+                                    case 6:
+                                        Map<Long,Loan> m=lib.getHistory();
+                                        for(Loan l:m.values())
+                                        {
+                                            if(Objects.equals(l.getIssuedBy().getId(), id) || Objects.equals(l.getReceivedBy().getId(), id))
+                                                System.out.println(l);
+                                        }
+                                        break;
+
+                                    case 7:
+                                        Map<Long,Loan> m1=lib.getHistory();
+                                        for(Loan l:m1.values())
+                                        {
+                                            if(Objects.equals(l.getIssuedBy().getId(), id) || Objects.equals(l.getReceivedBy().getId(), id))
+                                                System.out.println(l.getB());
+                                        }
+                                        break;
                                 }
                             }
-                            catch(InvalidInputException err)
+                            catch(Exception err)
                             {
                                 System.out.println(err.getMessage());
                             }

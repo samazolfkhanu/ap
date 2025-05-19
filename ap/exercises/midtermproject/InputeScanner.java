@@ -14,6 +14,7 @@ public class InputeScanner
         if(m>=0)
         {
             this.intOption=m;
+            s.nextLine();
         }
         else
             throw new InvalidInputException("Invalid Input!");
@@ -22,7 +23,7 @@ public class InputeScanner
     public String  getStringOption()
     {
         String m=s.nextLine();
-        if(m!=null)
+        if(m!=null )
         {
             this.strOption=m;
         }
@@ -36,6 +37,7 @@ public class InputeScanner
         if(m>=0)
         {
             this.LOption=m;
+            s.nextLine();
         }
         else
             throw new InvalidInputException("Invalid Input!");

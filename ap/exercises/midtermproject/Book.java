@@ -2,14 +2,14 @@ package ap.exercises.midtermproject;
 
 import java.io.Serializable;
 
-public class Book implements Serializable , Comparable<Book>,HashId<Book>
+public class Book implements Serializable , Comparable<Book>,HashId
 {
     private static final long sv=1L;
+    private Long id;
     private String bN;
     private String aN;
     private int nP;
     private int pY;
-    private Long id;
     private int  borrowCount;
     public Book(String bN,String aN,int nP,int pY,Long id)throws InvalidInputException
     {
@@ -100,6 +100,6 @@ public class Book implements Serializable , Comparable<Book>,HashId<Book>
     @Override
     public String toString()
     {
-        return ">>Book Information:"+"\n"+"\tBook Name: "+this.bN+"\n"+"\tAuthor Name: "+aN+"\n"+"\tNumber Of Pages: "+nP+"\n"+"\tYear Of Published:"+pY+"\n"+"\tNumber Of Borrowd Time: "+borrowCount;
+        return ">>Book Information:"+"\n"+"\tBook Name: "+this.bN+"\n"+"\tAuthor Name: "+aN+"\n"+"\tNumber Of Pages: "+nP+"\n"+"\tYear Of Published:"+pY+"\n"+"\tNumber Of Borrowd Time: "+borrowCount+"\n";
     }
 }

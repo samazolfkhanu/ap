@@ -1,6 +1,6 @@
 package ap.exercises.midtermproject;
 
-public interface HashId<T>
+public interface HashId
 {
     Long getId();
 }

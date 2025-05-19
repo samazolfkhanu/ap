@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class FileHandling<E extends HashId<E>>
+public class FileHandling<E extends HashId>
 {
     public void writeToFile(E item,String filePath)
     {

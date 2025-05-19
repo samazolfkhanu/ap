@@ -3,14 +3,14 @@ package ap.exercises.midtermproject;
 import java.io.Serializable;
 import java.util.Random;
 
-public class Librarian implements Serializable,HashId<Librarian>
+public class Librarian implements Serializable,HashId
 {
     private static final long sv=1L;
     private String n;
     private String fN;
     private Long id;
-    private int nOBB;
-    private int nORB;
+    private int nOBB=0;
+    private int nORB=0;
 
     public Librarian(){}
 
@@ -21,43 +21,10 @@ public class Librarian implements Serializable,HashId<Librarian>
             this.n=n;
             this.fN=fN;
             this.id=id;
-            this.nOBB=0;
-            this.nORB=0;
         }
         else
-            throw new InvalidInputException("Invalid input!");
+            throw new InvalidInputException("Invalid Input!");
     }
-
-    public void setN(String n)throws InvalidInputException
-    {
-        if(n!=null) {
-            this.n = n;
-        }
-        else
-            throw new InvalidInputException("Invalid input!");
-    }
-    public String getN()
-    {
-        return n;
-    }
-
-    public void setFN(String fN)throws InvalidInputException
-    {
-        if(fN!=null)
-            this.fN=fN;
-        else
-            throw new InvalidInputException("Invalid input!");
-    }
-    public String getFN()
-    {
-        return fN;
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-
 
     public void increasenOBB()
     {
@@ -77,10 +44,47 @@ public class Librarian implements Serializable,HashId<Librarian>
         return nORB;
     }
 
+    public void setName(String name)
+    {
+        if(name!=null)
+            this.n=name;
+        else
+            throw new NullPointerException("Name is Null!");
+    }
+    public String getName()
+    {
+        return n;
+    }
+
+    public void setFamilyName(String fname)
+    {
+        if(fname!=null)
+            this.fN=fname;
+        else
+            throw new NullPointerException("Family Name is Null!");
+    }
+    public String getFamilyName()
+    {
+        return fN;
+    }
+
+    public void setId(Long id)
+    {
+        if(id>0)
+            this.id=id;
+        else
+            throw new InvalidInputException("value of Id can not be Negative!");
+    }
+    public Long getId()
+    {
+        return id;
+    }
+
     @Override
     public String toString()
     {
-        return ">>Librarian Information:\n"+"\tName: "+n+"\n"+"\tFamily Name: "+fN+"\n"+"\tId: "+id+"\n"+"\tBorrowed Books: "+nOBB+"\n"+"\tReturned Book: "+nORB;
+        return ">>Librarian Information:\n"+"\tName: "+n+"\n"+"\tFamily Name: "+fN+"\n"+"\tId: "+id+"\n"+"\tBorrowed Books: "+nOBB+"\n"+"\tReturned Book: "+nORB+"\n";
     }
+
 
 }

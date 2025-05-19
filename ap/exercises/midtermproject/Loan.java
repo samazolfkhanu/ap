@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Loan implements Serializable,  HashId<Loan>
+public class Loan implements Serializable,  HashId
 {
     private static final long sv=1L;
     private Book b;
@@ -110,6 +110,6 @@ public class Loan implements Serializable,  HashId<Loan>
     @Override
     public String toString()
     {
-        return ">>Loan Information: "+"\n"+"\t"+b.toString()+"\n"+"\t"+s.toString()+"\n"+"\t"+"IssuedBy: "+issuedBy+"\n"+"\t"+"ReceivedBy: "+receivedBy+"\n"+"\t"+"Id: "+id+"\n"+"\t"+"IssueDate: "+issueDate+"\n"+"\tdueDate"+dueDate+"\n"+"\treturnDate: "+(returnDate!=null ?returnDate:"Not Yet Returned!");
+        return ">>Loan Information: "+"\n"+"\t"+b.toString()+"\n"+"\t"+s.toString()+"\n"+"\t"+"IssuedBy: \n"+issuedBy+"\n"+"\t"+"ReceivedBy: \n"+receivedBy+"\n"+"\t"+"Id: "+id+"\n"+"\t"+"IssueDate: "+issueDate+"\n"+"\tdueDate"+dueDate+"\n"+"\treturnDate: "+(returnDate!=null ?returnDate:"Not Yet Returned!");
     }
 }

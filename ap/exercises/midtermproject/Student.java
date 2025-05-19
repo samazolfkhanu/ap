@@ -3,18 +3,18 @@ package ap.exercises.midtermproject;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Student implements Serializable,HashId<Student>
+public class Student implements Serializable,HashId
 {
     private static final long sv=1L;
     private String n;
     private String fN;
-    private Long id;
+    private long id;
     private String dis;
     private int numBB;
     private LocalDate memberShipDate;
     public Student(String n,String fN,String dis,LocalDate memberShipDate,long id)throws InvalidInputException
     {
-        if(n!=null && fN!=null  && dis!=null && memberShipDate!=null && id>0)
+        if(n!=null && fN!=null && id>0 && dis!=null && memberShipDate!=null)
         {
             this.n=n;
             this.fN=fN;
@@ -24,36 +24,49 @@ public class Student implements Serializable,HashId<Student>
             this.memberShipDate=memberShipDate;
         }
         else
-            throw new InvalidInputException("Error: invalid input!");
+            throw new InvalidInputException("Invalid Input!");
+
     }
 
     public Student()
     {
+        super();
 
     }
-
+    public void setName(String name)
+    {
+        if(name!=null)
+            this.n=name;
+        else
+            throw new NullPointerException("Name is Null!");
+    }
     public String getName()
     {
         return n;
     }
-    public void setName(String n) throws InvalidInputException
-    {
-        if(n!=null)
-            this.n=n;
-        else
-            throw new InvalidInputException("invalid input\n");
-    }
 
+    public void setFamilyName(String fname)
+    {
+        if(fname!=null)
+            this.fN=fname;
+        else
+            throw new NullPointerException("Family Name is Null!");
+    }
     public String getFamilyName()
     {
         return fN;
     }
-    public void setFamilyName(String fN) throws InvalidInputException
+
+    public void setId(Long id)
     {
-        if(fN!=null)
-            this.fN=fN;
+        if(id>0)
+            this.id=id;
         else
-            throw new InvalidInputException("invalid input\n");
+            throw new InvalidInputException("value of Id can not be Negative!");
+    }
+    public Long getId()
+    {
+        return id;
     }
 
     public void increaseTrust()
@@ -63,7 +76,7 @@ public class Student implements Serializable,HashId<Student>
             numBB++;
         }
         else
-            System.out.println("maximum number of book!");
+            System.err.println("maximum number of book!");
     }
 
     public void reduceTrust()
@@ -77,51 +90,20 @@ public class Student implements Serializable,HashId<Student>
         return numBB;
     }
 
-    public Long getId()
-    {
-        return id;
-    }
-    public void setId(long id) throws InvalidInputException
-    {
-        if(id>0)
-            this.id=id;
-        else
-            throw new InvalidInputException("invalid input\n");
-    }
-
-    public String getDiscpline()
+    public String getDiscipline()
     {
         return dis;
     }
-    public void setDiscpline(String dis)throws InvalidInputException
+    public void setDiscipline(String dis)throws InvalidInputException
     {
         if(dis!=null)
             this.dis=dis;
         else
             throw new InvalidInputException("invalid input\n");
     }
-
-    public int searchST(Student[] s, String name)
-    {
-        int i=0;
-        boolean found=false;
-        for(Student S:s)
-        {
-            if(S.getName().equals(name))
-            {
-                found=true;
-                return i;
-            }
-            i++;
-        }
-        if(!found)
-            System.out.println("Student with that name not found!");
-        return -1;
-    }
-
     @Override
     public String toString()
     {
-        return ">>Student Information:"+"\n"+"\tName: "+this.n+"\n"+"\tFamily Name: "+fN+"\n"+"\tId: "+id+"\n"+"\tMemberShipDdate: "+memberShipDate+"\n"+"\tDiscpline: "+dis+"\n"+"\tNumber Of Book Which Has Been Borrowed: "+numBB;
+        return ">>Student Information:"+"\n"+"\tName: "+this.n+"\n"+"\tFamily Name: "+fN+"\n"+"\tId: "+id+"\n"+"\tMemberShipDdate: "+memberShipDate+"\n"+"\tDiscpline: "+dis+"\n"+"\tNumber Of Book Which Has Been Borrowed: "+numBB+"\n";
     }
 }
