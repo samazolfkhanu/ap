@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Menu
 {
-    InputeScanner s=new InputeScanner();
+    private InputeScanner s=new InputeScanner();
     private Library lib=new Library();
     private final Manager m=new Manager("Sama","Zolfkhani",1L,"PostDoc");
     private FileHandling<Manager> m1;
@@ -26,7 +26,11 @@ public class Menu
         do {
             try
             {
-                System.out.println("Choose your role:\nManager\nLibrarian\nStudent\nExit");
+                System.out.println("Choose your role:\n" +
+                        "Manager\n" +
+                        "Librarian\n" +
+                        "Student\n" +
+                        "Exit");
                 c=Role.search(s.getStringOption());
 
                 switch(c)
@@ -57,7 +61,9 @@ public class Menu
         do{
            try
            {
-               System.out.println("1.Register\n2.login\n0.back");
+               System.out.println("1.Register\n" +
+                       "2.login\n" +
+                       "0.back");
                c1=s.getIntOption();
                switch(c1) {
                    case 1:
@@ -84,7 +90,14 @@ public class Menu
                            fs = true;
                            int c2;
                            do {
-                               System.out.println("1.Search Books\n2.borrow a book\n3.Return Book\n4.List Of Books Not Returned\n5.Show Borrowing History\n6.Show Student Info\n7.Overdue Fine\n0.back\n");
+                               System.out.println("1.Search Books\n" +
+                                       "2.borrow a book\n" +
+                                       "3.Return Book\n" +
+                                       "4.List Of Books Not Returned\n" +
+                                       "5.Show Borrowing History\n" +
+                                       "6.Show Student Info\n" +
+                                       "7.Overdue Fine\n" +
+                                       "0.back\n");
                                c2 = s.getIntOption();
                                switch (c2) {
                                    case 1:
@@ -157,7 +170,13 @@ public class Menu
                 int c1 = 0;
                 do {
                     try {
-                        System.out.println("1.Add librarian\n2.Overdue Book List\n3.10 top Books\n4.Librarian History\n5.Filter History\n6.Show all History\n0.Back");
+                        System.out.println("1.Add librarian\n" +
+                                "2.Overdue Book List\n" +
+                                "3.10 top Books\n" +
+                                "4.Librarian History\n" +
+                                "5.Filter History\n" +
+                                "6.Show all History\n" +
+                                "0.Back");
                         c1 = s.getIntOption();
                         switch (c1) {
                             case 1:
@@ -235,7 +254,8 @@ public class Menu
     {
         int c1,c2,c3;
         do {
-            System.out.println("1.Login\n0.Back");
+            System.out.println("1.Login\n" +
+                    "0.Back");
             c1=s.getIntOption();
             switch(c1)
             {
@@ -249,7 +269,14 @@ public class Menu
                     {
                         isfound=true;
                         do {
-                            System.out.println("1.Edit info\n2.Add Book\n3.Show info\n4.Accept Borrowing Book\n5.Accept Returning Book\n6.History Of Librarian\n7.History Of Borrowed Books\n0.Back");
+                            System.out.println("1.Edit info\n" +
+                                    "2.Add Book\n" +
+                                    "3.Show info\n" +
+                                    "4.Accept Borrowing Book\n" +
+                                    "5.Accept Returning Book\n" +
+                                    "6.History Of Librarian\n" +
+                                    "7.History Of Borrowed Books\n" +
+                                    "0.Back");
                             c2=s.getIntOption();
                             try
                             {
