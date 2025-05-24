@@ -34,34 +34,38 @@ public class FileHandling<E extends HashId>
     public Map<Long,E> readFromFile(String filePath)
     {
         Map<Long,E> l=new TreeMap<>();
-        try
+        File f=new File(filePath);
+        if(f.length()!=0)
         {
-            FileInputStream out=new FileInputStream(filePath);
-            ObjectInputStream oi=new ObjectInputStream(out);
             try
             {
-                while(true)
+                FileInputStream out=new FileInputStream(filePath);
+                ObjectInputStream oi=new ObjectInputStream(out);
+                try
                 {
-                    E obj= (E) oi.readObject();
-                    l.put(obj.getId(),obj);
+                    while(true)
+                    {
+                        E obj= (E) oi.readObject();
+                        l.put(obj.getId(),obj);
 
+                    }
                 }
+                catch(ClassNotFoundException er)
+                {
+                    System.out.println(er.getMessage());
+                }
+                catch(EOFException e)
+                {
+                    System.out.println(" ");
+                }
+                oi.close();
             }
-            catch(ClassNotFoundException er)
+            catch(IOException err)
             {
-                System.out.println(er.getMessage());
+                System.out.println(err.getMessage());
             }
-            catch(EOFException e)
-            {
-                System.out.println(" ");
-            }
-            oi.close();
-        }
-        catch(IOException err)
-        {
-            System.out.println(err.getMessage());
-        }
-        return l;
+            return l;
+        } return null;
     }
 
     public void clearFile(String filePath)
