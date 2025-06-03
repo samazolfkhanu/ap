@@ -10,7 +10,7 @@ public class HtmlFetcher {
 
     public static List<String> fetchHtml(String urlAddress) throws IOException {
         System.out.println("Going to fetch "+urlAddress+" ...");
-        URL pageLocation = new URL("https://www.znu.ac.ir/");
+        URL pageLocation = new URL(urlAddress);
         Scanner in = new Scanner(pageLocation.openStream());
 
         List<String> htmlLines=new ArrayList<>();
@@ -23,3 +23,4 @@ public class HtmlFetcher {
     }
 
 }
+
