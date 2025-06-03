@@ -32,6 +32,6 @@ public class HtmlFileManager {
 
     public String getSaveHtmlFileAddress(){
         saveCounter++;
-        return saveFileBasePath +"/"+ saveCounter;
+        return saveFileBasePath +"/"+ saveCounter+".html";
     }
 }
