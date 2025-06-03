@@ -1,6 +1,8 @@
 package ap.exercises.ex5;
 
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -44,12 +46,43 @@ public class HtmlAnalyzer {
         }
     }
 
+    public static List<String> getAllImageUrls()
+    {
+        return fileList.stream()
+                .map(FileTools::getTextFileLines)
+                .flatMap(x->HtmlParser.getAllImageUrls(x).stream())
+                .collect(Collectors.toList());
+    }
+
+    public static void saveAllImageUrlsInFile()
+    {
+        try
+        {
+            PrintWriter p=new PrintWriter("F:/JavaProject/ap/exercises/ImageLink.txt");
+            for(String s:getAllImageUrls())
+            {
+                p.println(s);
+            }
+            p.close();
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
 
         HtmlAnalyzer.printTopCountUrls(10);
 
         System.out.println("____________________");
         HtmlAnalyzer.getTopUrls(10).forEach(s -> System.out.println(s));
+        System.out.println("________________________image URLS____________________________");
+        saveAllImageUrlsInFile();
+        for(String s:getAllImageUrls())
+        {
+            System.out.println(s);
+        }
 
     }
 }

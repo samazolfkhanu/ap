@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,5 +40,31 @@ public class HtmlParser {
 
     public static List<String> getAllUrlsFromList(List<String> htmlLines) throws IOException {
         return getAllUrlsFromHtmlLinesStream(htmlLines.stream());
+    }
+
+    public static Set<String> getAllImageUrls(List<String> htmlline)
+    {
+        Set<String> imagelinks=htmlline.stream()
+                .map(z->
+                {
+                    if(z.contains("src="))
+                    {
+                        int start=z.indexOf("src=");
+                        int beginLink=start+5;
+                        char c=z.charAt(4);
+                        int end=z.indexOf(c,beginLink);
+                        if(end!=-1)
+                        {
+                           String line=z.substring(beginLink,end);
+                           if(line.contains(".jpg") || line.contains(".png") || line.contains("gif") || line.contains(".jpeg"))
+                           {
+                               return line;
+                           }
+                        }
+                    }
+                    return null;
+                })
+                .collect(Collectors.toSet());
+        return imagelinks;
     }
 }
