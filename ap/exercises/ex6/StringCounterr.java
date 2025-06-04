@@ -3,11 +3,11 @@ package ap.exercises.ex5;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StringCounter
+public class StringCounterr
 {
     private ArrayList<Str> counter;
 
-    public StringCounter()
+    public StringCounterr()
     {
         counter=new ArrayList<>();
     }

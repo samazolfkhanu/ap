@@ -1,11 +1,11 @@
-package ap.exercises.ex5;
+package ap.exercises.ex6;
 
-public class Str
+public class Strr
 {
     private String s;
     private int count;
 
-    public Str(String s)
+    public Strr(String s)
     {
         this.s=s;
         this.count=1;

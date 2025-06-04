@@ -1,4 +1,4 @@
-package ap.exercises.ex5;
+package ap.exercises.ex6;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileTools {
+public class FileTool {
 
     public static List<String> getTextFileLines(String filePath){
         try {

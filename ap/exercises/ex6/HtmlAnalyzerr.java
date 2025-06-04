@@ -1,19 +1,24 @@
-package ap.exercises.ex5;
+package ap.exercises.ex6;
 
+
+import ap.exercises.ex5.Conf;
+import ap.exercises.ex5.DirectoryTools;
+import ap.exercises.ex5.StringCounterr;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class HtmlAnalyzer {
+public class HtmlAnalyzerr {
     private static List<String> fileList = DirectoryTools.getFilesAbsolutePathInDirectory(Conf.SAVE_DIRECTORY);
 
     public static List<String> getAllUrls() {
         List<String> urls = fileList.stream()
-                .map(fileAddress -> FileTools.getTextFileLines(fileAddress))
+                .map(fileAddress -> FileTool.getTextFileLines(fileAddress))
                 .filter(s -> s != null)
                 .flatMap(s -> s.stream())
                 .map(s -> HtmlParser.getFirstUrl(s))
@@ -39,7 +44,7 @@ public class HtmlAnalyzer {
         return topUrls;
     }
     public static void printTopCountUrls(int k){
-        StringCounter urlCounter=new StringCounter();
+        StringCounterr urlCounter=new StringCounterr();
         getAllUrls().forEach(urlCounter::add);
         for (String urlCount : urlCounter.getTop(k)) {
             System.out.println(urlCount);
@@ -49,8 +54,9 @@ public class HtmlAnalyzer {
     public static List<String> getAllImageUrls()
     {
         return fileList.stream()
-                .map(FileTools::getTextFileLines)
-                .flatMap(x->HtmlParser.getAllImageUrls(x).stream())
+                .map(FileTool::getTextFileLines).filter(Objects::nonNull)
+                .flatMap(x->HtmlParser.getAllImageUrls(x,"https://www.znu.ac.ir/").stream())
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -61,7 +67,8 @@ public class HtmlAnalyzer {
             PrintWriter p=new PrintWriter("F:/JavaProject/ap/exercises/ImageLink.txt");
             for(String s:getAllImageUrls())
             {
-                p.println(s);
+                if(s!=null)
+                    p.println(s);
             }
             p.close();
         }
@@ -73,10 +80,10 @@ public class HtmlAnalyzer {
 
     public static void main(String[] args) {
 
-        HtmlAnalyzer.printTopCountUrls(10);
+        HtmlAnalyzerr.printTopCountUrls(10);
 
         System.out.println("____________________");
-        HtmlAnalyzer.getTopUrls(10).forEach(s -> System.out.println(s));
+        HtmlAnalyzerr.getTopUrls(10).forEach(s -> System.out.println(s));
         System.out.println("________________________image URLS____________________________");
         saveAllImageUrlsInFile();
         for(String s:getAllImageUrls())

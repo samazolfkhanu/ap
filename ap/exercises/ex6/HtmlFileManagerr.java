@@ -1,14 +1,16 @@
-package ap.exercises.ex5;
+package ap.exercises.ex6;
+
+import ap.exercises.ex5.DirectoryTools;
 
 import java.io.PrintWriter;
 import java.util.List;
 
-public class HtmlFileManager {
+public class HtmlFileManagerr {
 
     private String saveFileBasePath;
     private static int saveCounter=0;
 
-    public HtmlFileManager(String saveFileBasePath) {
+    public HtmlFileManagerr(String saveFileBasePath) {
 //        this.saveFileBasePath = DirectoryTools.createDirectoryWithTimeStamp(saveFileBasePath);
 
         this.saveFileBasePath = saveFileBasePath;

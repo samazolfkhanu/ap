@@ -1,4 +1,4 @@
-package ap.exercises.ex5;
+package ap.exercises.ex6;
 
 import java.io.IOException;
 
@@ -6,10 +6,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String domainAddress = Conf.DOMAIN_ADDRESS;
-        String savePath = Conf.SAVE_DIRECTORY;
+        String domainAddress = ap.exercises.ex5.Conf.DOMAIN_ADDRESS;
+        String savePath = ap.exercises.ex5.Conf.SAVE_DIRECTORY;
 
-        DomainHtmlScraper domainHtmlScraper = new DomainHtmlScraper(domainAddress,savePath);
+        ap.exercises.ex5.DomainHtmlScraper domainHtmlScraper = new ap.exercises.ex5.DomainHtmlScraper(domainAddress,savePath);
 
         domainHtmlScraper.start();
     }

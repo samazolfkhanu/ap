@@ -1,4 +1,4 @@
-package ap.exercises.ex5;
+package ap.exercises.ex6;
 
 import java.io.IOException;
 import java.net.URL;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class HtmlFetcher {
+public class HtmlFetcherr {
 
     public static List<String> fetchHtml(String urlAddress) throws IOException {
         System.out.println("Going to fetch "+urlAddress+" ...");

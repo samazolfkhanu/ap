@@ -1,8 +1,11 @@
-package ap.exercises.ex5;
+package ap.exercises.ex6;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -42,29 +45,47 @@ public class HtmlParser {
         return getAllUrlsFromHtmlLinesStream(htmlLines.stream());
     }
 
-    public static Set<String> getAllImageUrls(List<String> htmlline)
+    public static Set<String> getAllImageUrls(List<String> htmlline,String base)
     {
-        Set<String> imagelinks=htmlline.stream()
-                .map(z->
-                {
-                    if(z.contains("src="))
+        Set<String> imagelinks=new HashSet<>();
+        try
+        {
+            URL u=new URL(base);
+            imagelinks=htmlline.stream()
+                    .map(z->
                     {
-                        int start=z.indexOf("src=");
-                        int beginLink=start+5;
-                        char c=z.charAt(4);
-                        int end=z.indexOf(c,beginLink);
-                        if(end!=-1)
+                        int count=0;
+                        int index=0;
+                        while((index=z.indexOf("src=",index))!=-1)
                         {
-                           String line=z.substring(beginLink,end);
-                           if(line.contains(".jpg") || line.contains(".png") || line.contains("gif") || line.contains(".jpeg"))
-                           {
-                               return line;
-                           }
+                            if(z.contains("src=")) {
+                                int start = z.indexOf("src=");
+                                int beginLink = start + 5;
+                                char c = z.charAt(4);
+                                int end = z.indexOf(c, beginLink);
+                                if (end != -1) {
+                                    String line = z.substring(beginLink, end);
+                                    if (line.contains(".jpg") || line.contains(".png") || line.contains("gif") || line.contains(".jpeg")) {
+                                        try {
+                                            URL u1 = new URL(u,line);
+                                            return u1.toString();
+                                        } catch (MalformedURLException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }
+                            }
+                            count++;
+                            index+=4;
                         }
-                    }
-                    return null;
-                })
-                .collect(Collectors.toSet());
+                        return null;
+                    })
+                    .collect(Collectors.toSet());
+        }
+        catch(MalformedURLException e)
+        {
+            System.out.println(e.getMessage());
+        }
         return imagelinks;
     }
 }
