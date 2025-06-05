@@ -12,7 +12,7 @@ public class HtmlFileManager {
 //        this.saveFileBasePath = DirectoryTools.createDirectoryWithTimeStamp(saveFileBasePath);
 
         this.saveFileBasePath = saveFileBasePath;
-        DirectoryTools.createDirectory(saveFileBasePath);
+        ap.exercises.ex5.DirectoryTools.createDirectory(saveFileBasePath);
     }
 
     public void save(List<String> lines) {

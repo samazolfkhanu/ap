@@ -3,7 +3,7 @@ package ap.exercises.ex6;
 
 import ap.exercises.ex5.Conf;
 import ap.exercises.ex5.DirectoryTools;
-import ap.exercises.ex5.StringCounterr;
+import ap.exercises.ex5.StringCounter;
 
 import java.io.IOException;
 import java.io.PrintWriter;

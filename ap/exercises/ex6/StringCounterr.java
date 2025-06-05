@@ -1,4 +1,4 @@
-package ap.exercises.ex5;
+package ap.exercises.ex6;
 
 import java.util.*;
 import java.util.stream.Collectors;

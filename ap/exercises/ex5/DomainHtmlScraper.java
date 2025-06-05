@@ -1,7 +1,8 @@
 package ap.exercises.ex5;
 
+import ap.exercises.ex6.HtmlFileManager;
+
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 public class DomainHtmlScraper {
@@ -18,7 +19,7 @@ public class DomainHtmlScraper {
 
     public void start() throws IOException {
         List<String> htmlLines = HtmlFetcher.fetchHtml(domainAddress);
-        this.htmlFileManager.save(htmlLines);
+        this.htmlFileManager.save(htmlLines,"https://znu.ac.ir");
 
         List<String> urls = HtmlParser.getAllUrlsFromList(htmlLines);
         queue.addAll(new HashSet<>(urls));
@@ -29,7 +30,7 @@ public class DomainHtmlScraper {
             counter++;
             try {
                 htmlLines = HtmlFetcher.fetchHtml(domainAddress);
-                this.htmlFileManager.save(htmlLines);
+                this.htmlFileManager.save(htmlLines,"");
 
                 urls = HtmlParser.getAllUrlsFromList(htmlLines);
                 queue.addAll(new HashSet<>(urls));

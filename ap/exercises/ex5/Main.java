@@ -9,7 +9,7 @@ public class Main {
         String domainAddress = Conf.DOMAIN_ADDRESS;
         String savePath = Conf.SAVE_DIRECTORY;
 
-        DomainHtmlScraper domainHtmlScraper = new DomainHtmlScraper(domainAddress,savePath);
+        DomainHtmlScraper domainHtmlScraper = new ap.exercises.ex5.DomainHtmlScraper(domainAddress,savePath);
 
         domainHtmlScraper.start();
     }
