@@ -1,82 +1,138 @@
 package ap.exercises.ex6;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 public class HtmlFileManager {
 
     private String saveFileBasePath;
-    private static int saveCounter = 0;
-    private String domainAddress;
+    private static int saveCounter=0;
 
     public HtmlFileManager(String saveFileBasePath) {
+//        this.saveFileBasePath = DirectoryTools.createDirectoryWithTimeStamp(saveFileBasePath);
+
         this.saveFileBasePath = saveFileBasePath;
         DirectoryTools.createDirectory(saveFileBasePath);
     }
 
-    public void save(List<String> lines, String url) {
+    public void save(List<String> lines) {
         try {
-            String relativePath = getRelativePath(url);
-            String fullPath = saveFileBasePath + "/" + relativePath;
-            DirectoryTools.createDirectory(fullPath);
-
-            String fileName = getFileName(url);
-            String saveHtmlFileAddress = fullPath + "/" + fileName;
-
+            String saveHtmlFileAddress = getSaveHtmlFileAddress();
             PrintWriter out = new PrintWriter(saveHtmlFileAddress);
             for (String line : lines) {
                 out.println(line);
             }
             out.close();
 
-            System.out.println("Saved: " + saveHtmlFileAddress);
-        } catch (Exception e) {
-            System.out.println("Save failed: " + e.getMessage());
+            System.out.println("save counter: " + saveCounter);
+        }catch (Exception e){
+            System.out.println("save failed: " + e.getMessage());
         }
     }
 
-    private String getRelativePath(String url) {
-        // Remove protocol and domain
-        String path = url.replaceFirst("^https?://", "");
-        path = path.replaceFirst(domainAddress.replaceFirst("^https?://", ""), "");
+    public String getSaveHtmlFileAddress(){
+        saveCounter++;
+        return saveFileBasePath +"/"+ saveCounter+".html";
+    }
 
-        // Handle subdomains
-        String subdomain = "";
-        if (url.contains("://") && !url.startsWith(domainAddress)) {
-            String temp = url.replaceFirst("^https?://", "");
-            String mainDomain = domainAddress.replaceFirst("^https?://", "");
-            subdomain = temp.substring(0, temp.indexOf(mainDomain) - 1);
-            subdomain = "" + subdomain.replace(".", "");
-        }
-
-        // Get path parts
-        String[] parts = path.split("/");
-        StringBuilder relativePath = new StringBuilder();
-        if (!subdomain.isEmpty()) {
-            relativePath.append(subdomain);
-        }
-
-        for (int i = 0; i < parts.length - 1; i++) {
-            if (!parts[i].isEmpty()) {
-                if (relativePath.length() > 0) {
-                    relativePath.append("/");
+    public void writeToFile(Map<String,List<String>> l)
+    {
+        int c=1;
+        try
+        {
+            for(Map.Entry<String,List<String>> s:l.entrySet())
+            {
+                try
+                {
+                    Thread.sleep(3000);
+                    File f=new File("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey());
+                    if(!f.exists())
+                    {
+                        Path p= Paths.get("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey());
+                        Files.createDirectories(p);
+                        for(String d:s.getValue())
+                        {
+                            URL u=new URL(d);
+                            String[] pa=u.getPath().split("/");
+                            if(pa.length!=0)
+                            {
+                                Path pat= Paths.get("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"/"+pa[0]);
+                                Files.createDirectories(pat);
+                                PrintWriter pr=new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"/"+pa[0]+"/"+c+".html");
+                                List<String> line=HtmlFetcherr.fetchHtml(d);
+                                if(!line.isEmpty() && line!=null)
+                                {
+                                    for(String h:line)
+                                    {
+                                        pr.println(h);
+                                    }
+                                }
+                                pr.close();
+                                c++;
+                            }
+                            else
+                            {
+                                PrintWriter pr=new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"/"+c+".html");
+                                List<String> line=HtmlFetcherr.fetchHtml(d);
+                                if(!line.isEmpty())
+                                {
+                                    for(String h:line)
+                                    {
+                                        pr.println(h);
+                                    }
+                                }
+                                pr.close();
+                                c++;
+                            }
+                        }
+                    }
+                    else {
+                        for (String d : s.getValue()) {
+                            URL u = new URL(d);
+                            String[] pa = u.getPath().split("/");
+                            if (pa != null && pa.length!=0) {
+                                Path pat = Paths.get("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "/" + pa[0]);
+                                Files.createDirectories(pat);
+                                PrintWriter pr = new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "/" + pa[0] + "/" + c + ".html");
+                                List<String> line = HtmlFetcherr.fetchHtml(d);
+                                if (!line.isEmpty() && line!=null) {
+                                    for (String h : line) {
+                                        pr.println(h);
+                                    }
+                                }
+                                pr.close();
+                                c++;
+                            } else {
+                                PrintWriter pr = new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "/" + c + ".html");
+                                List<String> line = HtmlFetcherr.fetchHtml(d);
+                                if (!line.isEmpty()) {
+                                    for (String h : line) {
+                                        pr.println(h);
+                                    }
+                                }
+                                pr.close();
+                                c++;
+                            }
+                        }
+                    }
+                }catch(InterruptedException e)
+                {
+                    System.out.println(e.getMessage());
                 }
-                relativePath.append(parts[i]);
             }
         }
-
-        return relativePath.toString();
-    }
-
-    private String getFileName(String url) {
-        if (url.endsWith("/")) {
-            return "index.html";
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
         }
-        String[] parts = url.split("/");
-        String lastPart = parts[parts.length - 1];
-        if (lastPart.contains(".")) {
-            return lastPart;
-        }
-        return lastPart + ".html";
+
     }
 }
