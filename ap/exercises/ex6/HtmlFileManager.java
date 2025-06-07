@@ -53,10 +53,10 @@ public class HtmlFileManager {
                 try
                 {
                     Thread.sleep(3000);
-                    File f=new File("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey());
+                    File f=new File("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"_/");
                     if(!f.exists())
                     {
-                        Path p= Paths.get("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey());
+                        Path p= Paths.get("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"_/");
                         Files.createDirectories(p);
                         for(String d:s.getValue())
                         {
@@ -64,9 +64,9 @@ public class HtmlFileManager {
                             String[] pa=u.getPath().split("/");
                             if(pa.length!=0)
                             {
-                                Path pat= Paths.get("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"/"+pa[0]);
+                                Path pat= Paths.get("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"_/"+pa[0]);
                                 Files.createDirectories(pat);
-                                PrintWriter pr=new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"/"+pa[0]+"/"+c+".html");
+                                PrintWriter pr=new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"/"+pa[0]+"_/"+c+".html");
                                 List<String> line=HtmlFetcherr.fetchHtml(d);
                                 if(!line.isEmpty() && line!=null)
                                 {
@@ -80,7 +80,7 @@ public class HtmlFileManager {
                             }
                             else
                             {
-                                PrintWriter pr=new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"/"+c+".html");
+                                PrintWriter pr=new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/"+s.getKey()+"_/"+c+".html");
                                 List<String> line=HtmlFetcherr.fetchHtml(d);
                                 if(!line.isEmpty())
                                 {
@@ -99,9 +99,9 @@ public class HtmlFileManager {
                             URL u = new URL(d);
                             String[] pa = u.getPath().split("/");
                             if (pa != null && pa.length!=0) {
-                                Path pat = Paths.get("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "/" + pa[0]);
+                                Path pat = Paths.get("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "_/" + pa[0]);
                                 Files.createDirectories(pat);
-                                PrintWriter pr = new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "/" + pa[0] + "/" + c + ".html");
+                                PrintWriter pr = new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "_/" + pa[0] + "/" + c + ".html");
                                 List<String> line = HtmlFetcherr.fetchHtml(d);
                                 if (!line.isEmpty() && line!=null) {
                                     for (String h : line) {
@@ -111,7 +111,7 @@ public class HtmlFileManager {
                                 pr.close();
                                 c++;
                             } else {
-                                PrintWriter pr = new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "/" + c + ".html");
+                                PrintWriter pr = new PrintWriter("F:/JavaProject/ap/exercises/fetched_html/" + s.getKey() + "_/" + c + ".html");
                                 List<String> line = HtmlFetcherr.fetchHtml(d);
                                 if (!line.isEmpty()) {
                                     for (String h : line) {
