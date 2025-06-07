@@ -11,7 +11,8 @@ public class Main {
         String savePath = Conf.SAVE_DIRECTORY;
         URL u=new URL(domainAddress);
         DomainHtmlScraper domainHtmlScraper = new DomainHtmlScraper(domainAddress,savePath);
-
+        domainHtmlScraper.audio("www","https://education.znu.ac.ir/");
+        domainHtmlScraper.image("www","https://education.znu.ac.ir/");
         domainHtmlScraper.start(u.getHost().toString());
     }
 }

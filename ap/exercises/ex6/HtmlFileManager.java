@@ -133,6 +133,40 @@ public class HtmlFileManager {
         {
             System.out.println(e.getMessage());
         }
+    }
+    public void saveAudios(List<String> l)
+    {
+        try {
+            int c=1;
+            for(String s:l)
+            {
+                PrintWriter p=new PrintWriter("F:/JavaProject/ap/exercises/Audio"+"/audio"+c+".html");
+                p.println(s);
+                p.close();
+                c++;
+            }
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
 
+    public void saveImages(List<String> l)
+    {
+        try {
+            int c=1;
+            for(String s:l)
+            {
+                PrintWriter p=new PrintWriter("F:/JavaProject/ap/exercises/Image"+"/image"+c+".html");
+                p.println(s);
+                p.close();
+                c++;
+            }
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }
