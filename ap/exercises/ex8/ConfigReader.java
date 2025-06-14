@@ -27,7 +27,7 @@ public class ConfigReader {
         return 0;
     }
     public static void main(String[] args) {
-        String configPath = "path/to/your/config/file.txt";
+        String configPath = "F:/JavaProject/ap/exercises/ex8/download_config.txt";
         int threadCount = getThreadCount(configPath);
         System.out.println("Thread count is: " + threadCount);
     }
