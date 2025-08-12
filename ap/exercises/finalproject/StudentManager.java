@@ -5,7 +5,7 @@ import java.util.List;
 
 public class StudentManager {
     private ArrayList<Student> students;
-    private  FileHandling sF;
+    private  FileHandling<Student> sF;
 
     public StudentManager() {
         this.students = new ArrayList<>();
@@ -13,8 +13,10 @@ public class StudentManager {
     }
 
     public void registerStudent(String name, String studentId, String username, String password) {
+        if(!students.isEmpty())
+            students.clear();
         students=sF.readFromFile(Student.class);
-        if (sF!=null && isUsernameTaken(username)) {
+        if (studentId!=null && isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
         }
@@ -25,6 +27,9 @@ public class StudentManager {
     }
 
     public Student authenticateStudent(String username, String password) {
+        if(!students.isEmpty())
+            students.clear();
+        students=sF.readFromFile(Student.class);
         return students.stream()
                 .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
                 .findFirst()
