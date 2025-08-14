@@ -17,10 +17,15 @@ public class RequestHandler
         returnRequest=new ArrayList<>();
     }
 
-    public void borrowRequest(Book book,Student student) throws InvalidEntrance {
+    public void borrowRequestList()
+    {
         if(!borrowRequest.isEmpty())
             borrowRequest.clear();
         borrowRequest= bF.readFromFile(Loan.class);
+    }
+
+    public void borrowRequest(Book book,Student student) throws InvalidEntrance {
+        borrowRequestList();
         Loan l=new Loan(book,student);
         if(borrowRequest.contains(l))
             System.out.println("Request Already Added!");
