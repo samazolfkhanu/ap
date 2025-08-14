@@ -95,5 +95,29 @@ public class BookHandler
             throw new BookException("No Book In List!");
         }
     }
+
+    public void searchBookByGuest(String name)
+    {
+        getBooks();
+        if(!books.isEmpty())
+        {
+            boolean isFound=false;
+            for(Book book:books)
+            {
+                if(book.getName().equalsIgnoreCase(name))
+                {
+                    isFound=true;
+                    System.out.println(book);
+                    break;
+                }
+            }
+            if(!isFound)
+                System.out.println("Book Not Found!");
+        }
+        else
+        {
+            throw new BookException("No Book In List!");
+        }
+    }
 }
 
