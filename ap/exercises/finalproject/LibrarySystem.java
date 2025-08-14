@@ -61,6 +61,10 @@ public class LibrarySystem {
         return bookHandler;
     }
 
+    public void searchBookByGuest(String name)
+    {
+        bookHandler.searchBookByGuest(name);
+    }
     public void searchBook(String name,String author,int publishedYear)
     {
         bookHandler.searchBook(name,author,publishedYear);
