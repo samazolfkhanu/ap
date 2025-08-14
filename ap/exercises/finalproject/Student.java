@@ -33,7 +33,8 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "Name: " + name +
+        return "Student Info:\n" +
+                "Name: " + name +
                 " | Student ID: " + studentId +
                 " | Username: " + username;
     }
