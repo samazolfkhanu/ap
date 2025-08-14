@@ -16,6 +16,10 @@ public class LibrarySystem {
     public int getStudentCount() {
         return this.studentManager.getStudentCount();
     }
+    public int getBookCount()
+    {
+        return bookHandler.getBookCount();
+    }
 
     public void registerStudent(String name, String studentId, String username, String password) {
         studentManager.registerStudent(name, studentId, username, password);
@@ -47,15 +51,6 @@ public class LibrarySystem {
         bookHandler.displayAvailableBooks();
     }
 
-    public void start() {
-        menuHandler.displayMainMenu();
-    }
-
-    public static void main(String[] args) {
-        LibrarySystem system = new LibrarySystem();
-        system.start();
-    }
-
     public BookHandler getBookHandler()
     {
         return bookHandler;
@@ -69,4 +64,14 @@ public class LibrarySystem {
     {
         bookHandler.searchBook(name,author,publishedYear);
     }
+
+    public void start() {
+        menuHandler.displayMainMenu();
+    }
+
+    public static void main(String[] args) {
+        LibrarySystem system = new LibrarySystem();
+        system.start();
+    }
+
 }
