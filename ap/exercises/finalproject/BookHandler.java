@@ -119,5 +119,11 @@ public class BookHandler
             throw new BookException("No Book In List!");
         }
     }
+
+    public int getBookCount()
+    {
+        getBooks();
+        return books.size();
+    }
 }
 
