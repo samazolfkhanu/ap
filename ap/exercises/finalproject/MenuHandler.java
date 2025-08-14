@@ -1,6 +1,7 @@
 package ap.exercises.finalproject;
 
 // MenuHandler.java
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuHandler {
@@ -89,40 +90,51 @@ public class MenuHandler {
 
     private void displayLoggedInStudentMenu() {
         while (currentUser != null) {
-            System.out.println("\n=== Student Dashboard ===");
-            System.out.println("1. View My Information");
-            System.out.println("2. Edit My Information");
-            System.out.println("3. Borrow a Book");
-            System.out.println("4. Return a Book");
-            System.out.println("5. View Available Books");
-            System.out.println("6. Logout");
-            System.out.print("Please enter your choice: ");
+            try
+            {
+                System.out.println("\n=== Student Dashboard ===");
+                System.out.println("1. View My Information");
+                System.out.println("2. Edit My Information");
+                System.out.println("3. Borrow a Book");
+                System.out.println("4. Return a Book");
+                System.out.println("5. View Available Books");
+                System.out.println("6. Logout");
+                System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 6);
+                int choice = getIntInput(1, 6);
 
-            switch (choice) {
-                case 1:
-                    System.out.println("\n--- My Information ---");
-                    System.out.println(currentUser);
-                    break;
-                case 2:
-                    librarySystem.editStudentInformation(currentUser);
-                    break;
-                case 3:
-                    librarySystem.borrowBook(currentUser);
-                    break;
-                case 4:
-                    librarySystem.returnBook(currentUser);
-                    break;
-                case 5:
-                    librarySystem.displayAvailableBooks();
-                    break;
-                case 6:
-                    currentUser = null;
-                    System.out.println("Logged out successfully.");
-                    return;
-                default:
-                    System.out.println("Invalid option! Please try again.");
+                switch (choice) {
+                    case 1:
+                        System.out.println("\n--- My Information ---");
+                        System.out.println(currentUser);
+                        break;
+                    case 2:
+                        librarySystem.editStudentInformation(currentUser);
+                        break;
+                    case 3:
+                        System.out.println("Enter Book Name , Author and Published Year: ");
+                        String name=scanner.nextLine();
+                        String author=scanner.nextLine();
+                        int publishedYear=scanner.nextInt();
+                        scanner.nextLine();
+                        librarySystem.borrowBook(currentUser,name,author,publishedYear);
+                        break;
+                    case 4:
+                        librarySystem.returnBook(currentUser);
+                        break;
+                    case 5:
+                        librarySystem.displayAvailableBooks();
+                        break;
+                    case 6:
+                        currentUser = null;
+                        System.out.println("Logged out successfully.");
+                        return;
+                    default:
+                        System.out.println("Invalid option! Please try again.");
+                }
+            }catch(Exception e)
+            {
+                System.out.println(e.getMessage());
             }
         }
     }
