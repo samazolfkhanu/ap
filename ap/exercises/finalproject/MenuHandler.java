@@ -42,6 +42,9 @@ public class MenuHandler {
                     System.out.println("Enter Book Name: ");
                     String n=scanner.nextLine();
                     librarySystem.searchBookByGuest(n);
+                case 5:
+                    displayStudentCount();
+                    displayBookCount();
                 case 0:
                     System.out.println("Exiting system. Goodbye!");
                     return;
@@ -55,6 +58,11 @@ public class MenuHandler {
     private void displayStudentCount() {
         int studentCount = librarySystem.getStudentCount();
         System.out.println("\nTotal registered students: " + studentCount);
+    }
+    private void displayBookCount()
+    {
+        int bookCount= librarySystem.getBookCount();
+        System.out.println("Total Books: "+bookCount);
     }
 
     private void handleStudentRegistration() {
