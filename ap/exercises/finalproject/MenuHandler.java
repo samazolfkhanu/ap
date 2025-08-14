@@ -39,12 +39,9 @@ public class MenuHandler {
                     displayStudentCount();
                     break;
                 case 4:
-                    System.out.println("Enter Book Name , Author and Published Year: ");
+                    System.out.println("Enter Book Name: ");
                     String n=scanner.nextLine();
-                    String a=scanner.nextLine();
-                    int p=scanner.nextInt();
-                    scanner.nextLine();
-                    librarySystem.searchBook(n,a,p);
+                    librarySystem.searchBookByGuest(n);
                 case 0:
                     System.out.println("Exiting system. Goodbye!");
                     return;
