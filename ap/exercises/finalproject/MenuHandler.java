@@ -21,7 +21,9 @@ public class MenuHandler {
             System.out.println("1. Student Registration");
             System.out.println("2. Student Login");
             System.out.println("3. View Registered Student Count");
-            System.out.println("4. Exit");
+            System.out.println("4.Search Book");
+            System.out.println("5.Statistical Figures");
+            System.out.println("0. Exit");
             System.out.print("Please enter your choice: ");
 
             int choice = getIntInput(1, 5);
@@ -37,6 +39,13 @@ public class MenuHandler {
                     displayStudentCount();
                     break;
                 case 4:
+                    System.out.println("Enter Book Name , Author and Published Year: ");
+                    String n=scanner.nextLine();
+                    String a=scanner.nextLine();
+                    int p=scanner.nextInt();
+                    scanner.nextLine();
+                    librarySystem.searchBook(n,a,p);
+                case 0:
                     System.out.println("Exiting system. Goodbye!");
                     return;
                 default:
