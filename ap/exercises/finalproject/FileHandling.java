@@ -39,7 +39,7 @@ public class FileHandling<T>
         }
         catch(IOException e)
         {
-            System.out.println("Error Occured:\n"+e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -61,11 +61,11 @@ public class FileHandling<T>
                     }
                 }
                 catch(ClassNotFoundException cE) {
-                    System.out.println("Error Occured:\n" + cE.getMessage());
+                    System.out.println(cE.getMessage());
                 }
             }catch(IOException iE)
             {
-                System.out.println("Error Ocured: "+iE.getMessage());
+                System.out.println(iE.getMessage());
             }
             return objectList;
         }
@@ -80,7 +80,7 @@ public class FileHandling<T>
             p.close();
         }catch(IOException e)
         {
-            System.out.println("Error Occured: "+e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }
