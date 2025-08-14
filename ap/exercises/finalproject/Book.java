@@ -20,6 +20,8 @@ public class Book
             throw new InvalidEntrance("Invalid Inputs! <100>");
         }
     }
+    public Book()
+    {}
     public String getName()
     {
         return this.name;
@@ -35,6 +37,11 @@ public class Book
     public String getState()
     {
         return this.state.name();
+    }
+
+    public void setState1()
+    {
+        this.state=BookState.search("reserved");
     }
 
     @Override
