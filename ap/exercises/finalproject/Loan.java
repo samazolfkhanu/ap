@@ -8,6 +8,8 @@ public class Loan
     private Book book;
     private Student student;
     private int id;
+    private LocalDate borrowRequest;
+    private LocalDate returnRequest;
     private LocalDate issueDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
@@ -20,8 +22,10 @@ public class Loan
             this.student=student;
             this.id=idCount;
             this.dueDate=null;
-            this.issueDate=LocalDate.now();
-            this.returnDate=issueDate.plusDays(30);
+            this.borrowRequest=LocalDate.now();
+            this.returnRequest=null;
+            this.issueDate=null;
+            this.returnDate=null;
             idCount++;
         }
         else
