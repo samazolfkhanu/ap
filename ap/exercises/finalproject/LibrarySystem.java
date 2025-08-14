@@ -60,4 +60,9 @@ public class LibrarySystem {
     {
         return bookHandler;
     }
+
+    public void searchBook(String name,String author,int publishedYear)
+    {
+        bookHandler.searchBook(name,author,publishedYear);
+    }
 }
