@@ -14,11 +14,11 @@ public class BookHandler
         f=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Books.txt");
     }
 
-    public List<Book> getBooks()
+    public void getBooks()
     {
         if(!books.isEmpty())
             books.clear();
-        return books=f.readFromFile(Book.class);
+        books=f.readFromFile(Book.class);
     }
     public void updateFile(List<Book> book)
     {
@@ -27,7 +27,7 @@ public class BookHandler
             f.writeInFile(b);
         }
     }
-    
+
     public void displayAvailableBooks()
     {
         getBooks();
