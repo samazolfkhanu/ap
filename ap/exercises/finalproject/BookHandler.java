@@ -30,9 +30,15 @@ public class BookHandler
         }
     }
 
-    public List<Book> getBooks()
+    public Book isBookAvailable(String name,String author,int publishedYear)
     {
-        return books;
+        for(Book book:books)
+        {
+            if(book.getName().equalsIgnoreCase(name) && book.getAuthor().equalsIgnoreCase(author) && book.getPublishedYear()==publishedYear)
+                if(book.getState().equalsIgnoreCase("AVAILABLE"))
+                    return book;
+        }
+        return null;
     }
 }
 
