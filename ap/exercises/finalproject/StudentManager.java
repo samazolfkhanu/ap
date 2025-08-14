@@ -49,6 +49,14 @@ public class StudentManager {
         }
     }
 
+    public void editStudentInformation(Student student)
+    {
+        System.out.println("1.Change Name\n" +
+                "2.Change ID\n" +
+                "3.Change Username\n" +
+                "4.Change Password");
+
+    }
 
     private boolean isUsernameTaken(String username) {
         if(students!=null)
