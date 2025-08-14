@@ -13,9 +13,7 @@ public class StudentManager {
     }
 
     public void registerStudent(String name, String studentId, String username, String password) {
-        if(!students.isEmpty())
-            students.clear();
-        students=sF.readFromFile(Student.class);
+        getStudents();
         if (studentId!=null && isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
@@ -27,13 +25,18 @@ public class StudentManager {
     }
 
     public Student authenticateStudent(String username, String password) {
-        if(!students.isEmpty())
-            students.clear();
-        students=sF.readFromFile(Student.class);
+        getStudents();
         return students.stream()
                 .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void getStudents()
+    {
+        if(!students.isEmpty())
+            students.clear();
+        students=sF.readFromFile(Student.class);
     }
 
     public void displayStudents() {
@@ -49,22 +52,15 @@ public class StudentManager {
         }
     }
 
-    public void editStudentInformation(Student student)
-    {
-        System.out.println("1.Change Name\n" +
-                "2.Change ID\n" +
-                "3.Change Username\n" +
-                "4.Change Password");
-
-    }
-
     private boolean isUsernameTaken(String username) {
+        getStudents();
         if(students!=null)
             return students.stream().anyMatch(s -> s.getUsername().equals(username));
         return false;
     }
 
     public int getStudentCount() {
+        getStudents();
         return students.size();
     }
 }
