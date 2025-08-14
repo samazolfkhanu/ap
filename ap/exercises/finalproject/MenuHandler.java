@@ -98,7 +98,8 @@ public class MenuHandler {
                 System.out.println("3. Borrow a Book");
                 System.out.println("4. Return a Book");
                 System.out.println("5. View Available Books");
-                System.out.println("6. Logout");
+                System.out.println("6.Search Book");
+                System.out.println("0. Logout");
                 System.out.print("Please enter your choice: ");
 
                 int choice = getIntInput(1, 6);
@@ -126,6 +127,13 @@ public class MenuHandler {
                         librarySystem.displayAvailableBooks();
                         break;
                     case 6:
+                        System.out.println("Enter Book Name , Author and Published Year: ");
+                        String n=scanner.nextLine();
+                        String a=scanner.nextLine();
+                        int p=scanner.nextInt();
+                        scanner.nextLine();
+                        librarySystem.searchBook(n,a,p);
+                    case 0:
                         currentUser = null;
                         System.out.println("Logged out successfully.");
                         return;
