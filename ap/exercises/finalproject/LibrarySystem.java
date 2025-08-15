@@ -6,11 +6,13 @@ public class LibrarySystem {
     private MenuHandler menuHandler;
     private BookHandler bookHandler;
     private RequestHandler requestHandler;
+    private LibrarianManager librarianManager;
 
     public LibrarySystem() {
         this.studentManager = new StudentManager();
         this.bookHandler=new BookHandler();
         this.menuHandler = new MenuHandler(this);
+        this.librarianManager=new LibrarianManager();
     }
 
     public int getStudentCount() {
@@ -29,8 +31,18 @@ public class LibrarySystem {
         return studentManager.authenticateStudent(username, password);
     }
 
+    public Librarian authenticateLibrarian(String username,String password)
+    {
+        return librarianManager.authenticateLibrarian(username,password);
+    }
+
     public void editStudentInformation(Student student) {
         System.out.println("Not implemented.");
+    }
+
+    public void editLibrarianInformation(Librarian librarian,String password)
+    {
+
     }
 
     public void borrowBook(Student student,String name,String author,int publishedYear) throws InvalidEntrance {
