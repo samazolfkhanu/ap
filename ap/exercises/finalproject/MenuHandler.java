@@ -2,12 +2,13 @@ package ap.exercises.finalproject;
 
 // MenuHandler.java
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class MenuHandler {
     private Scanner scanner;
     private LibrarySystem librarySystem;
-    private Student currentUser;
+    private User currentUser;
 
     public MenuHandler(LibrarySystem librarySystem) {
         this.scanner = new Scanner(System.in);
@@ -20,9 +21,10 @@ public class MenuHandler {
             System.out.println("\n=== University Library Management System ===");
             System.out.println("1. Student Registration");
             System.out.println("2. Student Login");
-            System.out.println("3. View Registered Student Count");
-            System.out.println("4.Search Book");
-            System.out.println("5.Statistical Figures");
+            System.out.println("3.Librarian Login");
+            System.out.println("4. View Registered Student Count");
+            System.out.println("5.Search Book");
+            System.out.println("6.Statistical Figures");
             System.out.println("0. Exit");
             System.out.print("Please enter your choice: ");
 
@@ -35,14 +37,14 @@ public class MenuHandler {
                 case 2:
                     handleStudentLogin();
                     break;
-                case 3:
+                case 4:
                     displayStudentCount();
                     break;
-                case 4:
+                case 5:
                     System.out.println("Enter Book Name: ");
                     String n=scanner.nextLine();
                     librarySystem.searchBookByGuest(n);
-                case 5:
+                case 6:
                     displayStudentCount();
                     displayBookCount();
                 case 0:
@@ -92,10 +94,30 @@ public class MenuHandler {
         System.out.print("Password: ");
         String password = scanner.nextLine();
 
-        currentUser = librarySystem.authenticateStudent(username, password);
+        Student currentUser =librarySystem.authenticateStudent(username, password);
 
         if (currentUser != null) {
             System.out.println("Login successful! Welcome, " + currentUser.getName());
+            displayLoggedInStudentMenu();
+        } else {
+            System.out.println("Invalid username or password. Please try again.");
+        }
+    }
+
+    public void handleLibrarianLogin()
+    {
+        System.out.println("\n--- Student Login ---");
+
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        Librarian currentUser=librarySystem.authenticateLibrarian(username,password);
+
+        if (currentUser != null) {
+            System.out.println("Login successful! Welcome, " + currentUser.getUsername());
             displayLoggedInStudentMenu();
         } else {
             System.out.println("Invalid username or password. Please try again.");
@@ -124,7 +146,7 @@ public class MenuHandler {
                         System.out.println(currentUser);
                         break;
                     case 2:
-                        librarySystem.editStudentInformation(currentUser);
+                        librarySystem.editStudentInformation((Student) currentUser);
                         break;
                     case 3:
                         System.out.println("Enter Book Name , Author and Published Year: ");
@@ -132,10 +154,10 @@ public class MenuHandler {
                         String author=scanner.nextLine();
                         int publishedYear=scanner.nextInt();
                         scanner.nextLine();
-                        librarySystem.borrowBook(currentUser,name,author,publishedYear);
+                        librarySystem.borrowBook((Student) currentUser,name,author,publishedYear);
                         break;
                     case 4:
-                        librarySystem.returnBook(currentUser);
+                        librarySystem.returnBook((Student) currentUser);
                         break;
                     case 5:
                         librarySystem.displayAvailableBooks();
@@ -158,6 +180,28 @@ public class MenuHandler {
             {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    private void displayLoggedInLibrarianMenu()
+    {
+        System.out.println("\n==Librarian DashBoard==");
+        System.out.println("1.View My Information");
+        System.out.println("2.Edit My Information");
+        System.out.println("3.Add Book");
+        System.out.println("0.Logout");
+        System.out.println("Please Enter Your Choice:");
+
+        int choice = getIntInput(1, 6);
+
+        switch(choice)
+        {
+            case 1:
+                System.out.println("\n--- My Information ---");
+                System.out.println(currentUser);
+                break;
+            case 2:
+
         }
     }
 
