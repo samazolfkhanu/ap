@@ -22,6 +22,7 @@ public class BookHandler
     }
     public void updateFile(List<Book> book)
     {
+        f.clearFile();
         for(Book b:book)
         {
             f.writeInFile(b);
