@@ -1,7 +1,6 @@
 package ap.exercises.finalproject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class StudentManager {
     private ArrayList<Student> students;
@@ -9,7 +8,7 @@ public class StudentManager {
 
     public StudentManager() {
         this.students = new ArrayList<>();
-        this.sF=new FileHandling("F:/JavaProject/ap/exercises/finalproject/Students.txt");
+        this.sF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Students.txt");
     }
 
     public void registerStudent(String name, String studentId, String username, String password) {
