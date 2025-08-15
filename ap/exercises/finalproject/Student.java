@@ -2,7 +2,7 @@ package ap.exercises.finalproject;
 
 import java.io.Serializable;
 
-public class Student implements Serializable {
+public class Student implements Serializable,User {
     private String name;
     private String studentId;
     private String username;
