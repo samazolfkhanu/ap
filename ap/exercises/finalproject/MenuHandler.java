@@ -196,6 +196,7 @@ public class MenuHandler {
                 System.out.println("3.Add Book");
                 System.out.println("4.Edit Book Information");
                 System.out.println("5.Confirm Borrow Requests");
+                System.out.println("6.Student History");
                 System.out.println("0.Logout");
                 System.out.println("Please Enter Your Choice:");
 
@@ -237,6 +238,12 @@ public class MenuHandler {
                         scanner.nextLine();
                         librarySystem.addToLoans(id);
                         break;
+                    case 6:
+                        System.out.println("Enter Student Username:");
+                        String username=scanner.nextLine();
+                        System.out.println("Enter Student Id:");
+                        String Id=scanner.nextLine();
+                        librarySystem.studentHistory(username,Id);
                     case 0:
                         currentStudent = null;
                         System.out.println("Logged out successfully.");
