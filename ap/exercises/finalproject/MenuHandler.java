@@ -1,6 +1,8 @@
 package ap.exercises.finalproject;
 
 // MenuHandler.java
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuHandler {
@@ -193,6 +195,7 @@ public class MenuHandler {
                 System.out.println("2.Edit My Information");
                 System.out.println("3.Add Book");
                 System.out.println("4.Edit Book Information");
+                System.out.println("5.Confirm Borrow Requests");
                 System.out.println("0.Logout");
                 System.out.println("Please Enter Your Choice:");
 
@@ -227,6 +230,13 @@ public class MenuHandler {
                         scanner.nextLine();
                         Book book=librarySystem.searchBook(n,a,p);
                         editBookInfo(book);
+                    case 5:
+                        librarySystem.getBorrowRequestList();
+                        System.out.println("Enter Request Id: ");
+                        int id=scanner.nextInt();
+                        scanner.nextLine();
+                        librarySystem.addToLoans(id);
+                        break;
                     case 0:
                         currentStudent = null;
                         System.out.println("Logged out successfully.");
