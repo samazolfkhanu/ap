@@ -41,9 +41,9 @@ public class Book implements Serializable
         return this.state.name();
     }
 
-    public void setState1()
+    public void setState(String n)
     {
-        this.state=BookState.search("reserved");
+        this.state=BookState.search(n);
     }
     public void setName(String name) throws InvalidEntrance {
         if(!name.isEmpty())
