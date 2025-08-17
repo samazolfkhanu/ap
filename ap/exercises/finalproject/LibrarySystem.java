@@ -43,9 +43,23 @@ public class LibrarySystem {
     public void editLibrarianInformation(Librarian librarian,String password) throws InvalidEntrance {
         librarianManager.editLibrarianInformation(librarian,password);
     }
+    public void editBookInfo(Book book,String input,String part) throws InvalidEntrance {
+        switch(part)
+        {
+            case "name":
+                bookHandler.editBookName(book,input);
+                break;
+            case "author":
+                bookHandler.editBookAuthor(book,input);
+                break;
+            case "publishedYear":
+                bookHandler.editBookYear(book,Integer.parseInt(input));
+                break;
+        }
+    }
 
     public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
-        librarianManager.addBook(name,author,publishedYear);
+        bookHandler.addBook(name,author,publishedYear);
     }
 
     public void borrowBook(Student student,String name,String author,int publishedYear) throws InvalidEntrance {
@@ -75,9 +89,9 @@ public class LibrarySystem {
     {
         bookHandler.searchBookByGuest(name);
     }
-    public void searchBook(String name,String author,int publishedYear)
+    public Book searchBook(String name,String author,int publishedYear)
     {
-        bookHandler.searchBook(name,author,publishedYear);
+        return bookHandler.searchBook(name,author,publishedYear);
     }
 
     public void start() {
