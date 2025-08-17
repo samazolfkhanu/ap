@@ -1,11 +1,14 @@
 package ap.exercises.finalproject;
 
+import java.time.LocalDate;
+import java.util.List;
+
 // LibrarySystem.java
 public class LibrarySystem {
     private StudentManager studentManager;
     private MenuHandler menuHandler;
     private BookHandler bookHandler;
-    private RequestHandler requestHandler;
+    private LoanManager loanManager;
     private LibrarianManager librarianManager;
 
     public LibrarySystem() {
@@ -65,11 +68,30 @@ public class LibrarySystem {
     public void borrowBook(Student student,String name,String author,int publishedYear) throws InvalidEntrance {
         Book b=bookHandler.isBookAvailable(name,author,publishedYear);
         if (b!=null)
-            requestHandler.borrowRequest(b,student);
+            loanManager.borrowRequest(b,student);
         else
         {
             System.out.println("Book Is Not Available!");
         }
+    }
+
+    public void getBorrowRequestList()
+    {
+        LocalDate now=LocalDate.now();
+        List<Loan> loans=loanManager.getBorrowRequest();
+        for(Loan l:loans)
+        {
+            if(l.getIssueDate().getMonthValue()==now.getMonthValue() && l.getIssueDate().getYear()==now.getYear())
+            {
+                if(l.getIssueDate().getDayOfMonth()==now.getDayOfMonth())
+                    System.out.println(l);
+            }
+        }
+    }
+
+    public void addToLoans(int id)
+    {
+        loanManager.addToLoanList(id);
     }
 
     public void returnBook(Student student) {
