@@ -14,6 +14,14 @@ public class BookHandler
         f=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Books.txt");
     }
 
+    public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
+        getBooks();
+        Book b=new Book(name,author,publishedYear);
+        if(books.contains(b))
+            throw new InvalidEntrance("Book Has Already Added!<500>");
+        f.writeInFile(b);
+        System.out.println("Book Added Successfully!");
+    }
     public void getBooks()
     {
         if(!books.isEmpty())
