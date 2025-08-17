@@ -7,11 +7,13 @@ public class LibrarianManager
 {
     private List<Librarian> librarians;
     private FileHandling<Librarian> lF;
+    BookHandler bookHandler;
 
     public LibrarianManager()
     {
         librarians=new ArrayList<>();
         lF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Librarian.txt");
+        bookHandler=new BookHandler();
     }
 
     public Librarian authenticateLibrarian(String username,String password)
@@ -30,16 +32,20 @@ public class LibrarianManager
         librarians=lF.readFromFile(Librarian.class);
     }
 
-    public void editLibrarianInformation(Librarian librarian,String password)
-    {
-        //getLibrarians();
-        //for(Librarian l:librarians)
+    public void editLibrarianInformation(Librarian librarian,String password) throws InvalidEntrance {
+        getLibrarians();
+        for(Librarian l:librarians)
         {
-            //if(librarian.getUsername().equals(l.getUsername()) && librarian.getPassword().equals(l.getPassword()))
+            if(librarian.getUsername().equals(l.getUsername()) && librarian.getPassword().equals(l.getPassword()))
             {
-                //l.getPassword()
+                l.setPassword(password);
             }
         }
+        updateLibrarian(librarians);
+    }
+
+    public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
+        bookHandler.addBook(name,author,publishedYear);
     }
 
     public void updateLibrarian(List<Librarian> l)
