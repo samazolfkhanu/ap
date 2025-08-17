@@ -168,7 +168,7 @@ public class MenuHandler {
                         String a=scanner.nextLine();
                         int p=scanner.nextInt();
                         scanner.nextLine();
-                        librarySystem.searchBook(n,a,p);
+                        System.out.println(librarySystem.searchBook(n,a,p));
                     case 0:
                         currentStudent = null;
                         System.out.println("Logged out successfully.");
@@ -192,6 +192,7 @@ public class MenuHandler {
                 System.out.println("1.View My Information");
                 System.out.println("2.Edit My Information");
                 System.out.println("3.Add Book");
+                System.out.println("4.Edit Book Information");
                 System.out.println("0.Logout");
                 System.out.println("Please Enter Your Choice:");
 
@@ -218,6 +219,14 @@ public class MenuHandler {
                         scanner.nextLine();
                         librarySystem.addBook(name,author,published_year);
                         break;
+                    case 4:
+                        System.out.println("Enter Book Name , Author and Published Year: ");
+                        String n=scanner.nextLine();
+                        String a=scanner.nextLine();
+                        int p=scanner.nextInt();
+                        scanner.nextLine();
+                        Book book=librarySystem.searchBook(n,a,p);
+                        editBookInfo(book);
                     case 0:
                         currentStudent = null;
                         System.out.println("Logged out successfully.");
@@ -229,6 +238,41 @@ public class MenuHandler {
             }
         }
     }
+    private void editBookInfo(Book book)
+    {
+        try
+        {
+            System.out.println("Enter Your Choice: ");
+            System.out.println("1.Edit Name");
+            System.out.println("2.Edit Author");
+            System.out.println("3.Edit Published_Year");
+            System.out.println("0.Back");
+            int c=scanner.nextInt();
+            switch(c)
+            {
+                case 1:
+                    System.out.println("Enter New Book Name:");
+                    String nName=scanner.nextLine();
+                    librarySystem.editBookInfo(book,nName,"name");
+                    break;
+                case 2:
+                    System.out.println("Enter New Author Name: ");
+                    String nAuthor=scanner.nextLine();
+                    librarySystem.editBookInfo(book,nAuthor,"author");
+                    break;
+                case 3:
+                    System.out.println("Enter New Published Year: ");
+                    String nPublishedYear=scanner.nextLine();
+                    librarySystem.editBookInfo(book,nPublishedYear,"publishedYear");
+                    break;
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     private int getIntInput(int min, int max) {
         while (true) {
