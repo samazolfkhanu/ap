@@ -45,6 +45,24 @@ public class Book implements Serializable
     {
         this.state=BookState.search("reserved");
     }
+    public void setName(String name) throws InvalidEntrance {
+        if(!name.isEmpty())
+            this.name=name;
+        else
+            throw new InvalidEntrance("Invalid Name!<101>");
+    }
+    public void setAuthor(String author) throws InvalidEntrance {
+        if(!author.isEmpty())
+            this.author=author;
+        else
+            throw new InvalidEntrance("Invalid Author Name!<102>");
+    }
+    public void setPublishedYear(int year) throws InvalidEntrance {
+        if(year>0)
+            this.publishedYear=year;
+        else
+            throw new InvalidEntrance("Invalid Input!<103");
+    }
 
     @Override
     public String toString()
