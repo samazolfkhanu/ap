@@ -89,6 +89,17 @@ public class LibrarySystem {
         }
     }
 
+    public void studentHistory(String username,String id)
+    {
+        System.out.println("---Student History---");
+        System.out.println("All Loans Information:\n");
+        loanManager.historyPerStudent(username,id);
+        System.out.println("Number Of Loans:"+loanManager.totalLoanPerStudent(username,id));
+        System.out.println("Number Of Not Returned Books: "+loanManager.allNotReturnedBookPerStudent(username,id));
+        System.out.println("Number Of Overdue Loans: "+loanManager.totalOverdueLoansPerStudent(username,id));
+
+    }
+
     public void addToLoans(int id)
     {
         loanManager.addToLoanList(id);
