@@ -27,6 +27,17 @@ public class Librarian implements Serializable,User
         return this.password;
     }
 
+    public void setPassword(String password)throws InvalidEntrance
+    {
+        if(!password.isEmpty() && !password.contains("!@#$%^&*()_+"))
+        {
+            this.password=password;
+        }
+        else
+            throw new InvalidEntrance("Invalid Password! <401>");
+    }
+
+
     public String toString()
     {
         return "Librarian Info:\n" +
