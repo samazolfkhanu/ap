@@ -8,14 +8,14 @@ public class Book implements Serializable
     private String author;
     private int publishedYear;
     private BookState state;
-    public Book(String name,String author,int publishedYear,String state)throws InvalidEntrance
+    public Book(String name,String author,int publishedYear)throws InvalidEntrance
     {
-        if(!name.isEmpty() && !author.isEmpty() && publishedYear>0 && !state.isEmpty())
+        if(!name.isEmpty() && !author.isEmpty() && publishedYear>0)
         {
             this.name=name;
             this.author=author;
             this.publishedYear=publishedYear;
-            this.state=BookState.search(state);
+            this.state=BookState.AVAILABLE;
         }
         else
         {
