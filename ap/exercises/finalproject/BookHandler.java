@@ -66,7 +66,7 @@ public class BookHandler
                         book.getPublishedYear()==publishedYear)
 
                     if(book.getState().equalsIgnoreCase("AVAILABLE")) {
-                        book.setState1();
+                        book.setState("reserved");
                         updateFile(books);
                         return book;
                     }
