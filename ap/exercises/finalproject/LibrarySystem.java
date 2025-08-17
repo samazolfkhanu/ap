@@ -40,9 +40,12 @@ public class LibrarySystem {
         System.out.println("Not implemented.");
     }
 
-    public void editLibrarianInformation(Librarian librarian,String password)
-    {
+    public void editLibrarianInformation(Librarian librarian,String password) throws InvalidEntrance {
+        librarianManager.editLibrarianInformation(librarian,password);
+    }
 
+    public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
+        librarianManager.addBook(name,author,publishedYear);
     }
 
     public void borrowBook(Student student,String name,String author,int publishedYear) throws InvalidEntrance {
