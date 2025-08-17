@@ -8,8 +8,7 @@ public class Loan
     private Book book;
     private Student student;
     private int id;
-    private LocalDate borrowRequest;
-    private LocalDate returnRequest;
+    private LocalDate borrowRequestDate;
     private LocalDate issueDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
@@ -22,8 +21,7 @@ public class Loan
             this.student=student;
             this.id=idCount;
             this.dueDate=null;
-            this.borrowRequest=LocalDate.now();
-            this.returnRequest=null;
+            this.borrowRequestDate =LocalDate.now();
             this.issueDate=null;
             this.returnDate=null;
             idCount++;
@@ -46,22 +44,27 @@ public class Loan
     {
         return id;
     }
-    public String getIssueDate()
+    public LocalDate getIssueDate()
     {
-        return issueDate.toString();
+        return issueDate;
     }
-    public String getReturnDate()
+    public LocalDate getReturnDate()
     {
-        return returnDate.toString();
+        return returnDate;
     }
 
-    public void setDueDate()
+    public void setIssueDate()
     {
         this.dueDate=LocalDate.now();
+        setDueDate();
     }
-    public String getDueDate()
+    private void setDueDate()
     {
-        return dueDate.toString();
+        this.dueDate=issueDate.plusDays(30);
+    }
+    public LocalDate getDueDate()
+    {
+        return dueDate;
     }
 
     public String toString()
