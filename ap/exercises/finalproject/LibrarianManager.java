@@ -44,10 +44,6 @@ public class LibrarianManager
         updateLibrarian(librarians);
     }
 
-    public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
-        bookHandler.addBook(name,author,publishedYear);
-    }
-
     public void updateLibrarian(List<Librarian> l)
     {
         lF.clearFile();
