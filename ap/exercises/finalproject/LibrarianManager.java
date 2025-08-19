@@ -42,12 +42,35 @@ public class LibrarianManager
         updateLibrarian(librarians);
     }
 
+    public void increaseLibrarianbook(String username)
+    {
+        getLibrarians();
+        for(Librarian l:librarians)
+        {
+            if(l.getUsername().equals(username)) {
+                l.increaseNumberOfBook();
+                break;
+            }
+        }
+        updateLibrarian(librarians);
+    }
+
     public void updateLibrarian(List<Librarian> l)
     {
         lF.clearFile();
         for(Librarian librarian:l)
         {
             lF.writeInFile(librarian);
+        }
+    }
+
+    public void librarianHistory(String username)
+    {
+        getLibrarians();
+        for(Librarian l:librarians)
+        {
+            if(l.getUsername().equals(username))
+                System.out.println("Number of Book Registered: "+l.getNumBook());
         }
     }
 
