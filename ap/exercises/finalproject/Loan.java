@@ -73,6 +73,10 @@ public class Loan
     {
         this.issuer=l;
     }
+    public void setReceiver(Librarian l)
+    {
+        this.receiver=l;
+    }
 
     public String toString()
     {
