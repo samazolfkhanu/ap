@@ -230,7 +230,7 @@ public class MenuHandler {
                         System.out.println("Enter Published Year: ");
                         int published_year=scanner.nextInt();
                         scanner.nextLine();
-                        librarySystem.addBook(name,author,published_year);
+                        librarySystem.addBook(name,author,published_year,currentLibrarian.getUsername());
                         break;
                     case 4:
                         System.out.println("Enter Book Name , Author and Published Year: ");
@@ -338,7 +338,13 @@ public class MenuHandler {
                         String id=scanner.nextLine();
                         librarySystem.addLibrarian(un,id);
                         break;
-
+                    case 2:
+                        System.out.println("Enter Librarian Username:");
+                        String username=scanner.nextLine();
+                        librarySystem.librarianHistory(username);
+                        break;
+                    case 3:
+                        
                 }
             }
             catch(Exception e)
