@@ -7,13 +7,11 @@ public class LibrarianManager
 {
     private List<Librarian> librarians;
     private FileHandling<Librarian> lF;
-    BookHandler bookHandler;
 
     public LibrarianManager()
     {
         librarians=new ArrayList<>();
         lF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Librarian.txt");
-        bookHandler=new BookHandler();
     }
 
     public Librarian authenticateLibrarian(String username,String password)
@@ -50,6 +48,18 @@ public class LibrarianManager
         for(Librarian librarian:l)
         {
             lF.writeInFile(librarian);
+        }
+    }
+
+    public void addLibrarian(String username,String id) throws InvalidEntrance {
+        Librarian lib=new Librarian(username,id);
+        getLibrarians();
+        if(librarians.contains(lib))
+            System.out.println("Librarian Has Already Added!");
+        else
+        {
+            lF.writeInFile(lib);
+            System.out.println("Librarian Added Successfully!");
         }
     }
 }
