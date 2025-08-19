@@ -140,7 +140,7 @@ public class MenuHandler {
                 System.out.println("0. Logout");
                 System.out.print("Please enter your choice: ");
 
-                int choice = getIntInput(1, 6);
+                int choice = getIntInput(0, 6);
 
                 switch (choice) {
                     case 1:
@@ -208,7 +208,7 @@ public class MenuHandler {
                 System.out.println("0.Logout");
                 System.out.println("Please Enter Your Choice:");
 
-                int choice = getIntInput(1, 6);
+                int choice = getIntInput(0, 8);
 
                 switch(choice)
                 {
@@ -314,6 +314,38 @@ public class MenuHandler {
         }
     }
 
+    private void managerMenu()
+    {
+        int c=0;
+        do {
+            try
+            {
+                System.out.println("1.Add Librarian");
+                System.out.println("2.Librarian History");
+                System.out.println("3.Loan History");
+                System.out.println("4.Student History");
+                System.out.println("0.Log Out");
+
+                c=getIntInput(0,4);
+
+                switch(c)
+                {
+                    case 1:
+                        System.out.println("Enter Librarian Username: ");
+                        String un=scanner.nextLine();
+                        System.out.println("Enter Library Id: ");
+                        String id=scanner.nextLine();
+                        librarySystem.addLibrarian(un,id);
+                        break;
+                        
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }while(c!=0);
+    }
 
     private int getIntInput(int min, int max) {
         while (true) {
