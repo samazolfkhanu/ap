@@ -142,6 +142,10 @@ public class LibrarySystem {
         system.start();
     }
 
+    public void addLibrarian(String username,String id) throws InvalidEntrance {
+        librarianManager.addLibrarian(username,id);
+    }
+
     public void getReturnRequest()
     {
         loanManager.getReturnRequest();
