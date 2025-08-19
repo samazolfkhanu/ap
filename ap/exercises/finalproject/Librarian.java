@@ -6,18 +6,27 @@ public class Librarian implements Serializable
 {
     private String username;
     private String password;
-
+    private int numBook;
     public Librarian(String username,String password)throws InvalidEntrance
     {
         if(!username.isEmpty() && !password.isEmpty() && !password.contains("!@#$%^&*()_+"))
         {
             this.username=username;
             this.password=password;
+            this.numBook=0;
         }
         else
             throw new InvalidEntrance("Invalid Inputs! <400>");
     }
 
+    public void increaseNumberOfBook()
+    {
+        numBook++;
+    }
+    public int getNumBook()
+    {
+        return numBook;
+    }
     public String getUsername()
     {
         return this.username;
