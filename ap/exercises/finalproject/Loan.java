@@ -80,7 +80,10 @@ public class Loan
                 "\t"+book+
                 "\n\t"+student+
                 "\nIssueDate: "+issueDate
-                +"\nReturnDate: "+returnDate;
+                +"\nReturnDate: "+returnDate
+                +"\nDueDate: "+dueDate
+                +"\nIssuer: "+issuer.toString()
+                +"\nReceiver: "+receiver.toString();
     }
 
 }
