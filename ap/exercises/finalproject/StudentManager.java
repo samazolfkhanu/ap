@@ -1,6 +1,7 @@
 package ap.exercises.finalproject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentManager {
     private ArrayList<Student> students;
@@ -61,5 +62,23 @@ public class StudentManager {
     public int getStudentCount() {
         getStudents();
         return students.size();
+    }
+    public void banStudent(String username,String id) throws InvalidEntrance {
+        getStudents();
+        for(Student s:students)
+        {
+            if(s.getUsername().equals(username) && s.getStudentId().equals(id))
+                s.setPermission("Banned");
+        }
+        updateStudentFile(students);
+    }
+
+    public void updateStudentFile(List<Student> l)
+    {
+        sF.clearFile();
+        for(Student s:l)
+        {
+            sF.writeInFile(s);
+        }
     }
 }
