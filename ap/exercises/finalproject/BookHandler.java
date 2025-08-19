@@ -138,6 +138,20 @@ public class BookHandler
         updateFile(books);
     }
 
+    public void editBookState(Book book,String state)
+    {
+        getBooks();
+        for(Book b:books)
+        {
+            if(b.getName().equals(book.getName()) &&
+                    b.getAuthor().equals(book.getAuthor()) &&
+                    b.getPublishedYear()==book.getPublishedYear())
+                b.setState(state);
+
+        }
+        updateFile(books);
+    }
+
     public void searchBookByGuest(String name)
     {
         getBooks();
