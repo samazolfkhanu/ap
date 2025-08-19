@@ -2,7 +2,7 @@ package ap.exercises.finalproject;
 
 import java.io.Serializable;
 
-public class Librarian implements Serializable,User
+public class Librarian implements Serializable
 {
     private String username;
     private String password;
