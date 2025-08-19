@@ -167,5 +167,9 @@ public class LibrarySystem {
         librarianManager.librarianHistory(username);
         loanManager.librarianHistory(username);
     }
+    public void bookHistory(String name,String author)
+    {
+        loanManager.bookHistory(name,author);
+    }
 
 }
