@@ -241,4 +241,20 @@ public class LoanManager
 
     }
 
+    public void librarianHistory(String username)
+    {
+        int issue=0;
+        int recieve=0;
+        getHistory();
+        for(Loan l:history)
+        {
+            if(l.getIssuer().getUsername().equals(username))
+                issue++;
+            if(l.getReceiver().getUsername().equals(username))
+                recieve++;
+        }
+        System.out.println("Number Of Issues: "+issue);
+        System.out.println("Number of ReceiveProcess: "+recieve);
+    }
+
 }
