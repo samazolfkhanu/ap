@@ -65,7 +65,7 @@ public class LibrarySystem {
         bookHandler.addBook(name,author,publishedYear);
     }
 
-    public void borrowBook(Student student,String name,String author,int publishedYear) throws InvalidEntrance {
+    public void borrowBookRequest(Student student,String name,String author,int publishedYear) throws InvalidEntrance {
         Book b=bookHandler.isBookAvailable(name,author,publishedYear);
         if (b!=null)
             loanManager.borrowRequest(b,student);
@@ -110,8 +110,9 @@ public class LibrarySystem {
         loanManager.addToLoanList(id,librarian);
     }
 
-    public void returnBook(Student student) {
-        System.out.println("Not implemented.");
+    public void returnBookRequest(Student student,String name,String author,int publishedYear)
+    {
+        loanManager.returnRequest(student,bookHandler.searchBook(name,author,publishedYear));
     }
 
     public void displayAvailableBooks() {
@@ -139,6 +140,21 @@ public class LibrarySystem {
     public static void main(String[] args) {
         LibrarySystem system = new LibrarySystem();
         system.start();
+    }
+
+    public void getReturnRequest()
+    {
+        loanManager.getReturnRequest();
+    }
+
+    public void addToHistory(int id,Librarian l)
+    {
+        loanManager.addToHistory(id,l);
+    }
+
+    public void banStudent(String username,String Id) throws InvalidEntrance {
+        studentManager.banStudent(username,Id);
+        loanManager.removeBanStudent(username,Id);
     }
 
 }
