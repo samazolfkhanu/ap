@@ -40,7 +40,7 @@ public class LoanManager
         loans=lF.readFromFile(Loan.class);
     }
 
-    public void addToLoanList(int id)
+    public void addToLoanList(int id,Librarian librarian)
     {
         getLoans();
         borrowRequestList();
@@ -50,6 +50,7 @@ public class LoanManager
             {
                 l.getBook().setState("borrowed");
                 l.setIssueDate();
+                l.setIssuer(librarian);
                 if(loans.contains(l)) {
                     System.out.println("Loan Has Already Added!");
                     break;
@@ -138,13 +139,20 @@ public class LoanManager
 
     public void borrowRequest(Book book,Student student) throws InvalidEntrance {
         borrowRequestList();
-        Loan l=new Loan(book,student);
-        if(borrowRequest.contains(l))
-            System.out.println("Request Already Added!");
+        if(student.getPermission().equalsIgnoreCase("available"))
+        {
+            Loan l=new Loan(book,student);
+            if(borrowRequest.contains(l))
+                System.out.println("Request Already Added!");
+            else
+            {
+                bF.writeInFile(l);
+                System.out.println("Request Was Added Successfully!");
+            }
+        }
         else
         {
-            bF.writeInFile(l);
-            System.out.println("Request Was Added Successfully!");
+            System.out.println("Sorry! You Are Banned.");
         }
     }
 
