@@ -323,7 +323,7 @@ public class MenuHandler {
             {
                 System.out.println("1.Add Librarian");
                 System.out.println("2.Librarian History");
-                System.out.println("3.Loan History");
+                System.out.println("3.Book History");
                 System.out.println("4.Student History");
                 System.out.println("0.Log Out");
 
@@ -344,7 +344,12 @@ public class MenuHandler {
                         librarySystem.librarianHistory(username);
                         break;
                     case 3:
-                        
+                        System.out.println("Enter Book Name: ");
+                        String name=scanner.nextLine();
+                        System.out.println("Enter Book Author:");
+                        String author=scanner.nextLine();
+                        librarySystem.bookHistory(name,author);
+
                 }
             }
             catch(Exception e)
