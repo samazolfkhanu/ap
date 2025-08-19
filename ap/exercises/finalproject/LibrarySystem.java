@@ -100,9 +100,14 @@ public class LibrarySystem {
 
     }
 
-    public void addToLoans(int id)
+    public void banStudent()
     {
-        loanManager.addToLoanList(id);
+
+    }
+
+    public void addToLoans(int id,Librarian librarian)
+    {
+        loanManager.addToLoanList(id,librarian);
     }
 
     public void returnBook(Student student) {
