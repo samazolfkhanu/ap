@@ -6,6 +6,7 @@ import java.util.List;
 
 public class LoanManager
 {
+    private BookHandler bookHandler;
     FileHandling<Loan> bF;
     FileHandling<Loan> rF;
     FileHandling<Loan> lF;
@@ -17,6 +18,7 @@ public class LoanManager
 
     public LoanManager()
     {
+        bookHandler=new BookHandler();
         bF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/BorrowRequest.txt");
         lF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Loans.txt");
         rF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/ReturnRequest.txt");
@@ -48,6 +50,7 @@ public class LoanManager
         {
             if(l.getId()==id)
             {
+                bookHandler.editBookState(l.getBook(),"borrowed");
                 l.getBook().setState("borrowed");
                 l.setIssueDate();
                 l.setIssuer(librarian);
@@ -130,6 +133,39 @@ public class LoanManager
         return count;
     }
 
+    public void returnRequest(Student s,Book b)
+    {
+        getLoans();
+        getReturnRequestList();
+        for(Loan l:loans)
+        {
+            if(l.getStudent().getUsername().equals(s.getUsername())
+                    && l.getBook().getName().equals(b.getName())
+                    && l.getBook().getAuthor().equals(b.getAuthor()))
+            {
+                if(returnRequest.contains(l))
+                {
+                    loans.remove(l);
+                    System.out.println("Request has Already Added!");
+                }
+                else
+                {
+                    rF.writeInFile(l);
+                    loans.remove(l);
+                }
+            }
+        }
+        updateLoanList(loans);
+    }
+
+    public void updateLoanList(List<Loan> l)
+    {
+        rF.clearFile();
+        for(Loan loan:l)
+            rF.writeInFile(loan);
+
+    }
+
     public void borrowRequestList()
     {
         if(!borrowRequest.isEmpty())
@@ -137,11 +173,20 @@ public class LoanManager
         borrowRequest= bF.readFromFile(Loan.class);
     }
 
+    public void getReturnRequestList()
+    {
+        if(!returnRequest.isEmpty())
+            returnRequest.clear();
+        returnRequest=rF.readFromFile(Loan.class);
+    }
+
     public void borrowRequest(Book book,Student student) throws InvalidEntrance {
         borrowRequestList();
         if(student.getPermission().equalsIgnoreCase("available"))
         {
             Loan l=new Loan(book,student);
+            bookHandler.editBookState(l.getBook(),"Reserved");
+            l.getBook().setState("reserved");
             if(borrowRequest.contains(l))
                 System.out.println("Request Already Added!");
             else
@@ -156,5 +201,44 @@ public class LoanManager
         }
     }
 
+    public void removeBanStudent(String username,String id)
+    {
+        getBorrowRequest();
+        for(Loan loan:borrowRequest)
+        {
+            if(loan.getStudent().getUsername().equals(username) && loan.getStudent().getStudentId().equals(id))
+                borrowRequest.remove(loan);
+        }
+        updateLoanList(borrowRequest);
+    }
+
+    public void getReturnRequest()
+    {
+        getReturnRequestList();
+        for(Loan l:returnRequest)
+            System.out.println(l);
+    }
+
+    public void addToHistory(int id,Librarian librarian)
+    {
+        getHistory();
+        getReturnRequest();
+        for(Loan l:returnRequest)
+        {
+            if(l.getId()==id)
+            {
+                l.setReceiver(librarian);
+                bookHandler.editBookState(l.getBook(),"Available");
+                if(history.contains(l))
+                    System.out.println("Request Has Already Added To History!");
+                else
+                {
+                    hF.writeInFile(l);
+                }
+                returnRequest.remove(l);
+            }
+        }
+
+    }
 
 }
