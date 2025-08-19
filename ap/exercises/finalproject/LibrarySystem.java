@@ -61,8 +61,9 @@ public class LibrarySystem {
         }
     }
 
-    public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
+    public void addBook(String name,String author,int publishedYear,String username) throws InvalidEntrance {
         bookHandler.addBook(name,author,publishedYear);
+        librarianManager.increaseLibrarianbook(username);
     }
 
     public void borrowBookRequest(Student student,String name,String author,int publishedYear) throws InvalidEntrance {
@@ -159,6 +160,12 @@ public class LibrarySystem {
     public void banStudent(String username,String Id) throws InvalidEntrance {
         studentManager.banStudent(username,Id);
         loanManager.removeBanStudent(username,Id);
+    }
+
+    public void librarianHistory(String username)
+    {
+        librarianManager.librarianHistory(username);
+        loanManager.librarianHistory(username);
     }
 
 }
