@@ -27,10 +27,11 @@ public class MenuHandler {
             System.out.println("4. View Registered Student Count");
             System.out.println("5.Search Book");
             System.out.println("6.Statistical Figures");
+            System.out.println("7.Manager");
             System.out.println("0. Exit");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 5);
+            int choice = getIntInput(0, 7);
 
             switch (choice) {
                 case 1:
@@ -337,7 +338,7 @@ public class MenuHandler {
                         String id=scanner.nextLine();
                         librarySystem.addLibrarian(un,id);
                         break;
-                        
+
                 }
             }
             catch(Exception e)
