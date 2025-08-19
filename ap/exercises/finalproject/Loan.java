@@ -12,7 +12,8 @@ public class Loan
     private LocalDate issueDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
-
+    private Librarian issuer;
+    private Librarian receiver;
     public Loan(Book book,Student student)throws InvalidEntrance
     {
         if(book!=null && student!=null)
@@ -24,6 +25,8 @@ public class Loan
             this.borrowRequestDate =LocalDate.now();
             this.issueDate=null;
             this.returnDate=null;
+            this.issuer=null;
+            this.receiver=null;
             idCount++;
         }
         else
@@ -65,6 +68,10 @@ public class Loan
     public LocalDate getDueDate()
     {
         return dueDate;
+    }
+    public void setIssuer(Librarian l)
+    {
+        this.issuer=l;
     }
 
     public String toString()
