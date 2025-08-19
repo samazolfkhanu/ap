@@ -156,21 +156,27 @@ public class MenuHandler {
                         String author=scanner.nextLine();
                         int publishedYear=scanner.nextInt();
                         scanner.nextLine();
-                        librarySystem.borrowBook(currentStudent,name,author,publishedYear);
+                        librarySystem.borrowBookRequest(currentStudent,name,author,publishedYear);
                         break;
                     case 4:
-                        librarySystem.returnBook(currentStudent);
+                        System.out.println("Enter Book Name , Author and Published Year: ");
+                        String n=scanner.nextLine();
+                        String a=scanner.nextLine();
+                        int p=scanner.nextInt();
+                        scanner.nextLine();
+                        librarySystem.returnBookRequest(currentStudent,n,a,p);
                         break;
                     case 5:
                         librarySystem.displayAvailableBooks();
                         break;
                     case 6:
                         System.out.println("Enter Book Name , Author and Published Year: ");
-                        String n=scanner.nextLine();
-                        String a=scanner.nextLine();
-                        int p=scanner.nextInt();
+                        String Name=scanner.nextLine();
+                        String Author=scanner.nextLine();
+                        int pYear=scanner.nextInt();
                         scanner.nextLine();
-                        System.out.println(librarySystem.searchBook(n,a,p));
+                        System.out.println(librarySystem.searchBook(Name,Author,pYear));
+                        break;
                     case 0:
                         currentStudent = null;
                         System.out.println("Logged out successfully.");
@@ -198,6 +204,7 @@ public class MenuHandler {
                 System.out.println("5.Confirm Borrow Requests");
                 System.out.println("6.Student History");
                 System.out.println("7.Ban Student");
+                System.out.println("8.Confirm Return Request");
                 System.out.println("0.Logout");
                 System.out.println("Please Enter Your Choice:");
 
@@ -232,6 +239,7 @@ public class MenuHandler {
                         scanner.nextLine();
                         Book book=librarySystem.searchBook(n,a,p);
                         editBookInfo(book);
+                        break;
                     case 5:
                         librarySystem.getBorrowRequestList();
                         System.out.println("Enter Request Id: ");
@@ -245,11 +253,21 @@ public class MenuHandler {
                         System.out.println("Enter Student Id:");
                         String Id=scanner.nextLine();
                         librarySystem.studentHistory(username,Id);
+                        break;
                     case 7:
                         System.out.println("Enter Student Username:");
                         String Username=scanner.nextLine();
                         System.out.println("Enter Student Id:");
                         String ID=scanner.nextLine();
+                        librarySystem.banStudent(Username,ID);
+                        break;
+                    case 8:
+                        librarySystem.getReturnRequest();
+                        System.out.println("Enter Request Id: ");
+                        int idi=scanner.nextInt();
+                        scanner.nextLine();
+                        librarySystem.addToHistory(idi,currentLibrarian);
+                        break;
                     case 0:
                         currentStudent = null;
                         System.out.println("Logged out successfully.");
