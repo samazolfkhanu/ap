@@ -1,6 +1,7 @@
 package ap.exercises.finalproject;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -255,6 +256,30 @@ public class LoanManager
         }
         System.out.println("Number Of Issues: "+issue);
         System.out.println("Number of ReceiveProcess: "+recieve);
+    }
+    public void bookHistory(String name,String author)
+    {
+        int count=0;
+        int c=0;
+        long days=0;
+        getBorrowRequest();
+        for(Loan l:borrowRequest)
+        {
+            if(l.getBook().getName().equalsIgnoreCase(name) && l.getBook().getAuthor().equalsIgnoreCase(author)) {
+                count++;
+            }
+        }
+        getHistory();
+        for(Loan l:history)
+        {
+            if(l.getBook().getName().equalsIgnoreCase(name) && l.getBook().getAuthor().equalsIgnoreCase(author)) {
+                c++;
+                days= ChronoUnit.DAYS.between(l.getIssueDate(),l.getReturnDate());
+            }
+        }
+        System.out.println("Number Of Request for This Book: "+count);
+        System.out.println("Number Of Borrowed Time: "+c);
+        System.out.println("Average Days Of Borrowing Book: "+(days/c));
     }
 
 }
