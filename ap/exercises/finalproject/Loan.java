@@ -78,6 +78,15 @@ public class Loan
         this.receiver=l;
     }
 
+    public Librarian getIssuer()
+    {
+        return issuer;
+    }
+    public Librarian getReceiver()
+    {
+        return receiver;
+    }
+
     public String toString()
     {
         return "Loan Info:\n" +
