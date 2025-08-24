@@ -14,7 +14,7 @@ public class Student implements Serializable {
         this.studentId = studentId;
         this.username = username;
         this.password = password;
-        this.permission= AccessLevel.search("active");
+        this.permission= AccessLevel.ACTIVE;
     }
 
     public String getName() {
@@ -38,17 +38,46 @@ public class Student implements Serializable {
         return permission.name();
     }
 
-    public void setPermission(String p) throws InvalidEntrance {
-        if(p!=null)
-            this.permission= AccessLevel.search(p);
-        else
-            throw new InvalidEntrance("Invalid Permission Input!");
+    public void banStudent() throws InvalidEntrance {
+        this.permission=AccessLevel.INACTIVE;
     }
+    public void unbanStudent() throws InvalidEntrance {
+        this.permission=AccessLevel.ACTIVE;
+    }
+
+    public void setName(String name) throws InvalidEntrance {
+        if(!name.isEmpty())
+            this.name=name;
+        else
+        {
+            throw new InvalidEntrance("Invalid Name! <500>");
+        }
+    }
+
+    public void setPassword(String password) throws InvalidEntrance {
+        if(!password.isEmpty())
+            this.password=name;
+        else
+        {
+            throw new InvalidEntrance("Invalid Password! <501>");
+        }
+    }
+
+    public void setStudentId(String id) throws InvalidEntrance {
+        if(!id.isEmpty())
+            this.studentId=id;
+        else
+        {
+            throw new InvalidEntrance("Invalid ID! <502>");
+        }
+    }
+
     @Override
     public String toString() {
         return "Student Info:\n" +
                 "Name: " + name +
                 " | Student ID: " + studentId +
-                " | Username: " + username;
+                " | Username: " + username+
+                " | Access Level: "+permission.name();
     }
 }
