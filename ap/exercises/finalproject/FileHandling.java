@@ -52,16 +52,21 @@ public class FileHandling<T>
             try
             {
                 ObjectInputStream ois=new ObjectInputStream(new FileInputStream(path));
-                try
+                while(true)
                 {
-                    while(true)
+                    try
                     {
                         T obj=clazz.cast(ois.readObject());
                         objectList.add(obj);
                     }
-                }
-                catch(ClassNotFoundException cE) {
-                    System.out.println(cE.getMessage());
+                    catch(ClassNotFoundException c)
+                    {
+                        System.out.println(c.getMessage());
+                    }
+                    catch(EOFException ex)
+                    {
+                        break;
+                    }
                 }
             }catch(IOException iE)
             {
