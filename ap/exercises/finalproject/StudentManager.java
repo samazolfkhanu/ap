@@ -19,7 +19,7 @@ public class StudentManager {
             return;
         }
 
-        Student newStudent = new Student(name, studentId, username, password);
+        Student newStudent = new Student(name.trim(), studentId.trim(), username.trim(), password.trim());
         sF.writeInFile(newStudent);
         System.out.println("Student registration completed successfully.");
     }
@@ -34,22 +34,15 @@ public class StudentManager {
 
     public void getStudents()
     {
-        if(!students.isEmpty())
+        if(students!=null && !students.isEmpty())
             students.clear();
         students=sF.readFromFile(Student.class);
     }
 
-    public void displayStudents() {
-        System.out.println("\n--- List of Registered Students ---");
-
-        if (students.isEmpty()) {
-            System.out.println("No students have registered yet.");
-            return;
-        }
-
-        for (Student student : students) {
-            System.out.println(student);
-        }
+    public List<Student> returnStudent()
+    {
+        getStudents();
+        return students;
     }
 
     private boolean isUsernameTaken(String username) {
@@ -58,22 +51,53 @@ public class StudentManager {
             return students.stream().anyMatch(s -> s.getUsername().equals(username));
         return false;
     }
-
-    public int getStudentCount() {
-        getStudents();
-        return students.size();
-    }
     public void banStudent(String username,String id) throws InvalidEntrance {
         getStudents();
-        for(Student s:students)
-        {
+        for(Student s:students){
             if(s.getUsername().equals(username) && s.getStudentId().equals(id))
-                s.setPermission("Banned");
+                s.banStudent();
         }
         updateStudentFile(students);
     }
 
+    public void unbanStudent(String username,String id) throws InvalidEntrance {
+        getStudents();
+        for(Student s:students){
+            if(s.getUsername().equals(username) && s.getStudentId().equals(id))
+                s.unbanStudent();
+        }
+        updateStudentFile(students);
+    }
 
+    public void editName(String name,Student s) throws InvalidEntrance {
+        getStudents();
+        for(Student student:students)
+        {
+            if(student.getUsername().equals(s.getUsername()))
+                student.setName(name);
+        }
+        updateStudentFile(students);
+    }
+
+    public void editPassword(String password,Student s) throws InvalidEntrance {
+        getStudents();
+        for(Student student:students)
+        {
+            if(student.getUsername().equals(s.getUsername()))
+                student.setPassword(password);
+        }
+        updateStudentFile(students);
+    }
+
+    public void editStudentId(String id,Student s) throws InvalidEntrance {
+        getStudents();
+        for(Student student:students)
+        {
+            if(student.getUsername().equals(s.getUsername()))
+                student.setStudentId(id);
+        }
+        updateStudentFile(students);
+    }
 
     public void updateStudentFile(List<Student> l)
     {
@@ -82,5 +106,18 @@ public class StudentManager {
         {
             sF.writeInFile(s);
         }
+    }
+
+    public Student getAStudent(String username)
+    {
+        getStudents();
+        if(students!=null)
+        {
+            for(Student s:students) {
+                if (s.getUsername().equals(username))
+                    return s;
+            }
+        }
+        return null;
     }
 }
