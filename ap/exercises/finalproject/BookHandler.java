@@ -17,15 +17,15 @@ public class BookHandler
 
     public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
         getBooks();
-        Book b=new Book(name,author,publishedYear);
-        if(books.contains(b))
+        Book b=new Book(name.trim(),author.trim(),publishedYear);
+        if(books!=null && books.contains(b))
             throw new InvalidEntrance("Book Has Already Added!<500>");
         f.writeInFile(b);
         System.out.println("Book Added Successfully!");
     }
     public void getBooks()
     {
-        if(!books.isEmpty())
+        if(books!=null && !books.isEmpty())
             books.clear();
         books=f.readFromFile(Book.class);
     }
@@ -58,16 +58,13 @@ public class BookHandler
     public Book isBookAvailable(String name,String author,int publishedYear)
     {
         getBooks();
-        if(!books.isEmpty())
+        if(books!=null && !books.isEmpty())
         {
             for(Book book:books)
             {
-                if(book.getName().equalsIgnoreCase(name) &&
-                        book.getAuthor().equalsIgnoreCase(author) &&
-                        book.getPublishedYear()==publishedYear)
+                if(book.getName().equalsIgnoreCase(name) && book.getAuthor().equalsIgnoreCase(author) && book.getPublishedYear()==publishedYear)
 
                     if(book.getState().equalsIgnoreCase("AVAILABLE")) {
-                        book.setState("reserved");
                         updateFile(books);
                         return book;
                     }
