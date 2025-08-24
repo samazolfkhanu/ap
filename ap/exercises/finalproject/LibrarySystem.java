@@ -10,16 +10,15 @@ public class LibrarySystem {
     private BookHandler bookHandler;
     private LoanManager loanManager;
     private LibrarianManager librarianManager;
+    private ManagerHandler managerHandler;
 
     public LibrarySystem() {
         this.studentManager = new StudentManager();
         this.bookHandler=new BookHandler();
         this.menuHandler = new MenuHandler(this);
         this.librarianManager=new LibrarianManager();
-    }
-
-    public int getStudentCount() {
-        return this.studentManager.getStudentCount();
+        this.loanManager=new LoanManager();
+        this.managerHandler=new ManagerHandler();
     }
     public int getBookCount()
     {
@@ -37,10 +36,6 @@ public class LibrarySystem {
     public Librarian authenticateLibrarian(String username,String password)
     {
         return librarianManager.authenticateLibrarian(username,password);
-    }
-
-    public void editStudentInformation(Student student) {
-        System.out.println("Not implemented.");
     }
 
     public void editLibrarianInformation(Librarian librarian,String password) throws InvalidEntrance {
@@ -61,6 +56,21 @@ public class LibrarySystem {
         }
     }
 
+    public void editStudentInfo(Student s,String input,String part) throws InvalidEntrance {
+        switch(part)
+        {
+            case "name":
+                studentManager.editName(input,s);
+                break;
+            case "id":
+                studentManager.editStudentId(input,s);
+                break;
+            case "password":
+                studentManager.editPassword(input,s);
+                break;
+        }
+    }
+
     public void addBook(String name,String author,int publishedYear,String username) throws InvalidEntrance {
         bookHandler.addBook(name,author,publishedYear);
         librarianManager.increaseLibrarianbook(username);
@@ -76,15 +86,17 @@ public class LibrarySystem {
         }
     }
 
-    public void getBorrowRequestList()
-    {
+    public void unbanStudent(String username,String id) throws InvalidEntrance {
+        studentManager.unbanStudent(username,id);
+    }
+
+    public void getBorrowRequestList() {
         LocalDate now=LocalDate.now();
         List<Loan> loans=loanManager.getBorrowRequest();
-        for(Loan l:loans)
-        {
-            if(l.getIssueDate().getMonthValue()==now.getMonthValue() && l.getIssueDate().getYear()==now.getYear())
+        for(Loan l:loans) {
+            if(l.getBorrowRequestDate().getMonthValue()==now.getMonthValue() && l.getBorrowRequestDate().getYear()==now.getYear())
             {
-                if(l.getIssueDate().getDayOfMonth()==now.getDayOfMonth())
+                if(l.getBorrowRequestDate().getDayOfMonth()==now.getDayOfMonth())
                     System.out.println(l);
             }
         }
@@ -100,12 +112,6 @@ public class LibrarySystem {
         System.out.println("Number Of Overdue Loans: "+loanManager.totalOverdueLoansPerStudent(username,id));
 
     }
-
-    public void banStudent()
-    {
-
-    }
-
     public void addToLoans(int id,Librarian librarian)
     {
         loanManager.addToLoanList(id,librarian);
@@ -143,6 +149,14 @@ public class LibrarySystem {
         system.start();
     }
 
+    public Librarian getAlibrarian(String username)
+    {
+        return librarianManager.getALibrarian(username);
+    }
+    public Student getAStudent(String username)
+    {
+        return studentManager.getAStudent(username);
+    }
     public void addLibrarian(String username,String id) throws InvalidEntrance {
         librarianManager.addLibrarian(username,id);
     }
@@ -172,4 +186,22 @@ public class LibrarySystem {
         loanManager.bookHistory(name,author);
     }
 
+    public void getTop10LateReturns()
+    {
+        List<Loan> loans=loanManager.getTop10LateReturns();
+        for(Loan l:loans)
+            System.out.println(l);
+
+    }
+    public void returnRegisteredUsers(){
+        studentManager.returnStudent()
+                .forEach(System.out::println);
+        librarianManager.returnLibrarian()
+                .forEach(System.out::println);
+    }
+
+    public Manager authenticateManager(String username,String password)
+    {
+        return managerHandler.authenticateManager(username,password);
+    }
 }
