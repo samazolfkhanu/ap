@@ -1,8 +1,10 @@
 package ap.exercises.finalproject;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
-public class Loan
+public class Loan implements Serializable
 {
     private int idCount=1;
     private Book book;
@@ -35,6 +37,11 @@ public class Loan
         }
     }
 
+    public long getDelayDays()
+    {
+        return Math.max(0, ChronoUnit.DAYS.between(dueDate,returnDate));
+    }
+
     public Book getBook()
     {
         return book;
@@ -58,7 +65,7 @@ public class Loan
 
     public void setIssueDate()
     {
-        this.dueDate=LocalDate.now();
+        this.issueDate=LocalDate.now();
         setDueDate();
     }
     private void setDueDate()
@@ -86,17 +93,26 @@ public class Loan
     {
         return receiver;
     }
+    public void setReturnDate()
+    {
+        this.returnDate=LocalDate.now();
+    }
+    public LocalDate getBorrowRequestDate()
+    {
+        return borrowRequestDate;
+    }
 
     public String toString()
     {
         return "Loan Info:\n" +
-                "\t"+book+
+                "ID: "+id+
+                "\n\t"+book+
                 "\n\t"+student+
                 "\nIssueDate: "+issueDate
                 +"\nReturnDate: "+returnDate
                 +"\nDueDate: "+dueDate
-                +"\nIssuer: "+issuer.toString()
-                +"\nReceiver: "+receiver.toString();
+                +"\nIssuer: "+issuer
+                +"\nReceiver: "+receiver;
     }
 
 }
