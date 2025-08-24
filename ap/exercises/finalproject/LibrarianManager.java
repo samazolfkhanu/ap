@@ -25,7 +25,7 @@ public class LibrarianManager
 
     public void getLibrarians()
     {
-        if(!librarians.isEmpty())
+        if(librarians!=null && !librarians.isEmpty())
             librarians.clear();
         librarians=lF.readFromFile(Librarian.class);
     }
@@ -64,6 +64,20 @@ public class LibrarianManager
         }
     }
 
+    public Librarian getALibrarian(String username)
+    {
+        getLibrarians();
+        for(Librarian l:librarians)
+        {
+            if(l.getUsername().equals(username))
+                return l;
+        }return null;
+    }
+    public List<Librarian> returnLibrarian()
+    {
+        getLibrarians();
+        return librarians;
+    }
     public void librarianHistory(String username)
     {
         getLibrarians();
@@ -75,9 +89,9 @@ public class LibrarianManager
     }
 
     public void addLibrarian(String username,String id) throws InvalidEntrance {
-        Librarian lib=new Librarian(username,id);
+        Librarian lib=new Librarian(username.trim(),id);
         getLibrarians();
-        if(librarians.contains(lib))
+        if(librarians!=null && librarians.contains(lib))
             System.out.println("Librarian Has Already Added!");
         else
         {
