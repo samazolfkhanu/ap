@@ -3,6 +3,8 @@ package ap.exercises.finalproject;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class LoanManager
@@ -17,8 +19,7 @@ public class LoanManager
     private List<Loan> history;
     private List<Loan> returnRequest;
 
-    public LoanManager()
-    {
+    public LoanManager() {
         bookHandler=new BookHandler();
         bF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/BorrowRequest.txt");
         lF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Loans.txt");
@@ -30,21 +31,26 @@ public class LoanManager
         history=new ArrayList<>();
     }
 
-    public List<Loan> getBorrowRequest()
-    {
+    public List<Loan> getBorrowRequest() {
         borrowRequestList();
         return borrowRequest;
     }
 
-    public void getLoans()
-    {
-        if(!loans.isEmpty())
+    public void getLoans() {
+        if(loans!=null && !loans.isEmpty())
             loans.clear();
         loans=lF.readFromFile(Loan.class);
     }
 
-    public void addToLoanList(int id,Librarian librarian)
-    {
+    public void updateBorrowRequestList(List<Loan> l) {
+        bF.clearFile();
+        for(Loan loan:l)
+        {
+            bF.writeInFile(loan);
+        }
+    }
+
+    public void addToLoanList(int id,Librarian librarian) {
         getLoans();
         borrowRequestList();
         for(Loan l:borrowRequest)
@@ -55,12 +61,14 @@ public class LoanManager
                 l.getBook().setState("borrowed");
                 l.setIssueDate();
                 l.setIssuer(librarian);
-                if(loans.contains(l)) {
+                if(loans!=null && loans.contains(l)) {
                     System.out.println("Loan Has Already Added!");
                     break;
                 }
                 else {
                     lF.writeInFile(l);
+                    borrowRequest.remove(l);
+                    updateBorrowRequestList(borrowRequest);
                     System.out.println("Loan Was Added Successfully!");
                     break;
                 }
@@ -69,55 +77,56 @@ public class LoanManager
         }
     }
 
-    public void getHistory()
-    {
+    public void getHistory() {
         if(!history.isEmpty())
             history.clear();
         history=hF.readFromFile(Loan.class);
     }
 
-    public int totalLoanPerStudent(String username,String id)
-    {
+    public int totalLoanPerStudent(String username,String id) {
         getLoans();
         int count=0;
         getHistory();
-        for(Loan l:history)
-        {
-            if(l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
-                count++;
+        if(history!=null) {
+            for(Loan l:history) {
+                if(l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
+                    count++;
+            }
         }
-        for (Loan l:loans)
-        {
-            if (l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
-                count++;
+        if(loans!=null) {
+            for (Loan l:loans) {
+                if (l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
+                    count++;
+            }
         }
         return count;
     }
 
-    public void historyPerStudent(String username,String id)
-    {
+    public void historyPerStudent(String username,String id) {
         getLoans();
         getHistory();
-        for(Loan l:history)
-        {
-            if(l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
-                System.out.println(l);
+        if(loans!=null) {
+            for (Loan l:loans) {
+                if (l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
+                    System.out.println(l);
+            }
         }
-        for (Loan l:loans)
-        {
-            if (l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
-                System.out.println(l);
+        if(history!=null) {
+            for(Loan l:history) {
+                if(l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
+                    System.out.println(l);
+            }
         }
     }
 
-    public int allNotReturnedBookPerStudent(String username,String id)
-    {
+    public int allNotReturnedBookPerStudent(String username,String id) {
         int count=0;
         getLoans();
-        for (Loan l:loans)
-        {
-            if(l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
-                count++;
+        if(loans!=null) {
+            for (Loan l:loans) {
+                if(l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username))
+                    count++;
+            }
         }
         return count;
     }
@@ -125,57 +134,61 @@ public class LoanManager
     public int totalOverdueLoansPerStudent(String username,String id) {
         getHistory();
         int count = 0;
-        for (Loan l : history) {
-            if (l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username)) {
-                if (l.getReturnDate().isAfter(l.getDueDate()))
-                    count++;
+        if(history!=null) {
+            for (Loan l : history) {
+                if (l.getStudent().getStudentId().equals(id) && l.getStudent().getUsername().equals(username)) {
+                    if (l.getReturnDate().isAfter(l.getDueDate()))
+                        count++;
+                }
             }
         }
         return count;
     }
 
-    public void returnRequest(Student s,Book b)
-    {
+    public void returnRequest(Student s,Book b) {
         getLoans();
         getReturnRequestList();
-        for(Loan l:loans)
-        {
+        for(Loan l:loans) {
             if(l.getStudent().getUsername().equals(s.getUsername())
                     && l.getBook().getName().equals(b.getName())
                     && l.getBook().getAuthor().equals(b.getAuthor()))
             {
-                if(returnRequest.contains(l))
-                {
+                System.out.println(l);
+                if(returnRequest!=null && returnRequest.contains(l)) {
                     loans.remove(l);
                     System.out.println("Request has Already Added!");
+                    break;
                 }
-                else
-                {
+                else {
                     rF.writeInFile(l);
                     loans.remove(l);
+                    System.out.println("Request Added Successfully!");
+                    break;
                 }
             }
         }
-        updateLoanList(loans);
+        if(loans.isEmpty())
+            lF.clearFile();
+        else
+            updateLoanList(loans);
     }
 
-    public void updateLoanList(List<Loan> l)
-    {
+    public void updateLoanList(List<Loan> l) {
         rF.clearFile();
-        for(Loan loan:l)
-            rF.writeInFile(loan);
+        if(!l.isEmpty()) {
+            for (Loan loan : l)
+                rF.writeInFile(loan);
+        }
 
     }
 
-    public void borrowRequestList()
-    {
-        if(!borrowRequest.isEmpty())
+    public void borrowRequestList() {
+        if(borrowRequest!=null && !borrowRequest.isEmpty())
             borrowRequest.clear();
         borrowRequest= bF.readFromFile(Loan.class);
     }
 
-    public void getReturnRequestList()
-    {
+    public void getReturnRequestList() {
         if(!returnRequest.isEmpty())
             returnRequest.clear();
         returnRequest=rF.readFromFile(Loan.class);
@@ -183,12 +196,13 @@ public class LoanManager
 
     public void borrowRequest(Book book,Student student) throws InvalidEntrance {
         borrowRequestList();
-        if(student.getPermission().equalsIgnoreCase("available"))
+        if(student.getPermission().equalsIgnoreCase("Active"))
         {
+            bookHandler.editBookState(book,"reserved");
             Loan l=new Loan(book,student);
             bookHandler.editBookState(l.getBook(),"Reserved");
             l.getBook().setState("reserved");
-            if(borrowRequest.contains(l))
+            if(borrowRequest!=null && borrowRequest.contains(l))
                 System.out.println("Request Already Added!");
             else
             {
@@ -202,53 +216,66 @@ public class LoanManager
         }
     }
 
-    public void removeBanStudent(String username,String id)
-    {
+    public void removeBanStudent(String username,String id) {
         getBorrowRequest();
-        for(Loan loan:borrowRequest)
-        {
-            if(loan.getStudent().getUsername().equals(username) && loan.getStudent().getStudentId().equals(id))
-                borrowRequest.remove(loan);
+        if(borrowRequest!=null) {
+            for(Loan loan:borrowRequest) {
+                if(loan.getStudent().getUsername().equals(username) && loan.getStudent().getStudentId().equals(id))
+                    borrowRequest.remove(loan);
+            }
+            updateLoanList(borrowRequest);
         }
-        updateLoanList(borrowRequest);
     }
 
     public void getReturnRequest()
     {
         getReturnRequestList();
-        for(Loan l:returnRequest)
-            System.out.println(l);
+        if(returnRequest!=null) {
+            for (Loan l : returnRequest)
+                System.out.println(l);
+        }
+        else
+            System.out.println("Return Request List Is Empty!");
     }
 
-    public void addToHistory(int id,Librarian librarian)
-    {
+    public void addToHistory(int id,Librarian librarian) {
         getHistory();
         getReturnRequest();
-        for(Loan l:returnRequest)
-        {
-            if(l.getId()==id)
-            {
+        Iterator<Loan> it=returnRequest.iterator();
+        while(it.hasNext()) {
+            Loan l=it.next();
+            if(l.getId()==id) {
+                l.setReturnDate();
                 l.setReceiver(librarian);
                 bookHandler.editBookState(l.getBook(),"Available");
-                if(history.contains(l))
+                if(history!=null && history.contains(l)) {
+                    it.remove();
                     System.out.println("Request Has Already Added To History!");
-                else
-                {
-                    hF.writeInFile(l);
                 }
-                returnRequest.remove(l);
+                else {
+                    it.remove();
+                    hF.writeInFile(l);
+                    System.out.println("Book Returned Successfully!");
+                }
             }
         }
-
+        if(returnRequest.isEmpty())
+            rF.clearFile();
+        else
+            updateReturnRequestList(returnRequest);
     }
 
-    public void librarianHistory(String username)
-    {
+    public void updateReturnRequestList(List<Loan> l) {
+        rF.clearFile();
+        for(Loan loan:l)
+            rF.writeInFile(loan);
+    }
+
+    public void librarianHistory(String username){
         int issue=0;
         int recieve=0;
         getHistory();
-        for(Loan l:history)
-        {
+        for(Loan l:history) {
             if(l.getIssuer().getUsername().equals(username))
                 issue++;
             if(l.getReceiver().getUsername().equals(username))
@@ -257,21 +284,18 @@ public class LoanManager
         System.out.println("Number Of Issues: "+issue);
         System.out.println("Number of ReceiveProcess: "+recieve);
     }
-    public void bookHistory(String name,String author)
-    {
+    public void bookHistory(String name,String author) {
         int count=0;
         int c=0;
         long days=0;
         getBorrowRequest();
-        for(Loan l:borrowRequest)
-        {
+        for(Loan l:borrowRequest) {
             if(l.getBook().getName().equalsIgnoreCase(name) && l.getBook().getAuthor().equalsIgnoreCase(author)) {
                 count++;
             }
         }
         getHistory();
-        for(Loan l:history)
-        {
+        for(Loan l:history) {
             if(l.getBook().getName().equalsIgnoreCase(name) && l.getBook().getAuthor().equalsIgnoreCase(author)) {
                 c++;
                 days= ChronoUnit.DAYS.between(l.getIssueDate(),l.getReturnDate());
@@ -280,6 +304,15 @@ public class LoanManager
         System.out.println("Number Of Request for This Book: "+count);
         System.out.println("Number Of Borrowed Time: "+c);
         System.out.println("Average Days Of Borrowing Book: "+(days/c));
+    }
+
+    public List<Loan> getTop10LateReturns() {
+        getHistory();
+        return history.stream()
+                .filter(x->x.getReturnDate().isAfter(x.getDueDate()))
+                .sorted(Comparator.comparingLong(Loan::getDelayDays))
+                .limit(10)
+                .toList();
     }
 
 }
