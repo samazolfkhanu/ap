@@ -50,6 +50,6 @@ public class Librarian implements Serializable
     public String toString()
     {
         return "Librarian Info:\n" +
-                "Username: "+this.username+" | "+"Password: "+this.password;
+                "Username: "+this.username+" | "+"Password: "+this.password+" | "+"Number Of Registered Book: "+numBook;
     }
 }
