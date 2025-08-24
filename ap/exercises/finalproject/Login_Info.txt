@@ -1,0 +1,4 @@
+Student: (Name)sama (Id)100 (Username)sama (Password)100
+Librarian: (Username)sima (Password)10
+Book: (Name)sky (Author)sima (Published_Year)2020
+Manager: (Username)Sama (Password)1000
