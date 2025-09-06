@@ -3,7 +3,6 @@ package ap.exercises.finalproject;
 import java.time.LocalDate;
 import java.util.List;
 
-// LibrarySystem.java
 public class LibrarySystem {
     private StudentManager studentManager;
     private MenuHandler menuHandler;
@@ -25,8 +24,8 @@ public class LibrarySystem {
         return bookHandler.getBookCount();
     }
 
-    public void registerStudent(String name, String studentId, String username, String password) {
-        studentManager.registerStudent(name, studentId, username, password);
+    public void registerStudent(String name, String username, String password) {
+        studentManager.registerStudent(name,username, password);
     }
 
     public Student authenticateStudent(String username, String password) {
@@ -90,16 +89,21 @@ public class LibrarySystem {
         studentManager.unbanStudent(username,id);
     }
 
-    public void getBorrowRequestList() {
+    public boolean getBorrowRequestList() {
         LocalDate now=LocalDate.now();
         List<Loan> loans=loanManager.getBorrowRequest();
-        for(Loan l:loans) {
-            if(l.getBorrowRequestDate().getMonthValue()==now.getMonthValue() && l.getBorrowRequestDate().getYear()==now.getYear())
-            {
-                if(l.getBorrowRequestDate().getDayOfMonth()==now.getDayOfMonth())
-                    System.out.println(l);
+        if(loans!=null)
+        {
+            for(Loan l:loans) {
+                if(l.getBorrowRequestDate().getMonthValue()==now.getMonthValue() && l.getBorrowRequestDate().getYear()==now.getYear())
+                {
+                    if(l.getBorrowRequestDate().getDayOfMonth()==now.getDayOfMonth())
+                        System.out.println(l);
+                }
             }
+            return true;
         }
+        return false;
     }
 
     public void studentHistory(String username,String id)
@@ -126,11 +130,6 @@ public class LibrarySystem {
         bookHandler.displayAvailableBooks();
     }
 
-    public BookHandler getBookHandler()
-    {
-        return bookHandler;
-    }
-
     public void searchBookByGuest(String name)
     {
         bookHandler.searchBookByGuest(name);
@@ -140,11 +139,11 @@ public class LibrarySystem {
         return bookHandler.searchBook(name,author,publishedYear);
     }
 
-    public void start() {
+    public void start() throws InvalidEntrance {
         menuHandler.displayMainMenu();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidEntrance {
         LibrarySystem system = new LibrarySystem();
         system.start();
     }
@@ -161,9 +160,11 @@ public class LibrarySystem {
         librarianManager.addLibrarian(username,id);
     }
 
-    public void getReturnRequest()
+    public boolean getReturnRequest()
     {
-        loanManager.getReturnRequest();
+        if(loanManager.getReturnRequest())
+            return true;
+        return false;
     }
 
     public void addToHistory(int id,Librarian l)
