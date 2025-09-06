@@ -11,7 +11,7 @@ public class ManagerHandler
     public ManagerHandler()
     {
         this.manager=new ArrayList<>();
-        m=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Manager.txt");
+        m=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Manager.json");
     }
 
     public void getManager()
@@ -26,16 +26,15 @@ public class ManagerHandler
         getManager();
         if(manager!=null )
         {
-            for(Manager manager1:manager)
-            {
-                if(manager1.getUsername().equals(username) && manager1.getPassword().equals(password))
-                    return manager1;
-            }
+            return manager.stream()
+                    .filter(x->x.getUsername().equalsIgnoreCase(username) && x.getPassword().equals(password))
+                    .findFirst()
+                    .get();
         }
         return null;
     }
 
     public void add(String u,String p) throws InvalidEntrance {
-        m.writeInFile(new Manager(u,p));
+        m.writeInFile(new Manager(u,p),Manager.class);
     }
 }
