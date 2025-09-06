@@ -12,7 +12,7 @@ public class BookHandler
     public BookHandler()
     {
         books=new ArrayList<>();
-        f=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Books.txt");
+        f=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Books.json");
     }
 
     public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
@@ -20,7 +20,7 @@ public class BookHandler
         Book b=new Book(name.trim(),author.trim(),publishedYear);
         if(books!=null && books.contains(b))
             throw new InvalidEntrance("Book Has Already Added!<500>");
-        f.writeInFile(b);
+        f.writeInFile(b, Book.class);
         System.out.println("Book Added Successfully!");
     }
     public void getBooks()
@@ -34,7 +34,7 @@ public class BookHandler
         f.clearFile();
         for(Book b:book)
         {
-            f.writeInFile(b);
+            f.writeInFile(b,Book.class);
         }
     }
 
@@ -43,11 +43,9 @@ public class BookHandler
         getBooks();
         if(!books.isEmpty())
         {
-            for(Book book:books)
-            {
-                if(book.getState().equalsIgnoreCase("AVAILABLE"))
-                    System.out.println(book);
-            }
+            books.stream()
+                    .filter(x->x.getState().equalsIgnoreCase("AVAILABLE"))
+                    .forEach(System.out::println);
         }
         else
         {
@@ -60,14 +58,15 @@ public class BookHandler
         getBooks();
         if(books!=null && !books.isEmpty())
         {
-            for(Book book:books)
-            {
-                if(book.getName().equalsIgnoreCase(name) && book.getAuthor().equalsIgnoreCase(author) && book.getPublishedYear()==publishedYear)
-
-                    if(book.getState().equalsIgnoreCase("AVAILABLE")) {
-                        updateFile(books);
-                        return book;
-                    }
+            Book b=books.stream()
+                    .filter(x->x.getName().equalsIgnoreCase(name) &&
+                            x.getAuthor().equalsIgnoreCase(author) &&
+                            x.getPublishedYear()==publishedYear)
+                    .findFirst()
+                    .get();
+            if(b.getState().equalsIgnoreCase("AVAILABLE")) {
+                updateFile(books);
+                return b;
             }
         }
         else
@@ -83,20 +82,18 @@ public class BookHandler
         getBooks();
         if(!books.isEmpty())
         {
-            for(Book book:books)
-            {
-                if(book.getName().equalsIgnoreCase(name) &&
-                        book.getAuthor().equalsIgnoreCase(author) &&
-                        book.getPublishedYear()==publishedYear) {
-                    return book;
-                }
-            }
+            Book b=books.stream()
+                    .filter(x->x.getAuthor().equalsIgnoreCase(author) &&
+                            x.getName().equalsIgnoreCase(name) &&
+                            x.getPublishedYear()==publishedYear)
+                    .findFirst()
+                    .get();
+            return b;
         }
         else
         {
             throw new BookException("No Book In List!");
         }
-        return null;
     }
     public void editBookName(Book book,String name) throws InvalidEntrance {
         getBooks();
@@ -155,17 +152,11 @@ public class BookHandler
         if(!books.isEmpty())
         {
             boolean isFound=false;
-            for(Book book:books)
-            {
-                if(book.getName().equalsIgnoreCase(name))
-                {
-                    isFound=true;
-                    System.out.println(book);
-                    break;
-                }
-            }
-            if(!isFound)
-                System.out.println("Book Not Found!");
+            Book b=books.stream()
+                    .filter(x->x.getName().equalsIgnoreCase(name))
+                    .findFirst()
+                    .get();
+            System.out.println(b);
         }
         else
         {
