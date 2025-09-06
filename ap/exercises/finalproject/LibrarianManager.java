@@ -11,11 +11,9 @@ public class LibrarianManager
     public LibrarianManager()
     {
         librarians=new ArrayList<>();
-        lF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Librarian.txt");
+        lF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Librarians.json");
     }
-
-    public Librarian authenticateLibrarian(String username,String password)
-    {
+    public Librarian authenticateLibrarian(String username,String password) {
         getLibrarians();
         return librarians.stream()
                 .filter(l->l.getUsername().equals(username) && l.getPassword().equals(password))
@@ -23,30 +21,23 @@ public class LibrarianManager
                 .orElse(null);
     }
 
-    public void getLibrarians()
-    {
+    public void getLibrarians() {
         if(librarians!=null && !librarians.isEmpty())
             librarians.clear();
         librarians=lF.readFromFile(Librarian.class);
     }
-
     public void editLibrarianInformation(Librarian librarian,String password) throws InvalidEntrance {
         getLibrarians();
-        for(Librarian l:librarians)
-        {
-            if(librarian.getUsername().equals(l.getUsername()) && librarian.getPassword().equals(l.getPassword()))
-            {
+        for(Librarian l:librarians) {
+            if(librarian.getUsername().equals(l.getUsername()) && librarian.getPassword().equals(l.getPassword())) {
                 l.setPassword(password);
             }
         }
         updateLibrarian(librarians);
     }
-
-    public void increaseLibrarianbook(String username)
-    {
+    public void increaseLibrarianbook(String username){
         getLibrarians();
-        for(Librarian l:librarians)
-        {
+        for(Librarian l:librarians) {
             if(l.getUsername().equals(username)) {
                 l.increaseNumberOfBook();
                 break;
@@ -54,48 +45,54 @@ public class LibrarianManager
         }
         updateLibrarian(librarians);
     }
-
-    public void updateLibrarian(List<Librarian> l)
-    {
+    public void updateLibrarian(List<Librarian> l) {
         lF.clearFile();
-        for(Librarian librarian:l)
-        {
-            lF.writeInFile(librarian);
+        for(Librarian librarian:l) {
+            lF.writeInFile(librarian,Librarian.class);
         }
     }
-
-    public Librarian getALibrarian(String username)
-    {
+    public Librarian getALibrarian(String username) {
         getLibrarians();
-        for(Librarian l:librarians)
+        if(librarians!=null)
         {
-            if(l.getUsername().equals(username))
-                return l;
-        }return null;
+            return librarians.stream()
+                    .filter(x->x.getUsername().equals(username))
+                    .findFirst()
+                    .get();
+        }
+        return null;
     }
-    public List<Librarian> returnLibrarian()
-    {
+    public List<Librarian> returnLibrarian() {
         getLibrarians();
         return librarians;
     }
     public void librarianHistory(String username)
     {
         getLibrarians();
-        for(Librarian l:librarians)
-        {
-            if(l.getUsername().equals(username))
-                System.out.println("Number of Book Registered: "+l.getNumBook());
+        if(librarians!=null) {
+            Librarian l = librarians.stream()
+                    .filter(x -> x.getUsername().equals(username))
+                    .findFirst()
+                    .get();
+            System.out.println("Number of Book Registered: " + l.getNumBook());
         }
     }
 
+    public boolean isUsernameTaken(String username)
+    {
+        getLibrarians();
+        return librarians.stream().anyMatch(s->s.getUsername().equalsIgnoreCase(username));
+    }
     public void addLibrarian(String username,String id) throws InvalidEntrance {
         Librarian lib=new Librarian(username.trim(),id);
         getLibrarians();
         if(librarians!=null && librarians.contains(lib))
             System.out.println("Librarian Has Already Added!");
+        if(isUsernameTaken(username))
+            System.out.println("This username already exists. Please choose a different username.");
         else
         {
-            lF.writeInFile(lib);
+            lF.writeInFile(lib,Librarian.class);
             System.out.println("Librarian Added Successfully!");
         }
     }
