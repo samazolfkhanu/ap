@@ -1,14 +1,22 @@
 package ap.exercises.finalproject;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.*;
+import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileHandling<T>
 {
+    Gson g;
     private String path;
     public FileHandling(String path)
     {
+        g=new GsonBuilder().registerTypeAdapter(LocalDate.class,new LocalDateAdapter()).setPrettyPrinting().create();
         if(path!=null && !path.isEmpty())
             this.path=path;
         else
@@ -17,62 +25,36 @@ public class FileHandling<T>
         }
     }
 
-    public void writeInFile(T obj)
+    public void writeInFile(T obj,Class<T> clazz)
     {
-        File f=new File(path);
-        try
-        {
-            FileOutputStream out=new FileOutputStream(f,true);
-            ObjectOutputStream oos;
-            if(f.length()!=0)
-            {
-                oos=new Append(out);
-                oos.writeObject(obj);
+        List<T> l=readFromFile(clazz);
+        try {
+            if(l!=null) {
+                if(!l.contains(obj)) {
+                    FileWriter w=new FileWriter(path);
+                    l.add(obj);
+                    g.toJson(l,w);
+                    w.close();
+                }
             }
-            else
-            {
-                oos=new ObjectOutputStream(out);
-                oos.writeObject(obj);
+            else{
+                List<T> list=new ArrayList<>();
+                list.add(obj);
+                FileWriter w=new FileWriter(path,true);
+                g.toJson(list,w);
+                w.close();
             }
-            oos.flush();
-            oos.close();
-        }
-        catch(IOException e)
-        {
+        }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
 
-    public ArrayList<T> readFromFile(Class<T> clazz)
-    {
-        ArrayList<T> objectList=new ArrayList<>();
-        File f=new File(path);
-        if(f.length()!=0)
-        {
-            try
-            {
-                ObjectInputStream ois=new ObjectInputStream(new FileInputStream(path));
-                while(true)
-                {
-                    try
-                    {
-                        T obj=clazz.cast(ois.readObject());
-                        objectList.add(obj);
-                    }
-                    catch(ClassNotFoundException c)
-                    {
-                        System.out.println(c.getMessage());
-                    }
-                    catch(EOFException ex)
-                    {
-                        break;
-                    }
-                }
-            }catch(IOException iE)
-            {
-                System.out.println(iE.getMessage());
-            }
-            return objectList;
+    public List<T> readFromFile(Class<T> clazz) {
+        try (FileReader r = new FileReader(path)){
+            Type t= TypeToken.getParameterized(List.class,clazz).getType();
+            return g.fromJson(r,t);
+        }catch(Exception e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -82,6 +64,7 @@ public class FileHandling<T>
         try
         {
             PrintWriter p=new PrintWriter(path);
+            p.write("");
             p.close();
         }catch(IOException e)
         {
