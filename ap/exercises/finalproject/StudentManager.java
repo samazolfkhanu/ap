@@ -1,26 +1,35 @@
 package ap.exercises.finalproject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentManager {
-    private ArrayList<Student> students;
+    private List<Student> students;
     private  FileHandling<Student> sF;
 
     public StudentManager() {
         this.students = new ArrayList<>();
-        this.sF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Students.txt");
+        this.sF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Students.json");
     }
 
-    public void registerStudent(String name, String studentId, String username, String password) {
+    public void registerStudent(String name, String username, String password) {
         getStudents();
-        if (studentId!=null && isUsernameTaken(username)) {
+        if (isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
         }
-
-        Student newStudent = new Student(name.trim(), studentId.trim(), username.trim(), password.trim());
-        sF.writeInFile(newStudent);
+        int maxId=0;
+        if(students!=null)
+        {
+            maxId=students.stream()
+                    .map(x->Integer.parseInt(x.getStudentId()))
+                    .max(Integer::compare)
+                    .orElse(0);
+        }
+        Student newStudent = new Student(name.trim(),String.valueOf(maxId+1), username.trim(), password.trim());
+        sF.writeInFile(newStudent, Student.class);
         System.out.println("Student registration completed successfully.");
     }
 
@@ -104,7 +113,7 @@ public class StudentManager {
         sF.clearFile();
         for(Student s:l)
         {
-            sF.writeInFile(s);
+            sF.writeInFile(s, Student.class);
         }
     }
 
@@ -113,11 +122,12 @@ public class StudentManager {
         getStudents();
         if(students!=null)
         {
-            for(Student s:students) {
-                if (s.getUsername().equals(username))
-                    return s;
-            }
+            return students.stream()
+                    .filter(x->x.getUsername().equals(username))
+                    .findFirst()
+                    .get();
         }
         return null;
     }
 }
+
