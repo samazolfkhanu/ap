@@ -6,7 +6,6 @@ import java.time.temporal.ChronoUnit;
 
 public class Loan implements Serializable
 {
-    private int idCount=1;
     private Book book;
     private Student student;
     private int id;
@@ -16,20 +15,20 @@ public class Loan implements Serializable
     private LocalDate returnDate;
     private Librarian issuer;
     private Librarian receiver;
-    public Loan(Book book,Student student)throws InvalidEntrance
+    public Loan(){}
+    public Loan(Book book,Student student,int id)throws InvalidEntrance
     {
         if(book!=null && student!=null)
         {
             this.book=book;
             this.student=student;
-            this.id=idCount;
+            this.id=id;
             this.dueDate=null;
             this.borrowRequestDate =LocalDate.now();
             this.issueDate=null;
             this.returnDate=null;
             this.issuer=null;
             this.receiver=null;
-            idCount++;
         }
         else
         {
@@ -41,7 +40,6 @@ public class Loan implements Serializable
     {
         return Math.max(0, ChronoUnit.DAYS.between(dueDate,returnDate));
     }
-
     public Book getBook()
     {
         return book;
@@ -108,10 +106,10 @@ public class Loan implements Serializable
                 "ID: "+id+
                 "\n\t"+book+
                 "\n\t"+student+
+                "\n\tIssuer: "+issuer+
                 "\nIssueDate: "+issueDate
                 +"\nReturnDate: "+returnDate
                 +"\nDueDate: "+dueDate
-                +"\nIssuer: "+issuer
                 +"\nReceiver: "+receiver;
     }
 
