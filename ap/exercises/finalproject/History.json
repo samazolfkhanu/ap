@@ -1,0 +1,32 @@
+[
+  {
+    "book": {
+      "name": "Sky",
+      "author": "sima",
+      "publishedYear": 2020,
+      "state": "BORROWED"
+    },
+    "student": {
+      "name": "Sama",
+      "studentId": "100",
+      "username": "sama",
+      "password": "100",
+      "permission": "ACTIVE"
+    },
+    "id": 1,
+    "borrowRequestDate": "2025-09-01",
+    "issueDate": "2025-09-01",
+    "dueDate": "2025-10-01",
+    "returnDate": "2025-09-01",
+    "issuer": {
+      "username": "mobina",
+      "password": "20",
+      "numBook": 1
+    },
+    "receiver": {
+      "username": "neda",
+      "password": "30",
+      "numBook": 0
+    }
+  }
+]
