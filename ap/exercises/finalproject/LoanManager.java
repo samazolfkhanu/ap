@@ -1,10 +1,7 @@
 package ap.exercises.finalproject;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class LoanManager
@@ -14,10 +11,10 @@ public class LoanManager
     FileHandling<Loan> rF;
     FileHandling<Loan> lF;
     FileHandling<Loan> hF;
-    private List<Loan> borrowRequest;
-    private List<Loan> loans;
-    private List<Loan> history;
-    private List<Loan> returnRequest;
+    private Map<Integer,Loan> borrowRequest;
+    private Map<Integer,Loan> loans;
+    private Map<Integer,Loan> history;
+    private Map<Integer,Loan> returnRequest;
 
     public LoanManager() {
         bookHandler=new BookHandler();
@@ -25,26 +22,31 @@ public class LoanManager
         lF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Loans.json");
         rF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/ReturnRequests.json");
         hF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/History.json");
-        borrowRequest=new ArrayList<>();
-        returnRequest=new ArrayList<>();
-        loans=new ArrayList<>();
-        history=new ArrayList<>();
+        borrowRequest=new HashMap<>();
+        returnRequest=new HashMap<>();
+        loans=new HashMap<>();
+        history=new HashMap<>();
     }
 
-    public List<Loan> getBorrowRequest() {
+    public Map<Integer,Loan> getBorrowRequest() {
         borrowRequestList();
         return borrowRequest;
     }
 
     public void getLoans() {
+        List<Loan> l=new ArrayList<>();
         if(loans!=null && !loans.isEmpty())
             loans.clear();
-        loans=lF.readFromFile(Loan.class);
+        l=lF.readFromFile(Loan.class);
+        if(l!=null) {
+            loans=l.stream()
+                    .collect(Collectors.toMap(x->x.getId(),x->x));
+        }
     }
 
-    public void updateBorrowRequestList(List<Loan> l) {
+    public void updateBorrowRequestList(Map<Integer,Loan> l) {
         bF.clearFile();
-        for(Loan loan:l)
+        for(Loan loan:l.values())
         {
             bF.writeInFile(loan,Loan.class);
         }
@@ -53,7 +55,7 @@ public class LoanManager
     public void addToLoanList(int id,Librarian librarian) {
         getLoans();
         borrowRequestList();
-        for(Loan l:borrowRequest)
+        for(Loan l:borrowRequest.values())
         {
             if(l.getId()==id)
             {
@@ -61,7 +63,7 @@ public class LoanManager
                 l.getBook().setState("borrowed");
                 l.setIssueDate();
                 l.setIssuer(librarian);
-                if(loans!=null && loans.contains(l)) {
+                if(loans!=null && loans.containsValue(l)) {
                     System.out.println("Loan Has Already Added!");
                     break;
                 }
@@ -78,62 +80,65 @@ public class LoanManager
     }
 
     public void getHistory() {
+        List<Loan> l=new ArrayList<>();
         if(history!=null && !history.isEmpty())
             history.clear();
-        history=hF.readFromFile(Loan.class);
+        l=hF.readFromFile(Loan.class);
+        if(l!=null) {
+            history=l.stream()
+                    .collect(Collectors.toMap(Loan::getId, x->x));
+        }
     }
 
-    public int totalLoanPerStudent(String username,String id) {
+    public int totalLoanPerStudent(String username) {
         getLoans();
         int count=0;
         getHistory();
         if(history!=null) {
-            count=history.stream()
-                    .filter(x->x.getStudent().getStudentId().equals(id) &&
-                            x.getStudent().getUsername().equals(username))
+            count=history.entrySet().stream()
+                    .filter(x->x.getValue().getStudent().getUsername().equals(username))
                     .collect(Collectors.collectingAndThen(Collectors.counting(),Long::intValue));
         }
         if(loans!=null) {
-            count+=loans.stream()
-                    .filter(x->x.getStudent().getStudentId().equals(id) &&
-                            x.getStudent().getUsername().equals(username))
+            count+=loans.entrySet().stream()
+                    .filter(x->x.getValue().getStudent().getUsername().equals(username))
                     .collect(Collectors.collectingAndThen(Collectors.counting(),Long::intValue));
         }
         return count;
     }
 
-    public void historyPerStudent(String username,String id) {
+    public void historyPerStudent(String username) {
         getLoans();
         getHistory();
         if(loans!=null) {
-            loans.stream()
-                    .filter(x->x.getStudent().getStudentId().equals(id) && x.getStudent().getUsername().equals(username))
+            loans.entrySet().stream()
+                    .filter(x->x.getValue().getStudent().getUsername().equals(username))
                     .forEach(System.out::println);
         }
         if(history!=null) {
-            history.stream()
-                    .filter(x->x.getStudent().getStudentId().equals(id) && x.getStudent().getUsername().equals(username))
+            history.entrySet().stream()
+                    .filter(x->x.getValue().getStudent().getUsername().equals(username))
                     .forEach(System.out::println);
         }
     }
 
-    public int allNotReturnedBookPerStudent(String username,String id) {
+    public int allNotReturnedBookPerStudent(String username) {
         int count=0;
         getLoans();
         if(loans!=null) {
-            count+=loans.stream()
-                    .filter(x->x.getStudent().getStudentId().equals(id) && x.getStudent().getUsername().equals(username))
+            count+=loans.entrySet().stream()
+                    .filter(x->x.getValue().getStudent().getUsername().equals(username))
                     .collect(Collectors.collectingAndThen(Collectors.counting(),Long::intValue));
         }
         return count;
     }
 
-    public int totalOverdueLoansPerStudent(String username,String id) {
+    public int totalOverdueLoansPerStudent(String username) {
         getHistory();
         int count = 0;
         if(history!=null) {
-            count+=history.stream()
-                    .filter(x->x.getStudent().getStudentId().equals(id) && x.getStudent().getUsername().equals(username))
+            count+=history.entrySet().stream()
+                    .filter(x->x.getValue().getStudent().getUsername().equals(username))
                     .collect(Collectors.collectingAndThen(Collectors.counting(),Long::intValue));
         }
         return count;
@@ -142,13 +147,13 @@ public class LoanManager
     public void returnRequest(Student s,Book b) {
         getLoans();
         getReturnRequestList();
-        for(Loan l:loans) {
+        for(Loan l:loans.values()) {
             if(l.getStudent().getUsername().equals(s.getUsername())
                     && l.getBook().getName().equals(b.getName())
                     && l.getBook().getAuthor().equals(b.getAuthor()))
             {
                 System.out.println(l);
-                if(returnRequest!=null && returnRequest.contains(l)) {
+                if(returnRequest!=null && returnRequest.containsValue(l)) {
                     loans.remove(l);
                     System.out.println("Request has Already Added!");
                     break;
@@ -167,25 +172,35 @@ public class LoanManager
             updateLoanList(loans);
     }
 
-    public void updateLoanList(List<Loan> l) {
+    public void updateLoanList(Map<Integer,Loan> l) {
         rF.clearFile();
         if(!l.isEmpty()) {
-            for (Loan loan : l)
+            for (Loan loan : l.values())
                 rF.writeInFile(loan,Loan.class);
         }
 
     }
 
     public void borrowRequestList() {
+        List<Loan> l;
         if(borrowRequest!=null && !borrowRequest.isEmpty())
             borrowRequest.clear();
-        borrowRequest= bF.readFromFile(Loan.class);
+        l= bF.readFromFile(Loan.class);
+        if(l!=null) {
+            borrowRequest=l.stream()
+                    .collect(Collectors.toMap(Loan::getId, x->x));
+        }
     }
 
     public void getReturnRequestList() {
+        List<Loan> l;
         if(returnRequest!=null && !returnRequest.isEmpty())
             returnRequest.clear();
-        returnRequest=rF.readFromFile(Loan.class);
+        l=rF.readFromFile(Loan.class);
+        if(l!=null) {
+            returnRequest=l.stream()
+                    .collect(Collectors.toMap(Loan::getId, x->x));
+        }
     }
 
     public void borrowRequest(Book book,Student student) throws InvalidEntrance {
@@ -195,16 +210,15 @@ public class LoanManager
             int maxId=0;
             if(borrowRequest!=null)
             {
-                maxId=borrowRequest.stream()
-                        .max(Comparator.comparingInt(x->x.getId()))
-                        .get()
-                        .getId();
+                maxId=borrowRequest.keySet().stream()
+                        .max(Integer::compare)
+                        .orElse(0);
             }
             bookHandler.editBookState(book,"reserved");
             Loan l=new Loan(book,student,maxId+1);
             bookHandler.editBookState(l.getBook(),"Reserved");
             l.getBook().setState("reserved");
-            if(borrowRequest!=null && borrowRequest.contains(l))
+            if(borrowRequest!=null && borrowRequest.containsKey(l))
                 System.out.println("Request Already Added!");
             else
             {
@@ -221,9 +235,13 @@ public class LoanManager
     public void removeBanStudent(String username) {
         getBorrowRequest();
         if(borrowRequest!=null) {
-            for(Loan loan:borrowRequest) {
-                if(loan.getStudent().getUsername().equals(username))
-                    borrowRequest.remove(loan);
+            Iterator<Map.Entry<Integer,Loan>> it=borrowRequest.entrySet().iterator();
+            while(it.hasNext())
+            {
+                Map.Entry<Integer,Loan> m=it.next();
+                if(m.getValue().getStudent().getUsername().equals(username))
+                    it.remove();
+
             }
             updateLoanList(borrowRequest);
         }
@@ -233,7 +251,7 @@ public class LoanManager
     {
         getReturnRequestList();
         if(returnRequest!=null) {
-            for (Loan l : returnRequest) {
+            for (Loan l : returnRequest.values()) {
                 System.out.println(l);
                 return true;
             }
@@ -246,20 +264,20 @@ public class LoanManager
     public void addToHistory(int id,Librarian librarian) {
         getHistory();
         getReturnRequest();
-        Iterator<Loan> it=returnRequest.iterator();
+        Iterator<Map.Entry<Integer,Loan>> it=returnRequest.entrySet().iterator();
         while(it.hasNext()) {
-            Loan l=it.next();
-            if(l.getId()==id) {
-                l.setReturnDate();
-                l.setReceiver(librarian);
-                bookHandler.editBookState(l.getBook(),"Available");
-                if(history!=null && history.contains(l)) {
+            Map.Entry<Integer,Loan> l=it.next();
+            if(l.getKey()==id) {
+                l.getValue().setReturnDate();
+                l.getValue().setReceiver(librarian);
+                bookHandler.editBookState(l.getValue().getBook(),"Available");
+                if(history!=null && history.containsValue(l)) {
                     it.remove();
                     System.out.println("Request Has Already Added To History!");
                 }
                 else {
                     it.remove();
-                    hF.writeInFile(l,Loan.class);
+                    hF.writeInFile(l.getValue(),Loan.class);
                     System.out.println("Book Returned Successfully!");
                 }
             }
@@ -270,9 +288,9 @@ public class LoanManager
             updateReturnRequestList(returnRequest);
     }
 
-    public void updateReturnRequestList(List<Loan> l) {
+    public void updateReturnRequestList(Map<Integer,Loan> l) {
         rF.clearFile();
-        for(Loan loan:l)
+        for(Loan loan:l.values())
             rF.writeInFile(loan,Loan.class);
     }
 
@@ -281,7 +299,7 @@ public class LoanManager
         int recieve=0;
         getHistory();
         if(history!=null) {
-            for(Loan l:history) {
+            for(Loan l:history.values()) {
                 if(l.getIssuer().getUsername().equals(username))
                     issue++;
                 if(l.getReceiver().getUsername().equals(username))
@@ -297,13 +315,13 @@ public class LoanManager
         long days=0;
         getBorrowRequest();
         if(borrowRequest!=null) {
-            count+=borrowRequest.stream()
-                    .filter(l->l.getStudent().getName().equalsIgnoreCase(name) && l.getBook().getAuthor().equalsIgnoreCase(author))
+            count+=borrowRequest.entrySet().stream()
+                    .filter(l->l.getValue().getStudent().getName().equalsIgnoreCase(name) && l.getValue().getBook().getAuthor().equalsIgnoreCase(author))
                     .collect(Collectors.collectingAndThen(Collectors.counting(),Long::intValue));
         }
         getHistory();
         if(history!=null) {
-            for(Loan l:history) {
+            for(Loan l:history.values()) {
                 if(l.getBook().getName().equalsIgnoreCase(name) && l.getBook().getAuthor().equalsIgnoreCase(author)) {
                     c++;
                     days= ChronoUnit.DAYS.between(l.getIssueDate(),l.getReturnDate());
@@ -318,9 +336,9 @@ public class LoanManager
     public List<Loan> getTop10LateReturns() {
         getHistory();
         if(history!=null) {
-            return history.stream()
-                    .filter(x->x.getReturnDate().isAfter(x.getDueDate()))
-                    .sorted(Comparator.comparingLong(Loan::getDelayDays))
+            return history.values().stream()
+                    .filter(loan -> loan.getReturnDate().isAfter(loan.getDueDate()))
+                    .sorted(Comparator.comparingLong(x->x.getDelayDays()))
                     .limit(10)
                     .toList();
         }
