@@ -1,10 +1,9 @@
 package ap.exercises.finalproject;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Loan implements Serializable
+public class Loan
 {
     private Book book;
     private Student student;
