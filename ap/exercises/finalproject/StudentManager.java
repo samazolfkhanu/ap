@@ -1,11 +1,9 @@
 package ap.exercises.finalproject;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
-public class StudentManager {
+public class StudentManager implements List_Tool<Student> , Account_Handler<Student>,Ban_Control {
     private List<Student> students;
     private  FileHandling<Student> sF;
 
@@ -14,8 +12,8 @@ public class StudentManager {
         this.sF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Students.json");
     }
 
-    public void registerStudent(String name, String username, String password) {
-        getStudents();
+    public void registerStudent(String name, String username, String password) throws InvalidEntrance {
+        getList();
         if (isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
@@ -33,15 +31,15 @@ public class StudentManager {
         System.out.println("Student registration completed successfully.");
     }
 
-    public Student authenticateStudent(String username, String password) {
-        getStudents();
+    public Student authenticateUser(String username, String password) {
+        getList();
         return students.stream()
                 .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
                 .findFirst()
                 .orElse(null);
     }
 
-    public void getStudents()
+    public void getList()
     {
         if(students!=null && !students.isEmpty())
             students.clear();
@@ -50,65 +48,74 @@ public class StudentManager {
 
     public List<Student> returnStudent()
     {
-        getStudents();
+        getList();
         return students;
     }
 
     private boolean isUsernameTaken(String username) {
-        getStudents();
+        getList();
         if(students!=null)
             return students.stream().anyMatch(s -> s.getUsername().equals(username));
         return false;
     }
-    public void banStudent(String username,String id) throws InvalidEntrance {
-        getStudents();
-        for(Student s:students){
-            if(s.getUsername().equals(username) && s.getStudentId().equals(id))
-                s.banStudent();
+    public void banStudent(String username) {
+        getList();
+        try{
+            for(Student s:students){
+                if(s.getUsername().equals(username) )
+                    s.banStudent();
+            }
+        }catch (InvalidEntrance e) {
+            System.out.println(e.getMessage());
         }
-        updateStudentFile(students);
+        updateList(students);
     }
 
-    public void unbanStudent(String username,String id) throws InvalidEntrance {
-        getStudents();
-        for(Student s:students){
-            if(s.getUsername().equals(username) && s.getStudentId().equals(id))
-                s.unbanStudent();
+    public void unbanStudent(String username){
+        getList();
+        try{
+            for(Student s:students){
+                if(s.getUsername().equals(username))
+                    s.unbanStudent();
+            }
+        }catch(InvalidEntrance e)
+        {
+            System.out.println(e.getMessage());
         }
-        updateStudentFile(students);
+        updateList(students);
     }
 
     public void editName(String name,Student s) throws InvalidEntrance {
-        getStudents();
+        getList();
         for(Student student:students)
         {
             if(student.getUsername().equals(s.getUsername()))
                 student.setName(name);
         }
-        updateStudentFile(students);
+        updateList(students);
     }
 
     public void editPassword(String password,Student s) throws InvalidEntrance {
-        getStudents();
+        getList();
         for(Student student:students)
         {
             if(student.getUsername().equals(s.getUsername()))
                 student.setPassword(password);
         }
-        updateStudentFile(students);
+        updateList(students);
     }
 
     public void editStudentId(String id,Student s) throws InvalidEntrance {
-        getStudents();
+        getList();
         for(Student student:students)
         {
             if(student.getUsername().equals(s.getUsername()))
                 student.setStudentId(id);
         }
-        updateStudentFile(students);
+        updateList(students);
     }
 
-    public void updateStudentFile(List<Student> l)
+    public void updateList(List<Student> l)
     {
         sF.clearFile();
         for(Student s:l)
@@ -117,9 +124,9 @@ public class StudentManager {
         }
     }
 
-    public Student getAStudent(String username)
+    public Student getAUser(String username)
     {
-        getStudents();
+        getList();
         if(students!=null)
         {
             return students.stream()
