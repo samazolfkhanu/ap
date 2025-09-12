@@ -1,21 +1,24 @@
 package ap.exercises.finalproject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ManagerHandler implements List_Tool<Manager>, Account_Handler<Manager>
 {
-    private List<Manager> manager;
+    private Map<String,Manager> manager;
     private FileHandling<Manager> m;
 
     public ManagerHandler()
     {
-        this.manager=new ArrayList<>();
+        this.manager=new HashMap<>();
         m=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Manager.json");
     }
     private boolean isUsernameTaken(String username) {
         if(manager!=null)
-            return manager.stream().anyMatch(s -> s.getUsername().equals(username));
+            return manager.entrySet().stream().anyMatch(s -> s.getKey().equals(username));
         return false;
     }
     public void registerManager(String username,String password) throws InvalidEntrance {
@@ -31,9 +34,15 @@ public class ManagerHandler implements List_Tool<Manager>, Account_Handler<Manag
 
     public void getList()
     {
+        List<Manager> l=new ArrayList<>();
         if(!manager.isEmpty())
             manager.clear();
-        manager=m.readFromFile(Manager.class);
+        l=m.readFromFile(Manager.class);
+        if(l!=null)
+        {
+            manager=l.stream()
+                    .collect(Collectors.toMap(Manager::getUsername, m->m));
+        }
     }
 
     @Override
@@ -42,18 +51,19 @@ public class ManagerHandler implements List_Tool<Manager>, Account_Handler<Manag
         getList();
         if(manager!=null)
         {
-            return manager.stream()
-                    .filter(x->x.getUsername().equals(username))
+            return manager.entrySet().stream()
+                    .filter(x->x.getKey().equals(username))
                     .findFirst()
-                    .get();
+                    .get()
+                    .getValue();
         }
         return null;
     }
 
     @Override
-    public void updateList(List<Manager> l) {
+    public void updateList(Map<String,Manager> l) {
         m.clearFile();
-        for(Manager manger:l)
+        for(Manager manger:l.values())
         {
             m.writeInFile(manger,Manager.class);
         }
@@ -64,10 +74,10 @@ public class ManagerHandler implements List_Tool<Manager>, Account_Handler<Manag
         getList();
         if(manager!=null )
         {
-            return manager.stream()
+            return manager.values().stream()
                     .filter(x->x.getUsername().equalsIgnoreCase(username) && x.getPassword().equals(password))
                     .findFirst()
-                    .get();
+                    .orElse(null);
         }
         return null;
     }
