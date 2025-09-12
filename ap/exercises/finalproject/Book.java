@@ -8,14 +8,16 @@ public class Book implements Serializable
     private String author;
     private int publishedYear;
     private BookState state;
-    public Book(String name,String author,int publishedYear)throws InvalidEntrance
+    private String ISBN;
+    public Book(String name,String author,int publishedYear,String ISBN)throws InvalidEntrance
     {
-        if(!name.isEmpty() && !author.isEmpty() && publishedYear>0)
+        if(!name.isEmpty() && !author.isEmpty() && publishedYear>0 && ISBN!=null)
         {
             this.name=name;
             this.author=author;
             this.publishedYear=publishedYear;
             this.state=BookState.AVAILABLE;
+            this.ISBN=ISBN;
         }
         else
         {
@@ -51,6 +53,10 @@ public class Book implements Serializable
         else
             throw new InvalidEntrance("Invalid Name!<101>");
     }
+    public String getISBN()
+    {
+        return ISBN;
+    }
     public void setAuthor(String author) throws InvalidEntrance {
         if(!author.isEmpty())
             this.author=author;
@@ -71,7 +77,8 @@ public class Book implements Serializable
                 "Name: "+this.name+
                 " | Author: "+this.author+
                 " | Published Year: "+this.publishedYear+
-                " | State: "+this.state.name();
+                " | State: "+this.state.name()+
+                " | ISBN: "+this.ISBN;
     }
 
 }
