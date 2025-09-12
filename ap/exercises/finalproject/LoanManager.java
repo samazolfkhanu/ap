@@ -183,7 +183,7 @@ public class LoanManager
     }
 
     public void getReturnRequestList() {
-        if(!returnRequest.isEmpty())
+        if(returnRequest!=null && !returnRequest.isEmpty())
             returnRequest.clear();
         returnRequest=rF.readFromFile(Loan.class);
     }
@@ -218,11 +218,11 @@ public class LoanManager
         }
     }
 
-    public void removeBanStudent(String username,String id) {
+    public void removeBanStudent(String username) {
         getBorrowRequest();
         if(borrowRequest!=null) {
             for(Loan loan:borrowRequest) {
-                if(loan.getStudent().getUsername().equals(username) && loan.getStudent().getStudentId().equals(id))
+                if(loan.getStudent().getUsername().equals(username))
                     borrowRequest.remove(loan);
             }
             updateLoanList(borrowRequest);
@@ -317,11 +317,14 @@ public class LoanManager
 
     public List<Loan> getTop10LateReturns() {
         getHistory();
-        return history.stream()
-                .filter(x->x.getReturnDate().isAfter(x.getDueDate()))
-                .sorted(Comparator.comparingLong(Loan::getDelayDays))
-                .limit(10)
-                .toList();
+        if(history!=null) {
+            return history.stream()
+                    .filter(x->x.getReturnDate().isAfter(x.getDueDate()))
+                    .sorted(Comparator.comparingLong(Loan::getDelayDays))
+                    .limit(10)
+                    .toList();
+        }
+        return null;
     }
 
 }
