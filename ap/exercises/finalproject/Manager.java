@@ -1,43 +1,26 @@
 package ap.exercises.finalproject;
 
+
 import java.io.Serializable;
 
-public class Manager implements Serializable
+public class Manager extends User implements Serializable
 {
-    private String username;
-    private String password;
 
     public Manager(String username,String password) throws InvalidEntrance {
-        if(username!=null && password!=null)
-        {
-            this.username=username;
-            this.password=password;
-        }
-        else
-        {
-            throw new InvalidEntrance("Invalid Input! <600>");
-        }
-    }
-
-    public void setPassword(String password) throws InvalidEntrance {
-        if(password!=null)
-            this.password=password;
-        else
-            throw new InvalidEntrance("Invalid Password! <601>");
-    }
-    public void setUsername(String username) throws InvalidEntrance {
-        if(username!=null)
-            this.username=username;
-        else
-            throw new InvalidEntrance("Invalid Username! <602>");
+        super(username,password);
     }
 
     public String getUsername()
     {
-        return this.username;
+        return super.getUsername();
     }
     public String getPassword()
     {
-        return this.password;
+        return super.getPassword();
+    }
+
+    public String toString()
+    {
+        return "Manager Info:\n\tUsername: "+getUsername();
     }
 }
