@@ -3,11 +3,10 @@ package ap.exercises.finalproject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookHandler
+public class BookHandler implements List_Tool<Book>
 {
     FileHandling<Book> f;
     private List<Book> books;
-
 
     public BookHandler()
     {
@@ -16,20 +15,20 @@ public class BookHandler
     }
 
     public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
-        getBooks();
+        getList();
         Book b=new Book(name.trim(),author.trim(),publishedYear);
         if(books!=null && books.contains(b))
             throw new InvalidEntrance("Book Has Already Added!<500>");
         f.writeInFile(b, Book.class);
         System.out.println("Book Added Successfully!");
     }
-    public void getBooks()
+    public void getList()
     {
         if(books!=null && !books.isEmpty())
             books.clear();
         books=f.readFromFile(Book.class);
     }
-    public void updateFile(List<Book> book)
+    public void updateList(List<Book> book)
     {
         f.clearFile();
         for(Book b:book)
@@ -40,7 +39,7 @@ public class BookHandler
 
     public void displayAvailableBooks()
     {
-        getBooks();
+        getList();
         if(!books.isEmpty())
         {
             books.stream()
@@ -55,7 +54,7 @@ public class BookHandler
 
     public Book isBookAvailable(String name,String author,int publishedYear)
     {
-        getBooks();
+        getList();
         if(books!=null && !books.isEmpty())
         {
             Book b=books.stream()
@@ -65,7 +64,7 @@ public class BookHandler
                     .findFirst()
                     .get();
             if(b.getState().equalsIgnoreCase("AVAILABLE")) {
-                updateFile(books);
+                updateList(books);
                 return b;
             }
         }
@@ -79,7 +78,7 @@ public class BookHandler
 
     public Book searchBook(String name,String author,int publishedYear)
     {
-        getBooks();
+        getList();
         if(!books.isEmpty())
         {
             Book b=books.stream()
@@ -96,7 +95,7 @@ public class BookHandler
         }
     }
     public void editBookName(Book book,String name) throws InvalidEntrance {
-        getBooks();
+        getList();
         for(Book b:books)
         {
             if(b.getName().equals(book.getName()) &&
@@ -105,10 +104,10 @@ public class BookHandler
                 b.setName(name);
 
         }
-        updateFile(books);
+        updateList(books);
     }
     public void editBookAuthor(Book book,String author) throws InvalidEntrance {
-        getBooks();
+        getList();
         for(Book b:books)
         {
             if(b.getName().equals(book.getName()) &&
@@ -117,10 +116,10 @@ public class BookHandler
                 b.setAuthor(author);
 
         }
-        updateFile(books);
+        updateList(books);
     }
     public void editBookYear(Book book,int year) throws InvalidEntrance {
-        getBooks();
+        getList();
         for(Book b:books)
         {
             if(b.getName().equals(book.getName()) &&
@@ -129,12 +128,12 @@ public class BookHandler
                 b.setPublishedYear(year);
 
         }
-        updateFile(books);
+        updateList(books);
     }
 
     public void editBookState(Book book,String state)
     {
-        getBooks();
+        getList();
         for(Book b:books)
         {
             if(b.getName().equals(book.getName()) &&
@@ -143,15 +142,14 @@ public class BookHandler
                 b.setState(state);
 
         }
-        updateFile(books);
+        updateList(books);
     }
 
     public void searchBookByGuest(String name)
     {
-        getBooks();
-        if(!books.isEmpty())
+        getList();
+        if(books!=null && !books.isEmpty())
         {
-            boolean isFound=false;
             Book b=books.stream()
                     .filter(x->x.getName().equalsIgnoreCase(name))
                     .findFirst()
@@ -166,7 +164,9 @@ public class BookHandler
 
     public int getBookCount()
     {
-        getBooks();
+        getList();
+        if(books.isEmpty())
+            return 0;
         return books.size();
     }
 }
