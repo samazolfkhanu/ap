@@ -1,37 +1,45 @@
 package ap.exercises.finalproject;
 
-import java.util.ArrayList;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BookHandler implements List_Tool<Book>
 {
-    FileHandling<Book> f;
-    private List<Book> books;
+    private FileHandling<Book> f;
+    private Map<String,Book> books;
 
     public BookHandler()
     {
-        books=new ArrayList<>();
+        books=new HashMap<>();
         f=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Books.json");
     }
 
-    public void addBook(String name,String author,int publishedYear) throws InvalidEntrance {
+    public void addBook(String name,String author,int publishedYear,String ISBN) throws InvalidEntrance {
         getList();
-        Book b=new Book(name.trim(),author.trim(),publishedYear);
-        if(books!=null && books.contains(b))
+        Book b=new Book(name.trim(),author.trim(),publishedYear,ISBN.trim());
+        if(books!=null && books.containsKey(b))
             throw new InvalidEntrance("Book Has Already Added!<500>");
         f.writeInFile(b, Book.class);
         System.out.println("Book Added Successfully!");
     }
     public void getList()
     {
+        List<Book> l;
         if(books!=null && !books.isEmpty())
             books.clear();
-        books=f.readFromFile(Book.class);
+        l=f.readFromFile(Book.class);
+        if(l!=null) {
+            books=l.stream()
+                    .collect(Collectors.toMap(Book::getISBN, x->x));
+        }
     }
-    public void updateList(List<Book> book)
+    public void updateList(Map<String,Book> book)
     {
         f.clearFile();
-        for(Book b:book)
+        for(Book b:book.values())
         {
             f.writeInFile(b,Book.class);
         }
@@ -42,8 +50,8 @@ public class BookHandler implements List_Tool<Book>
         getList();
         if(!books.isEmpty())
         {
-            books.stream()
-                    .filter(x->x.getState().equalsIgnoreCase("AVAILABLE"))
+            books.entrySet().stream()
+                    .filter(x->x.getValue().getState().equalsIgnoreCase("AVAILABLE"))
                     .forEach(System.out::println);
         }
         else
@@ -57,12 +65,13 @@ public class BookHandler implements List_Tool<Book>
         getList();
         if(books!=null && !books.isEmpty())
         {
-            Book b=books.stream()
-                    .filter(x->x.getName().equalsIgnoreCase(name) &&
-                            x.getAuthor().equalsIgnoreCase(author) &&
-                            x.getPublishedYear()==publishedYear)
+            Book b=books.entrySet().stream()
+                    .filter(x->x.getValue().getName().equalsIgnoreCase(name) &&
+                            x.getValue().getAuthor().equalsIgnoreCase(author) &&
+                            x.getValue().getPublishedYear()==publishedYear)
                     .findFirst()
-                    .get();
+                    .get()
+                    .getValue();
             if(b.getState().equalsIgnoreCase("AVAILABLE")) {
                 updateList(books);
                 return b;
@@ -72,21 +81,21 @@ public class BookHandler implements List_Tool<Book>
         {
             throw new BookException("No Book In List!");
         }
-        System.out.println("Book Not Found!");
         return null;
     }
 
     public Book searchBook(String name,String author,int publishedYear)
     {
         getList();
-        if(!books.isEmpty())
+        if(books!=null && !books.isEmpty())
         {
-            Book b=books.stream()
-                    .filter(x->x.getAuthor().equalsIgnoreCase(author) &&
-                            x.getName().equalsIgnoreCase(name) &&
-                            x.getPublishedYear()==publishedYear)
+            Book b=books.entrySet().stream()
+                    .filter(x->x.getValue().getAuthor().equalsIgnoreCase(author) &&
+                            x.getValue().getName().equalsIgnoreCase(name) &&
+                            x.getValue().getPublishedYear()==publishedYear)
                     .findFirst()
-                    .get();
+                    .get()
+                    .getValue();
             return b;
         }
         else
@@ -96,7 +105,7 @@ public class BookHandler implements List_Tool<Book>
     }
     public void editBookName(Book book,String name) throws InvalidEntrance {
         getList();
-        for(Book b:books)
+        for(Book b:books.values())
         {
             if(b.getName().equals(book.getName()) &&
                     b.getAuthor().equals(book.getAuthor()) &&
@@ -108,7 +117,7 @@ public class BookHandler implements List_Tool<Book>
     }
     public void editBookAuthor(Book book,String author) throws InvalidEntrance {
         getList();
-        for(Book b:books)
+        for(Book b:books.values())
         {
             if(b.getName().equals(book.getName()) &&
                     b.getAuthor().equals(book.getAuthor()) &&
@@ -120,7 +129,7 @@ public class BookHandler implements List_Tool<Book>
     }
     public void editBookYear(Book book,int year) throws InvalidEntrance {
         getList();
-        for(Book b:books)
+        for(Book b:books.values())
         {
             if(b.getName().equals(book.getName()) &&
                     b.getAuthor().equals(book.getAuthor()) &&
@@ -134,7 +143,7 @@ public class BookHandler implements List_Tool<Book>
     public void editBookState(Book book,String state)
     {
         getList();
-        for(Book b:books)
+        for(Book b:books.values())
         {
             if(b.getName().equals(book.getName()) &&
                     b.getAuthor().equals(book.getAuthor()) &&
@@ -150,10 +159,11 @@ public class BookHandler implements List_Tool<Book>
         getList();
         if(books!=null && !books.isEmpty())
         {
-            Book b=books.stream()
-                    .filter(x->x.getName().equalsIgnoreCase(name))
+            Book b=books.entrySet().stream()
+                    .filter(x->x.getValue().getName().equalsIgnoreCase(name))
                     .findFirst()
-                    .get();
+                    .get()
+                    .getValue();
             System.out.println(b);
         }
         else
