@@ -1,17 +1,7 @@
 [
   {
+    "numBook": 1,
     "username": "sima",
-    "password": "10",
-    "numBook": 1
-  },
-  {
-    "username": "mobina",
-    "password": "20",
-    "numBook": 1
-  },
-  {
-    "username": "neda",
-    "password": "30",
-    "numBook": 0
+    "password": "15"
   }
 ]
