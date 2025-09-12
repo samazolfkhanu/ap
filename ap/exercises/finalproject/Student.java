@@ -1,8 +1,6 @@
 package ap.exercises.finalproject;
 
-import java.io.Serializable;
-
-public class Student extends User implements Serializable {
+public class Student extends User{
     private String name;
     private String studentId;
     private AccessLevel permission;
