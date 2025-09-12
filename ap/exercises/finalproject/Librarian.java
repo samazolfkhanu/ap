@@ -2,7 +2,7 @@ package ap.exercises.finalproject;
 
 import java.io.Serializable;
 
-public class Librarian extends User implements Serializable
+public class Librarian extends User
 {
     private int numBook;
     public Librarian(String username,String password)throws InvalidEntrance
