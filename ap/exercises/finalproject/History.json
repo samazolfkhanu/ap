@@ -8,25 +8,25 @@
     },
     "student": {
       "name": "Sama",
-      "studentId": "100",
+      "studentId": "1",
+      "permission": "ACTIVE",
       "username": "sama",
-      "password": "100",
-      "permission": "ACTIVE"
+      "password": "100"
     },
     "id": 1,
-    "borrowRequestDate": "2025-09-01",
-    "issueDate": "2025-09-01",
-    "dueDate": "2025-10-01",
-    "returnDate": "2025-09-01",
+    "borrowRequestDate": "2025-09-12",
+    "issueDate": "2025-09-12",
+    "dueDate": "2025-10-12",
+    "returnDate": "2025-09-12",
     "issuer": {
-      "username": "mobina",
-      "password": "20",
-      "numBook": 1
+      "numBook": 1,
+      "username": "sima",
+      "password": "15"
     },
     "receiver": {
-      "username": "neda",
-      "password": "30",
-      "numBook": 0
+      "numBook": 1,
+      "username": "sima",
+      "password": "15"
     }
   }
 ]
