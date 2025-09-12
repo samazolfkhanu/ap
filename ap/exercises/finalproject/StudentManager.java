@@ -1,14 +1,17 @@
 package ap.exercises.finalproject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StudentManager implements List_Tool<Student> , Account_Handler<Student>,Ban_Control {
-    private List<Student> students;
+    private Map<String,Student> students;
     private  FileHandling<Student> sF;
 
     public StudentManager() {
-        this.students = new ArrayList<>();
+        this.students = new HashMap<>();
         this.sF=new FileHandling<>("F:/JavaProject/ap/exercises/finalproject/Students.json");
     }
 
@@ -21,8 +24,8 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
         int maxId=0;
         if(students!=null)
         {
-            maxId=students.stream()
-                    .map(x->Integer.parseInt(x.getStudentId()))
+            maxId=students.values().stream()
+                    .map(student -> Integer.parseInt(student.getStudentId()))
                     .max(Integer::compare)
                     .orElse(0);
         }
@@ -33,7 +36,7 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
 
     public Student authenticateUser(String username, String password) {
         getList();
-        return students.stream()
+        return students.values().stream()
                 .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
                 .findFirst()
                 .orElse(null);
@@ -41,12 +44,17 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
 
     public void getList()
     {
+        List<Student> l=new ArrayList<>();
         if(students!=null && !students.isEmpty())
             students.clear();
-        students=sF.readFromFile(Student.class);
+        l=sF.readFromFile(Student.class);
+        if(l!=null) {
+            students = l.stream()
+                    .collect(Collectors.toMap(Student::getUsername, x -> x));
+        }
     }
 
-    public List<Student> returnStudent()
+    public Map<String,Student> returnStudent()
     {
         getList();
         return students;
@@ -55,16 +63,17 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
     private boolean isUsernameTaken(String username) {
         getList();
         if(students!=null)
-            return students.stream().anyMatch(s -> s.getUsername().equals(username));
+            return students.entrySet().stream().anyMatch(s -> s.getKey().equals(username));
         return false;
     }
     public void banStudent(String username) {
         getList();
         try{
-            for(Student s:students){
-                if(s.getUsername().equals(username) )
-                    s.banStudent();
+            for(Map.Entry<String ,Student> m:students.entrySet()) {
+                if(m.getKey().equals(username))
+                    m.getValue().banStudent();
             }
+            System.out.println("Student Banned Successfully!");
         }catch (InvalidEntrance e) {
             System.out.println(e.getMessage());
         }
@@ -74,10 +83,11 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
     public void unbanStudent(String username){
         getList();
         try{
-            for(Student s:students){
-                if(s.getUsername().equals(username))
-                    s.unbanStudent();
+            for(Map.Entry<String ,Student> m:students.entrySet()) {
+                if(m.getKey().equals(username))
+                    m.getValue().unbanStudent();
             }
+            System.out.println("Student Unbanned Successfully!");
         }catch(InvalidEntrance e)
         {
             System.out.println(e.getMessage());
@@ -87,38 +97,46 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
 
     public void editName(String name,Student s) throws InvalidEntrance {
         getList();
-        for(Student student:students)
+        if(students!=null)
         {
-            if(student.getUsername().equals(s.getUsername()))
-                student.setName(name);
+            for(Map.Entry<String ,Student> m:students.entrySet())
+            {
+                if(m.getKey().equals(s.getUsername()))
+                    m.getValue().setName(name);
+            }
         }
         updateList(students);
     }
 
     public void editPassword(String password,Student s) throws InvalidEntrance {
         getList();
-        for(Student student:students)
-        {
-            if(student.getUsername().equals(s.getUsername()))
-                student.setPassword(password);
+        if(students!=null) {
+            for(Map.Entry<String ,Student> m:students.entrySet())
+            {
+                if(m.getValue().getPassword().equals(s.getPassword()))
+                    m.getValue().setName(password);
+            }
         }
         updateList(students);
     }
 
     public void editStudentId(String id,Student s) throws InvalidEntrance {
         getList();
-        for(Student student:students)
+        if(students!=null)
         {
-            if(student.getUsername().equals(s.getUsername()))
-                student.setStudentId(id);
+            for(Map.Entry<String ,Student> m:students.entrySet())
+            {
+                if(m.getValue().getStudentId().equals(s.getStudentId()))
+                    m.getValue().setName(id);
+            }
         }
         updateList(students);
     }
 
-    public void updateList(List<Student> l)
+    public void updateList(Map<String,Student> l)
     {
         sF.clearFile();
-        for(Student s:l)
+        for(Student s:l.values())
         {
             sF.writeInFile(s, Student.class);
         }
@@ -129,10 +147,11 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
         getList();
         if(students!=null)
         {
-            return students.stream()
-                    .filter(x->x.getUsername().equals(username))
+            return students.entrySet().stream()
+                    .filter(x->x.getKey().equals(username))
                     .findFirst()
-                    .get();
+                    .get()
+                    .getValue();
         }
         return null;
     }
