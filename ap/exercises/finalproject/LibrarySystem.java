@@ -24,17 +24,17 @@ public class LibrarySystem {
         return bookHandler.getBookCount();
     }
 
-    public void registerStudent(String name, String username, String password) {
+    public void registerStudent(String name, String username, String password) throws InvalidEntrance {
         studentManager.registerStudent(name,username, password);
     }
 
     public Student authenticateStudent(String username, String password) {
-        return studentManager.authenticateStudent(username, password);
+        return studentManager.authenticateUser(username, password);
     }
 
     public Librarian authenticateLibrarian(String username,String password)
     {
-        return librarianManager.authenticateLibrarian(username,password);
+        return librarianManager.authenticateUser(username,password);
     }
 
     public void editLibrarianInformation(Librarian librarian,String password) throws InvalidEntrance {
@@ -72,7 +72,7 @@ public class LibrarySystem {
 
     public void addBook(String name,String author,int publishedYear,String username) throws InvalidEntrance {
         bookHandler.addBook(name,author,publishedYear);
-        librarianManager.increaseLibrarianbook(username);
+        librarianManager.increaseLibrarianBook(username);
     }
 
     public void borrowBookRequest(Student student,String name,String author,int publishedYear) throws InvalidEntrance {
@@ -85,8 +85,8 @@ public class LibrarySystem {
         }
     }
 
-    public void unbanStudent(String username,String id) throws InvalidEntrance {
-        studentManager.unbanStudent(username,id);
+    public void unbanStudent(String username) {
+        studentManager.unbanStudent(username);
     }
 
     public boolean getBorrowRequestList() {
@@ -139,22 +139,24 @@ public class LibrarySystem {
         return bookHandler.searchBook(name,author,publishedYear);
     }
 
-    public void start() throws InvalidEntrance {
+    public void start(){
         menuHandler.displayMainMenu();
     }
 
-    public static void main(String[] args) throws InvalidEntrance {
+    public static void main(String[] args){
         LibrarySystem system = new LibrarySystem();
         system.start();
     }
-
+    public void registerManager(String username,String password) throws InvalidEntrance {
+        managerHandler.registerManager(username,password);
+    }
     public Librarian getAlibrarian(String username)
     {
-        return librarianManager.getALibrarian(username);
+        return librarianManager.getAUser(username);
     }
     public Student getAStudent(String username)
     {
-        return studentManager.getAStudent(username);
+        return studentManager.getAUser(username);
     }
     public void addLibrarian(String username,String id) throws InvalidEntrance {
         librarianManager.addLibrarian(username,id);
@@ -172,9 +174,9 @@ public class LibrarySystem {
         loanManager.addToHistory(id,l);
     }
 
-    public void banStudent(String username,String Id) throws InvalidEntrance {
-        studentManager.banStudent(username,Id);
-        loanManager.removeBanStudent(username,Id);
+    public void banStudent(String username) throws InvalidEntrance {
+        studentManager.banStudent(username);
+        loanManager.removeBanStudent(username);
     }
 
     public void librarianHistory(String username)
@@ -190,8 +192,14 @@ public class LibrarySystem {
     public void getTop10LateReturns()
     {
         List<Loan> loans=loanManager.getTop10LateReturns();
-        for(Loan l:loans)
-            System.out.println(l);
+        if(loans!=null)
+        {
+            for(Loan l:loans)
+                System.out.println(l);
+        }
+        else{
+            System.out.println("Nothing!");
+        }
 
     }
     public void returnRegisteredUsers(){
@@ -203,6 +211,6 @@ public class LibrarySystem {
 
     public Manager authenticateManager(String username,String password)
     {
-        return managerHandler.authenticateManager(username,password);
+        return managerHandler.authenticateUser(username,password);
     }
 }
