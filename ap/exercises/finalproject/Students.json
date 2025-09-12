@@ -1,16 +1,9 @@
 [
   {
     "name": "Sama",
-    "studentId": "100",
+    "studentId": "1",
+    "permission": "ACTIVE",
     "username": "sama",
-    "password": "100",
-    "permission": "ACTIVE"
-  },
-  {
-    "name": "Maryam",
-    "studentId": "110",
-    "username": "maryam",
-    "password": "110",
-    "permission": "ACTIVE"
+    "password": "100"
   }
 ]
