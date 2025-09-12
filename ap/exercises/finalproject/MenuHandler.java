@@ -16,53 +16,58 @@ public class MenuHandler {
         this.currentManager=null;
     }
 
-    public void displayMainMenu() throws InvalidEntrance {
+    public void displayMainMenu(){
+
         while (true) {
-            System.out.println("\n=== University Library Management System ===");
-            System.out.println("1.Student Registration");
-            System.out.println("2.Student Login");
-            System.out.println("3.Librarian Login");
-            System.out.println("4.View Registered User Count");
-            System.out.println("5.Search Book");
-            System.out.println("6.Statistical Figures");
-            System.out.println("7.Manager");
-            System.out.println("0.Exit");
-            System.out.print("Please enter your choice: ");
+            try{
+                System.out.println("\n=== University Library Management System ===");
+                System.out.println("1.Student Registration");
+                System.out.println("2.Student Login");
+                System.out.println("3.Librarian Login");
+                System.out.println("4.View Registered User Count");
+                System.out.println("5.Search Book");
+                System.out.println("6.Statistical Figures");
+                System.out.println("7.Manager");
+                System.out.println("0.Exit");
+                System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(0, 8);
+                int choice = getIntInput(0, 8);
 
-            switch (choice) {
-                case 1:
-                    handleStudentRegistration();
-                    break;
-                case 2:
-                    handleStudentLogin();
-                    break;
-                case 3:
-                    handleLibrarianLogin();
-                    break;
-                case 4:
-                    librarySystem.returnRegisteredUsers();
-                    break;
-                case 5:
-                    System.out.println("Enter Book Name: ");
-                    String n=scanner.nextLine().trim();
-                    librarySystem.searchBookByGuest(n);
-                    break;
-                case 6:
-                    librarySystem.returnRegisteredUsers();
-                    displayBookCount();
-                    break;
-                case 7:
-                    handleManager();
-                    break;
-                case 0:
-                    System.out.println("Exiting system. Goodbye!");
-                    return;
-                default:
-                    System.out.println("Invalid option! Please try again.");
+                switch (choice) {
+                    case 1:
+                        handleStudentRegistration();
+                        break;
+                    case 2:
+                        handleStudentLogin();
+                        break;
+                    case 3:
+                        handleLibrarianLogin();
+                        break;
+                    case 4:
+                        librarySystem.returnRegisteredUsers();
+                        break;
+                    case 5:
+                        System.out.println("Enter Book Name: ");
+                        String n = scanner.nextLine().trim();
+                        librarySystem.searchBookByGuest(n);
+                        break;
+                    case 6:
+                        librarySystem.returnRegisteredUsers();
+                        displayBookCount();
+                        break;
+                    case 7:
+                        handleManager();
+                        break;
+                    case 0:
+                        System.out.println("Exiting system. Goodbye!");
+                        return;
+                    default:
+                        System.out.println("Invalid option! Please try again.");
+                }
+                System.out.println("___________________________");
+            }catch(InvalidEntrance e) {
+                System.out.println(e.getMessage());
             }
-            System.out.println("___________________________");
         }
     }
     private void displayBookCount()
@@ -89,7 +94,7 @@ public class MenuHandler {
         }
     }
 
-    private void handleStudentRegistration() {
+    private void handleStudentRegistration() throws InvalidEntrance {
         System.out.println("\n--- New Student Registration ---");
         System.out.print("Student name: ");
         String name = scanner.nextLine().trim();
@@ -132,58 +137,62 @@ public class MenuHandler {
 
     private void displayLoggedInStudentMenu() throws InvalidEntrance {
         while (currentStudent != null) {
-            System.out.println("\n=== Student Dashboard ===");
-            System.out.println("1. View My Information");
-            System.out.println("2. Edit My Information");
-            System.out.println("3. Borrow a Book");
-            System.out.println("4. Return a Book");
-            System.out.println("5. View Available Books");
-            System.out.println("6.Search Book");
-            System.out.println("0. Logout");
-            System.out.print("Please enter your choice: ");
-            int choice = getIntInput(0, 6);
+            try {
+                System.out.println("\n=== Student Dashboard ===");
+                System.out.println("1. View My Information");
+                System.out.println("2. Edit My Information");
+                System.out.println("3. Borrow a Book");
+                System.out.println("4. Return a Book");
+                System.out.println("5. View Available Books");
+                System.out.println("6.Search Book");
+                System.out.println("0. Logout");
+                System.out.print("Please enter your choice: ");
+                int choice = getIntInput(0, 6);
 
-            switch (choice) {
-                case 1:
-                    System.out.println("\n--- My Information ---");
-                    System.out.println(librarySystem.getAStudent(currentStudent.getUsername()));
-                    break;
-                case 2:
-                    editStudentInfo();
-                    break;
-                case 3:
-                    System.out.println("Enter Book Name , Author and Published Year: ");
-                    String name = scanner.nextLine().trim();
-                    String author = scanner.nextLine().trim();
-                    int publishedYear = scanner.nextInt();
-                    scanner.nextLine();
-                    librarySystem.borrowBookRequest(currentStudent, name, author, publishedYear);
-                    break;
-                case 4:
-                    System.out.println("Enter Book Name , Author and Published Year: ");
-                    String n = scanner.nextLine().trim();
-                    String a = scanner.nextLine().trim();
-                    int p = scanner.nextInt();
-                    scanner.nextLine();
-                    librarySystem.returnBookRequest(currentStudent, n, a, p);
-                    break;
-                case 5:
-                    librarySystem.displayAvailableBooks();
-                    break;
-                case 6:
-                    System.out.println("Enter Book Name , Author and Published Year: ");
-                    String Name = scanner.nextLine().trim();
-                    String Author = scanner.nextLine().trim();
-                    int pYear = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println(librarySystem.searchBook(Name, Author, pYear));
-                    break;
-                case 0:
-                    currentStudent = null;
-                    System.out.println("Logged out successfully.");
-                    return;
-                default:
-                    System.out.println("Invalid option! Please try again.");
+                switch (choice) {
+                    case 1:
+                        System.out.println("\n--- My Information ---");
+                        System.out.println(librarySystem.getAStudent(currentStudent.getUsername()));
+                        break;
+                    case 2:
+                        editStudentInfo();
+                        break;
+                    case 3:
+                        System.out.println("Enter Book Name , Author and Published Year: ");
+                        String name = scanner.nextLine().trim();
+                        String author = scanner.nextLine().trim();
+                        int publishedYear = scanner.nextInt();
+                        scanner.nextLine();
+                        librarySystem.borrowBookRequest(currentStudent, name, author, publishedYear);
+                        break;
+                    case 4:
+                        System.out.println("Enter Book Name , Author and Published Year: ");
+                        String n = scanner.nextLine().trim();
+                        String a = scanner.nextLine().trim();
+                        int p = scanner.nextInt();
+                        scanner.nextLine();
+                        librarySystem.returnBookRequest(currentStudent, n, a, p);
+                        break;
+                    case 5:
+                        librarySystem.displayAvailableBooks();
+                        break;
+                    case 6:
+                        System.out.println("Enter Book Name , Author and Published Year: ");
+                        String Name = scanner.nextLine().trim();
+                        String Author = scanner.nextLine().trim();
+                        int pYear = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println(librarySystem.searchBook(Name, Author, pYear));
+                        break;
+                    case 0:
+                        currentStudent = null;
+                        System.out.println("Logged out successfully.");
+                        return;
+                    default:
+                        System.out.println("Invalid option! Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -253,16 +262,12 @@ public class MenuHandler {
                 case 7:
                     System.out.println("Enter Student Username:");
                     String Username = scanner.nextLine().trim();
-                    System.out.println("Enter Student Id:");
-                    String ID = scanner.nextLine().trim();
-                    librarySystem.banStudent(Username, ID);
+                    librarySystem.banStudent(Username);
                     break;
                 case 8:
                     System.out.println("Enter Student Username:");
                     String Usern = scanner.nextLine().trim();
-                    System.out.println("Enter Student Id:");
-                    String idii = scanner.nextLine().trim();
-                    librarySystem.unbanStudent(Usern, idii);
+                    librarySystem.unbanStudent(Usern);
                     break;
                 case 9:
                     System.out.println("Enter Student Username:");
@@ -304,8 +309,7 @@ public class MenuHandler {
                     librarySystem.editStudentInfo(currentStudent, password, "password");
                     break;
             }
-        }catch(Exception e)
-        {
+        }catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -339,59 +343,67 @@ public class MenuHandler {
         }
     }
 
-    private void managerMenu() {
+    private void managerMenu() throws InvalidEntrance {
         int c=0;
         while(currentManager!=null) {
-            try
-            {
-                System.out.println("\n===Manager Dashboard===");
-                System.out.println("1.Add Librarian");
-                System.out.println("2.Librarian History");
-                System.out.println("3.Book History");
-                System.out.println("4.Student History");
-                System.out.println("5.List Of All Student And Librarian Registered");
-                System.out.println("0.Log Out");
-                c=getIntInput(0,5);
-                switch(c) {
-                    case 1:
-                        System.out.println("Enter Librarian Username: ");
-                        String un=scanner.nextLine().trim();
-                        System.out.println("Enter Library Id: ");
-                        String id=scanner.nextLine().trim();
-                        librarySystem.addLibrarian(un,id);
-                        break;
-                    case 2:
-                        System.out.println("Enter Librarian Username:");
-                        String username=scanner.nextLine().trim();
-                        librarySystem.librarianHistory(username);
-                        break;
-                    case 3:
-                        System.out.println("Enter Book Name: ");
-                        String name=scanner.nextLine().trim();
-                        System.out.println("Enter Book Author:");
-                        String author=scanner.nextLine().trim();
-                        librarySystem.bookHistory(name,author);
-                        break;
-                    case 4:
-                        System.out.println("Enter Student Username:");
-                        String usern=scanner.nextLine().trim();
-                        System.out.println("Enter Student Id:");
-                        String Id=scanner.nextLine().trim();
-                        librarySystem.studentHistory(usern,Id);
-                        break;
-                    case 5:
-                        librarySystem.returnRegisteredUsers();
-                        System.out.println("-->List Of 10 Top Late Return:");
-                        librarySystem.getTop10LateReturns();
-                        break;
-                    case 0:
-                        currentManager=null;
-                        break;
-                }
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            System.out.println("___________________________");
+           try{
+               System.out.println("\n===Manager Dashboard===");
+               System.out.println("1.Add Librarian");
+               System.out.println("2.Librarian History");
+               System.out.println("3.Book History");
+               System.out.println("4.Student History");
+               System.out.println("5.List Of All Student And Librarian Registered");
+               System.out.println("6.Add New Manager");
+               System.out.println("0.Log Out");
+               c=getIntInput(0,6);
+               switch(c) {
+                   case 1:
+                       System.out.println("Enter Librarian Username: ");
+                       String un=scanner.nextLine().trim();
+                       System.out.println("Enter Library Id: ");
+                       String id=scanner.nextLine().trim();
+                       librarySystem.addLibrarian(un,id);
+                       break;
+                   case 2:
+                       System.out.println("Enter Librarian Username:");
+                       String username=scanner.nextLine().trim();
+                       librarySystem.librarianHistory(username);
+                       break;
+                   case 3:
+                       System.out.println("Enter Book Name: ");
+                       String name=scanner.nextLine().trim();
+                       System.out.println("Enter Book Author:");
+                       String author=scanner.nextLine().trim();
+                       librarySystem.bookHistory(name,author);
+                       break;
+                   case 4:
+                       System.out.println("Enter Student Username:");
+                       String usern=scanner.nextLine().trim();
+                       System.out.println("Enter Student Id:");
+                       String Id=scanner.nextLine().trim();
+                       librarySystem.studentHistory(usern,Id);
+                       break;
+                   case 5:
+                       librarySystem.returnRegisteredUsers();
+                       System.out.println("-->List Of 10 Top Late Return:");
+                       librarySystem.getTop10LateReturns();
+                       break;
+                   case 6:
+                       System.out.println("Enter Username: ");
+                       String u=scanner.nextLine();
+                       System.out.println("Enter Password: ");
+                       String p=scanner.nextLine();
+                       librarySystem.registerManager(u,p);
+                       break;
+                   case 0:
+                       currentManager=null;
+                       break;
+               }
+               System.out.println("___________________________");
+           }catch(Exception e)
+           {
+               System.out.println(e.getMessage());
+           }
         }
     }
 
