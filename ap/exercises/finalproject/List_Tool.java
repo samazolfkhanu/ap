@@ -1,9 +1,10 @@
 package ap.exercises.finalproject;
 
-import java.util.List;
+
+import java.util.Map;
 
 public interface List_Tool<T> {
     void getList();
-    void updateList(List<T> l);
+    void updateList(Map<String,T> m);
 
 }
