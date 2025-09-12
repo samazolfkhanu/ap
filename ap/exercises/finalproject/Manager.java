@@ -1,9 +1,6 @@
 package ap.exercises.finalproject;
 
-
-import java.io.Serializable;
-
-public class Manager extends User implements Serializable
+public class Manager extends User
 {
 
     public Manager(String username,String password) throws InvalidEntrance {
