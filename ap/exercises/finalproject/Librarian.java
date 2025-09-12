@@ -2,17 +2,14 @@ package ap.exercises.finalproject;
 
 import java.io.Serializable;
 
-public class Librarian implements Serializable
+public class Librarian extends User implements Serializable
 {
-    private String username;
-    private String password;
     private int numBook;
     public Librarian(String username,String password)throws InvalidEntrance
     {
+        super(username,password);
         if(!username.isEmpty() && !password.isEmpty() && !password.contains("!@#$%^&*()_+"))
         {
-            this.username=username;
-            this.password=password;
             this.numBook=0;
         }
         else
@@ -29,18 +26,18 @@ public class Librarian implements Serializable
     }
     public String getUsername()
     {
-        return this.username;
+        return super.getUsername();
     }
     public String getPassword()
     {
-        return this.password;
+        return super.getPassword();
     }
 
     public void setPassword(String password)throws InvalidEntrance
     {
         if(!password.isEmpty() && !password.contains("!@#$%^&*()_+"))
         {
-            this.password=password;
+            super.editPassword(password);
         }
         else
             throw new InvalidEntrance("Invalid Password! <401>");
@@ -50,6 +47,6 @@ public class Librarian implements Serializable
     public String toString()
     {
         return "Librarian Info:\n" +
-                "Username: "+this.username+" | "+"Number Of Registered Book: "+numBook;
+                "Username: "+super.getUsername()+" | "+"Number Of Registered Book: "+numBook;
     }
 }
