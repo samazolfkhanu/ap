@@ -2,19 +2,21 @@ package ap.exercises.finalproject;
 
 import java.io.Serializable;
 
-public class Student implements Serializable {
+public class Student extends User implements Serializable {
     private String name;
     private String studentId;
-    private String username;
-    private String password;
     private AccessLevel permission;
 
-    public Student(String name, String studentId, String username, String password) {
-        this.name = name;
-        this.studentId = studentId;
-        this.username = username;
-        this.password = password;
-        this.permission= AccessLevel.ACTIVE;
+    public Student(String name, String studentId, String username, String password) throws InvalidEntrance {
+        super(username,password);
+        if(name!=null && studentId!=null)
+        {
+            this.name = name;
+            this.studentId = studentId;
+            this.permission= AccessLevel.ACTIVE;
+        }
+        else
+            throw new InvalidEntrance("Invalis Input!");
     }
 
     public String getName() {
@@ -26,11 +28,11 @@ public class Student implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        return super.getUsername();
     }
 
     public String getPassword() {
-        return password;
+        return super.getPassword();
     }
 
     public String getPermission()
@@ -56,7 +58,7 @@ public class Student implements Serializable {
 
     public void setPassword(String password) throws InvalidEntrance {
         if(!password.isEmpty())
-            this.password=name;
+            super.editPassword(password);
         else
         {
             throw new InvalidEntrance("Invalid Password! <501>");
@@ -77,7 +79,7 @@ public class Student implements Serializable {
         return "Student Info:\n" +
                 "Name: " + name +
                 " | Student ID: " + studentId +
-                " | Username: " + username+
+                " | Username: " + super.getUsername()+
                 " | Access Level: "+permission.name();
     }
 }
