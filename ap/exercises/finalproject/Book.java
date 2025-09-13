@@ -74,7 +74,7 @@ public class Book implements Serializable
     public String toString()
     {
         return "Book Info:\n" +
-                "Name: "+this.name+
+                "\tName: "+this.name+
                 " | Author: "+this.author+
                 " | Published Year: "+this.publishedYear+
                 " | State: "+this.state.name()+
