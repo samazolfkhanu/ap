@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FileHandling<T>
 {
-    Gson g;
+    private Gson g;
     private String path;
     public FileHandling(String path)
     {
