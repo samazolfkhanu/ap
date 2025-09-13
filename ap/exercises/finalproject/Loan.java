@@ -103,13 +103,13 @@ public class Loan
     {
         return "Loan Info:\n" +
                 "ID: "+id+
-                "\n\t"+book+
-                "\n\t"+student+
-                "\n\tIssuer: "+issuer+
                 "\nIssueDate: "+issueDate
                 +"\nReturnDate: "+returnDate
-                +"\nDueDate: "+dueDate
-                +"\nReceiver: "+receiver;
+                +"\nDueDate: "+dueDate+
+                "\n"+book+
+                "\n"+student+
+                "\nIssuer: \n\t"+issuer+
+                "\nReceiver: "+receiver;
     }
 
 }
