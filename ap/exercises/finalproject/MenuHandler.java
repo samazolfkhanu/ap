@@ -135,7 +135,7 @@ public class MenuHandler {
         }
     }
 
-    private void displayLoggedInStudentMenu() throws InvalidEntrance {
+    private void displayLoggedInStudentMenu(){
         while (currentStudent != null) {
             try {
                 System.out.println("\n=== Student Dashboard ===");
