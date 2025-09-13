@@ -47,6 +47,6 @@ public class Librarian extends User
     public String toString()
     {
         return "Librarian Info:\n" +
-                "Username: "+super.getUsername()+" | "+"Number Of Registered Book: "+numBook;
+                "\tUsername: "+super.getUsername()+" | "+"Number Of Registered Book: "+numBook;
     }
 }
