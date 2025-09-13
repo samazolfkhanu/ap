@@ -40,14 +40,13 @@ public class LoanManager
         l=lF.readFromFile(Loan.class);
         if(l!=null) {
             loans=l.stream()
-                    .collect(Collectors.toMap(x->x.getId(),x->x));
+                    .collect(Collectors.toMap(Loan::getId, x->x));
         }
     }
 
     public void updateBorrowRequestList(Map<Integer,Loan> l) {
         bF.clearFile();
-        for(Loan loan:l.values())
-        {
+        for(Loan loan:l.values()) {
             bF.writeInFile(loan,Loan.class);
         }
     }
@@ -55,28 +54,31 @@ public class LoanManager
     public void addToLoanList(int id,Librarian librarian) {
         getLoans();
         borrowRequestList();
-        for(Loan l:borrowRequest.values())
+        Iterator<Map.Entry<Integer,Loan>> it=borrowRequest.entrySet().iterator();
+        while(it.hasNext())
         {
-            if(l.getId()==id)
-            {
-                bookHandler.editBookState(l.getBook(),"borrowed");
-                l.getBook().setState("borrowed");
-                l.setIssueDate();
-                l.setIssuer(librarian);
-                if(loans!=null && loans.containsValue(l)) {
+            Map.Entry<Integer,Loan> l=it.next();
+            if(l.getKey()==id) {
+                bookHandler.editBookState(l.getValue().getBook(),"borrowed");
+                l.getValue().getBook().setState("borrowed");
+                l.getValue().setIssueDate();
+                l.getValue().setIssuer(librarian);
+                if(loans!=null && loans.containsKey(l.getKey())) {
                     System.out.println("Loan Has Already Added!");
                     break;
                 }
                 else {
-                    lF.writeInFile(l,Loan.class);
-                    borrowRequest.remove(l);
-                    updateBorrowRequestList(borrowRequest);
+                    lF.writeInFile(l.getValue(),Loan.class);
+                    it.remove();
                     System.out.println("Loan Was Added Successfully!");
                     break;
                 }
             }
-
         }
+        if(borrowRequest.isEmpty())
+            bF.clearFile();
+        else
+            updateBorrowRequestList(borrowRequest);
     }
 
     public void getHistory() {
@@ -113,12 +115,12 @@ public class LoanManager
         if(loans!=null) {
             loans.entrySet().stream()
                     .filter(x->x.getValue().getStudent().getUsername().equals(username))
-                    .forEach(System.out::println);
+                    .forEach(e-> System.out.println(e.getValue()));
         }
         if(history!=null) {
             history.entrySet().stream()
                     .filter(x->x.getValue().getStudent().getUsername().equals(username))
-                    .forEach(System.out::println);
+                    .forEach(e-> System.out.println(e.getValue()));
         }
     }
 
@@ -137,9 +139,14 @@ public class LoanManager
         getHistory();
         int count = 0;
         if(history!=null) {
-            count+=history.entrySet().stream()
-                    .filter(x->x.getValue().getStudent().getUsername().equals(username))
-                    .collect(Collectors.collectingAndThen(Collectors.counting(),Long::intValue));
+            for(Loan l:history.values())
+            {
+                if(l.getStudent().getUsername().equals(username))
+                {
+                    if(l.getReturnDate().isAfter(l.getDueDate()))
+                        count++;
+                }
+            }
         }
         return count;
     }
@@ -147,20 +154,22 @@ public class LoanManager
     public void returnRequest(Student s,Book b) {
         getLoans();
         getReturnRequestList();
-        for(Loan l:loans.values()) {
-            if(l.getStudent().getUsername().equals(s.getUsername())
-                    && l.getBook().getName().equals(b.getName())
-                    && l.getBook().getAuthor().equals(b.getAuthor()))
+        Iterator<Map.Entry<Integer,Loan>> it=loans.entrySet().iterator();
+        while(it.hasNext())
+        {
+            Map.Entry<Integer,Loan> map=it.next();
+            if(map.getValue().getStudent().getUsername().equals(s.getUsername())
+                    && map.getValue().getBook().getName().equals(b.getName())
+                    && map.getValue().getBook().getAuthor().equals(b.getAuthor()))
             {
-                System.out.println(l);
-                if(returnRequest!=null && returnRequest.containsValue(l)) {
-                    loans.remove(l);
+                if(returnRequest!=null && returnRequest.containsKey(map.getKey())) {
+                    it.remove();
                     System.out.println("Request has Already Added!");
                     break;
                 }
                 else {
-                    rF.writeInFile(l,Loan.class);
-                    loans.remove(l);
+                    rF.writeInFile(map.getValue(),Loan.class);
+                    it.remove();
                     System.out.println("Request Added Successfully!");
                     break;
                 }
@@ -178,7 +187,6 @@ public class LoanManager
             for (Loan loan : l.values())
                 rF.writeInFile(loan,Loan.class);
         }
-
     }
 
     public void borrowRequestList() {
@@ -205,12 +213,13 @@ public class LoanManager
 
     public void borrowRequest(Book book,Student student) throws InvalidEntrance {
         getBorrowRequest();
+        getHistory();
         if(student.getPermission().equalsIgnoreCase("Active"))
         {
             int maxId=0;
-            if(borrowRequest!=null)
+            if(history!=null)
             {
-                maxId=borrowRequest.keySet().stream()
+                maxId=history.keySet().stream()
                         .max(Integer::compare)
                         .orElse(0);
             }
@@ -218,7 +227,7 @@ public class LoanManager
             Loan l=new Loan(book,student,maxId+1);
             bookHandler.editBookState(l.getBook(),"Reserved");
             l.getBook().setState("reserved");
-            if(borrowRequest!=null && borrowRequest.containsKey(l))
+            if(borrowRequest!=null && borrowRequest.containsKey(l.getId()))
                 System.out.println("Request Already Added!");
             else
             {
@@ -271,7 +280,7 @@ public class LoanManager
                 l.getValue().setReturnDate();
                 l.getValue().setReceiver(librarian);
                 bookHandler.editBookState(l.getValue().getBook(),"Available");
-                if(history!=null && history.containsValue(l)) {
+                if(history!=null && history.containsKey(l.getKey())) {
                     it.remove();
                     System.out.println("Request Has Already Added To History!");
                 }
@@ -338,7 +347,7 @@ public class LoanManager
         if(history!=null) {
             return history.values().stream()
                     .filter(loan -> loan.getReturnDate().isAfter(loan.getDueDate()))
-                    .sorted(Comparator.comparingLong(x->x.getDelayDays()))
+                    .sorted(Comparator.comparingLong(Loan::getDelayDays))
                     .limit(10)
                     .toList();
         }
