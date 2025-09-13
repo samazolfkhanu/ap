@@ -104,8 +104,8 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
                 if(m.getKey().equals(s.getUsername()))
                     m.getValue().setName(name);
             }
+            updateList(students);
         }
-        updateList(students);
     }
 
     public void editPassword(String password,Student s) throws InvalidEntrance {
@@ -116,8 +116,8 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
                 if(m.getValue().getPassword().equals(s.getPassword()))
                     m.getValue().setName(password);
             }
+            updateList(students);
         }
-        updateList(students);
     }
 
     public void editStudentId(String id,Student s) throws InvalidEntrance {
@@ -129,8 +129,8 @@ public class StudentManager implements List_Tool<Student> , Account_Handler<Stud
                 if(m.getValue().getStudentId().equals(s.getStudentId()))
                     m.getValue().setName(id);
             }
+            updateList(students);
         }
-        updateList(students);
     }
 
     public void updateList(Map<String,Student> l)
