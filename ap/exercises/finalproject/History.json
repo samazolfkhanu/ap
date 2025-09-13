@@ -3,31 +3,62 @@
     "book": {
       "name": "sky",
       "author": "sima",
-      "publishedYear": 2020,
+      "publishedYear": 2019,
       "state": "BORROWED",
-      "ISBN": "2020"
+      "ISBN": "123"
     },
     "student": {
-      "name": "Sama",
+      "name": "sama",
       "studentId": "1",
       "permission": "ACTIVE",
       "username": "sama",
       "password": "100"
     },
     "id": 1,
-    "borrowRequestDate": "2025-09-12",
-    "issueDate": "2025-09-12",
-    "dueDate": "2025-10-12",
-    "returnDate": "2025-09-12",
+    "borrowRequestDate": "2025-09-13",
+    "issueDate": "2025-09-13",
+    "dueDate": "2025-10-13",
+    "returnDate": "2025-09-13",
     "issuer": {
-      "numBook": 1,
-      "username": "sima",
-      "password": "15"
+      "numBook": 0,
+      "username": "neda",
+      "password": "11"
     },
     "receiver": {
       "numBook": 1,
+      "username": "mobina",
+      "password": "10"
+    }
+  },
+  {
+    "book": {
+      "name": "sky",
+      "author": "sima",
+      "publishedYear": 2019,
+      "state": "BORROWED",
+      "ISBN": "123"
+    },
+    "student": {
+      "name": "sima",
+      "studentId": "2",
+      "permission": "ACTIVE",
       "username": "sima",
-      "password": "15"
+      "password": "101"
+    },
+    "id": 2,
+    "borrowRequestDate": "2025-09-13",
+    "issueDate": "2025-09-13",
+    "dueDate": "2025-10-13",
+    "returnDate": "2025-09-13",
+    "issuer": {
+      "numBook": 0,
+      "username": "neda",
+      "password": "11"
+    },
+    "receiver": {
+      "numBook": 1,
+      "username": "mobina",
+      "password": "10"
     }
   }
 ]
