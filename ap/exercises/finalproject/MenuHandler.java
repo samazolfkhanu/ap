@@ -325,6 +325,7 @@ public class MenuHandler {
             System.out.println("3.Edit Published_Year");
             System.out.println("0.Back");
             int c = scanner.nextInt();
+            scanner.nextLine();
             switch (c) {
                 case 1:
                     System.out.println("Enter New Book Name:");
@@ -364,7 +365,7 @@ public class MenuHandler {
                    case 1:
                        System.out.println("Enter Librarian Username: ");
                        String un=scanner.nextLine().trim();
-                       System.out.println("Enter Library Id: ");
+                       System.out.println("Enter Library Password: ");
                        String id=scanner.nextLine().trim();
                        librarySystem.addLibrarian(un,id);
                        break;
