@@ -75,7 +75,7 @@ public class Student extends User{
     @Override
     public String toString() {
         return "Student Info:\n" +
-                "Name: " + name +
+                "\tName: " + name +
                 " | Student ID: " + studentId +
                 " | Username: " + super.getUsername()+
                 " | Access Level: "+permission.name();
