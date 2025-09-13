@@ -1,5 +1,7 @@
 package ap.exercises.finalproject;
 
+//Before analyzing the project please read Project_Guide
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -134,6 +136,7 @@ public class LibrarySystem {
         menuHandler.displayMainMenu();
     }
     public static void main(String[] args){
+        //Before analyzing the project please read Project_Guide 
         LibrarySystem system = new LibrarySystem();
         system.start();
     }
