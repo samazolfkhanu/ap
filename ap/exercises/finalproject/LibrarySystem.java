@@ -107,7 +107,7 @@ public class LibrarySystem {
         System.out.println("---Student History---");
         System.out.println("All Loans Information:\n");
         loanManager.historyPerStudent(username);
-        System.out.println("Number Of Loans:"+loanManager.totalLoanPerStudent(username));
+        System.out.println("\nNumber Of Loans:"+loanManager.totalLoanPerStudent(username));
         System.out.println("Number Of Not Returned Books: "+loanManager.allNotReturnedBookPerStudent(username));
         System.out.println("Number Of Overdue Loans: "+loanManager.totalOverdueLoansPerStudent(username));
 
@@ -164,7 +164,7 @@ public class LibrarySystem {
         loanManager.addToHistory(id,l);
     }
 
-    public void banStudent(String username) throws InvalidEntrance {
+    public void banStudent(String username) {
         studentManager.banStudent(username);
         loanManager.removeBanStudent(username);
     }
@@ -194,9 +194,9 @@ public class LibrarySystem {
     }
     public void returnRegisteredUsers(){
         studentManager.returnStudent().entrySet()
-                .forEach(System.out::println);
+                .forEach(e-> System.out.println(e.getValue()));
         librarianManager.returnLibrarian().entrySet()
-                .forEach(System.out::println);
+                .forEach(e-> System.out.println(e.getValue()));
     }
 
     public Manager authenticateManager(String username,String password)
