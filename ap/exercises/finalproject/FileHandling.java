@@ -61,11 +61,9 @@ public class FileHandling<T>
 
     public void clearFile()
     {
-        try
+        try (FileWriter f=new FileWriter(path,false))
         {
-            PrintWriter p=new PrintWriter(path);
-            p.write("");
-            p.close();
+            f.write("");
         }catch(IOException e)
         {
             System.out.println(e.getMessage());
