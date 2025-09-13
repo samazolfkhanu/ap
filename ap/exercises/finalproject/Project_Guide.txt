@@ -1,0 +1,10 @@
+This Project contains two version: v1(writing and reading by ObjectInputStream & ObjectOutputStream(i will add the link of
+ last commit for this version at the end!)) and v2(writing and reading in file by Json(Gson Library))
+
+The project has one main manager who can add another manager :(username:Sama password:1000)
+two students has been registered till now:(username:sama password:100///username:sima password:101)
+also two librarians exit up to now: (username:mobina password:10///username:neda password:11)
+and one book has been added by one of librarians so far: (name: sky  author:sima  ISBN:123  Published_Year:2019)
+
+last commit of v1:
+https://github.com/samazolfkhanu/ap/commit/94f3c2f3dd3ae6196c432f8badd142d8dab03cbb
