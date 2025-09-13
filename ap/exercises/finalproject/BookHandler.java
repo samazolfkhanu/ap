@@ -52,7 +52,7 @@ public class BookHandler implements List_Tool<Book>
         {
             books.entrySet().stream()
                     .filter(x->x.getValue().getState().equalsIgnoreCase("AVAILABLE"))
-                    .forEach(System.out::println);
+                    .forEach(e-> System.out.println(e.getValue()));
         }
         else
         {
