@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 public class LoanManager
 {
     private BookHandler bookHandler;
-    FileHandling<Loan> bF;
-    FileHandling<Loan> rF;
-    FileHandling<Loan> lF;
-    FileHandling<Loan> hF;
+    private FileHandling<Loan> bF;
+    private FileHandling<Loan> rF;
+    private FileHandling<Loan> lF;
+    private FileHandling<Loan> hF;
     private Map<Integer,Loan> borrowRequest;
     private Map<Integer,Loan> loans;
     private Map<Integer,Loan> history;
